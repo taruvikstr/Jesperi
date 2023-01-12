@@ -9,7 +9,20 @@
 using namespace std;
 
 
+
+
+// Konstruktori asettaa luokan jäsenmuuttujan arvoksi parametrinaan saamansa asema olion osoittimen arvon.
+Kayttoliittyma::Kayttoliittyma(Asema* asema) { this->_asema = asema; }
+
+
+
+
 Kayttoliittyma* Kayttoliittyma::instance = 0;
+
+
+
+
+
 
 
 Kayttoliittyma* Kayttoliittyma::getInstance()
@@ -17,11 +30,23 @@ Kayttoliittyma* Kayttoliittyma::getInstance()
 	if (instance == 0)
 		instance = new Kayttoliittyma();
 	return instance;
+	
 }
+
+
 
 
 void Kayttoliittyma::piirraLauta()
 {
+	
+	
+
+	
+	
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_INTENSITY | BACKGROUND_RED |
+		BACKGROUND_GREEN | BACKGROUND_BLUE);
+	_setmode(_fileno(stdout), _O_U16TEXT);
+
 }
 
 
