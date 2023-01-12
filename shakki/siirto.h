@@ -20,8 +20,8 @@ public:
 	bool onkoPitkälinna();
 	Nappula* _miksikorotetaan = 0; 
 
-private:
 	Ruutu _alkuRuutu;
+private:
 	Ruutu _loppuRuutu;
 	bool _lyhytLinna;
 	bool _pitkaLinna;
