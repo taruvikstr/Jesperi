@@ -16,3 +16,5 @@
 *.vsidx
 *.ipch
 *.db-wal
+.vs/shakki/v17/Browse.VC.db-shm
+*.db-shm
