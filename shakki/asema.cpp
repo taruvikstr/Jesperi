@@ -3,6 +3,7 @@
 #include "minMaxPaluu.h"
 #include "nappula.h"
 #include "ruutu.h"
+using namespace std;
 
 Nappula* Asema::vk = new Kuningas(L"\u2654", 0, VK);
 Nappula* Asema::vd = new Daami(L"\u2655", 0, VD);
@@ -56,20 +57,7 @@ Asema::Asema()
 		_lauta[1][i] = vs;
 		_lauta[6][i] = ms;
 	}
-	
-	
-	
 
-
-
-	
-	
-
-	
-	
-	
-	
-	
 }
 
 
@@ -81,9 +69,17 @@ void Asema::paivitaAsema(Siirto *siirto)
 
 
 	//Tarkastetaan on siirto lyhyt linna
+	if (siirto->onkoLyhytLinna())
+	{
 
-
+	}
+	
 	// onko pitkä linna
+	if (siirto->onkoPitkalinna())
+	{
+
+	}
+	
 
 
 
@@ -91,7 +87,9 @@ void Asema::paivitaAsema(Siirto *siirto)
 
 
 		//Ottaa siirron alkuruudussa olleen nappulan talteen 
-
+		//ota siirron int arvo esim. lauta00 ja kato mikä nappula 
+		//on siinä kohtaa, siirrä lauta00 nulliksi ja siirrä kohdassa 
+		//ollut nappula loppuruutuun esim lauta55 ja aseta nappula laudalle
 
 		//Laittaa talteen otetun nappulan uuteen ruutuun
 

@@ -11,14 +11,14 @@ Ruutu::Ruutu(int sarake, int rivi)
 int Ruutu::getRivi()
 {
     return this->_rivi;
-	return 0;
+
 }
 
 
 int Ruutu::getSarake()
 {
     return this->_sarake;
-	return 0;
+
 }
 
 

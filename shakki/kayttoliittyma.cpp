@@ -9,16 +9,7 @@
 using namespace std;
 
 
-
-
-
-
 Kayttoliittyma* Kayttoliittyma::instance = 0;
-
-
-
-
-
 
 
 Kayttoliittyma* Kayttoliittyma::getInstance()
@@ -28,8 +19,6 @@ Kayttoliittyma* Kayttoliittyma::getInstance()
 	return instance;
 	
 }
-
-
 
 
 void Kayttoliittyma::piirraLauta()
@@ -81,22 +70,22 @@ void Kayttoliittyma::piirraLauta()
 /*
 	Aliohjelma tarkistaa ett� k�ytt�j�n antama sy�te siirroksi on 
 	muodollisesti korrekti (ei tarkista aseman laillisuutta)
-	Ottaa irti my�s nappulan kirjaimen (K/D/L/R/T), tarkistaa ett� kirjain korrekti
+	Ottaa irti myos nappulan kirjaimen (K/D/L/R/T), tarkistaa etta kirjain korrekti
 */
 Siirto Kayttoliittyma::annaVastustajanSiirto()
 {
 
-    // give opnents move
-    string siirto;
-    cout << "Give your move: ";
-    cin >> siirto;
-    cout << endl;
+	// give opnents move
+	string siirto;
+	cout << "Give your move: ";
+	cin >> siirto;
+	cout << endl;
 
-    // check if move is valid
-    if (siirto.length() != 4) {
-        cout << "Invalid move!" << endl;
-        return annaVastustajanSiirto();
-    }
+	// check if move is valid
+	if (siirto.length() != 4) {
+		cout << "Invalid move!" << endl;
+		return annaVastustajanSiirto();
+	}
 
 
 
