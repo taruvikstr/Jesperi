@@ -5,8 +5,8 @@
 #include "siirto.h"
 
 
-// Shakkiohjelman käyttöliittymä, joka osaa visualisoida nykyisen aseman
-// ja lukea käyttäjän syöttämät siirrot. Singleton.
+// Shakkiohjelman kï¿½yttï¿½liittymï¿½, joka osaa visualisoida nykyisen aseman
+// ja lukea kï¿½yttï¿½jï¿½n syï¿½ttï¿½mï¿½t siirrot. Singleton.
 class Kayttoliittyma
 {
 public:
@@ -26,3 +26,4 @@ private:
 	Kayttoliittyma() { _asema = 0; }
 	Kayttoliittyma(Asema* asema) { this->_asema = asema; }
 };
+
