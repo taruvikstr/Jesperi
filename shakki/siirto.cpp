@@ -19,26 +19,26 @@ Siirto::Siirto(bool _lyhytLinna, bool _pitkaLinna)
 Ruutu Siirto::getAlkuruutu()
 {
     return this->_alkuRuutu;
-	return _alkuRuutu;
+
 }
 
 
 Ruutu Siirto::getLoppuruutu()
 {
     return this->_loppuRuutu;
-	return _loppuRuutu;
+
 }
 
 
 bool Siirto::onkoLyhytLinna() 
 {
     return this->_lyhytLinna;
-	return 0;
+
 }
 
 
-bool Siirto::onkoPitk�linna() 
+bool Siirto::onkoPitkalinna() 
 {
     return this->_pitkaLinna;
-	return 0;
+
 }
