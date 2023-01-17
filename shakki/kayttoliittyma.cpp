@@ -79,14 +79,35 @@ void Kayttoliittyma::piirraLauta()
 
 
 /*
-	Aliohjelma tarkistaa että käyttäjän antama syöte siirroksi on 
+	Aliohjelma tarkistaa ettï¿½ kï¿½yttï¿½jï¿½n antama syï¿½te siirroksi on 
 	muodollisesti korrekti (ei tarkista aseman laillisuutta)
-	Ottaa irti myös nappulan kirjaimen (K/D/L/R/T), tarkistaa että kirjain korrekti
+	Ottaa irti myï¿½s nappulan kirjaimen (K/D/L/R/T), tarkistaa ettï¿½ kirjain korrekti
 */
 Siirto Kayttoliittyma::annaVastustajanSiirto()
 {
-	Siirto siirto;
+
+    // give opnents move
+    string siirto;
+    cout << "Give your move: ";
+    cin >> siirto;
+    cout << endl;
+
+    // check if move is valid
+    if (siirto.length() != 4) {
+        cout << "Invalid move!" << endl;
+        return annaVastustajanSiirto();
+    }
+
+
+
+
+
+
+    Siirto siirto;
 	return siirto;
+
+
+
 	
 }
 
