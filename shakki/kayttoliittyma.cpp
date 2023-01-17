@@ -103,8 +103,8 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 
 
 
-    Siirto siirto;
-	return siirto;
+    //Siirto siirto;
+	//return siirto;
 
 
 
