@@ -102,7 +102,6 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 
 
 
-
     Siirto siirto;
 	return siirto;
 
