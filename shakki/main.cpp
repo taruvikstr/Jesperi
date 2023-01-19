@@ -17,14 +17,15 @@ int main()
 	int lopetus = 100;
 	Asema asema; 
 	Kayttoliittyma::getInstance()->aseta_asema(&asema);
-
+	
 	Peli peli(Kayttoliittyma::getInstance()->
 		kysyVastustajanVari());
 	std::list<Siirto> lista;
 	system("cls");
 	int koneenVari = peli.getKoneenVari();
 
-	
+	Kayttoliittyma::getInstance()->piirraLauta();
+
 	Siirto siirto = Kayttoliittyma::getInstance()->
 			annaVastustajanSiirto();
 		asema.paivitaAsema(&siirto);

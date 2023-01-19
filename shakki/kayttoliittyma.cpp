@@ -79,37 +79,26 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 	int loppuX;
 	int loppuY;
 
-	// give opnents move
+	// give opponents move
 	string inputString;
 	do {
 		wcout << "Give your move: ";
 		cin >> inputString;
-		//cout << endl;
 
-		if (inputString == "L0-0" || inputString == "L0-0-0") {
-			if (inputString == "L0-0") {
-				return Siirto(true, false);
-			}
-			else {
-				return Siirto(false, true);
-			}
-		}
-		else if (inputString.length() == 6) {
-
-			//nappulastring=siirtostring[0];
+		if (inputString.length() == 6) 
+		{
+			
 			inputString.erase(0, 1);
 		}
-		else {
-			//
-		}
+
 		alkuX = inputString[0] - 'a';
 		alkuY = inputString[1] - '1';
 		loppuX = inputString[3] - 'a';
 		loppuY = inputString[4] - '1';
 
-		
+
 		if (((alkuX < 0) || (alkuX > 7) || (alkuY < 0) || (alkuY > 7) || (loppuX < 0) || (loppuX > 7) || (loppuY < 0) || (loppuY > 7)))
-			wcout << "Siirron täytyy olla muotoa esim. Tf0-f4, \n aakkoset väliltä a-h \n numerot väliltä 1-8. \n Nappula on (K,k),(D,d),(T,t),(L,l),(R,r),(S,s)";
+			wcout << "Move has to include numbers and aplhabets presented on the board. For example Dd1-d4 or d1-d4";
 	} while (((alkuX < 0) || (alkuX > 7) || (alkuY < 0) || (alkuY > 7) || (loppuX < 0) || (loppuX > 7) || (loppuY < 0) || (loppuY > 7)));
 
 	Ruutu alkuRuutu(alkuX, alkuY);
@@ -124,7 +113,7 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 int Kayttoliittyma::kysyVastustajanVari()
 {
 	int vari;
-	cout << "Anna väri 0=valkoinen, 1=musta" << endl;
+	cout << "Give your color (0 = white 1 = black): " << endl;
 	cin >> vari;
 	return vari;
 }
