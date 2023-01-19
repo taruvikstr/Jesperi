@@ -113,5 +113,16 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 
 int Kayttoliittyma::kysyVastustajanVari()
 {
-	return 0;
+	int vari;
+	
+	cout << "Anna väri 0=valk, 1 = musta" << endl;
+	cin >> vari;
+	if ((vari != 0) && (vari != 1)) {
+		cout << "Väärä syöte";
+		kysyVastustajanVari();
+	}
+	else {
+		return vari;
+	}
+	
 }

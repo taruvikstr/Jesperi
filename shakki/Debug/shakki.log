@@ -1,2 +1,3 @@
-﻿  main.cpp
+﻿  kayttoliittyma.cpp
+C:\Users\danie\Desktop\Jesperi\shakki\kayttoliittyma.cpp(128): warning C4715: 'Kayttoliittyma::kysyVastustajanVari': not all control paths return a value
   shakki.vcxproj -> C:\Users\danie\Desktop\Jesperi\Debug\shakki.exe
