@@ -110,5 +110,8 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 
 int Kayttoliittyma::kysyVastustajanVari()
 {
-	return 0;
+	int vari;
+	cout << "Anna väri 0=valkoinen, 1=musta" << endl;
+	cin >> vari;
+	return vari;
 }
