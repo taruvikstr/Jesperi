@@ -65,13 +65,16 @@ void Kayttoliittyma::piirraLauta()
 
 	wcout << L"   A  B  C  D  E  F  G  H " << endl;
 }
-
+	
 
 /*
 	Aliohjelma tarkistaa ett� k�ytt�j�n antama sy�te siirroksi on 
 	muodollisesti korrekti (ei tarkista aseman laillisuutta)
 	Ottaa irti myos nappulan kirjaimen (K/D/L/R/T), tarkistaa etta kirjain korrekti
+
 */
+
+
 Siirto Kayttoliittyma::annaVastustajanSiirto()
 {
 

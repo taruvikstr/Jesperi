@@ -1,1 +1,2 @@
-﻿LINK : fatal error LNK1104: cannot open file 'C:\Users\taruv\Documents\METROPOLIA\GitHub\Jesperi\Debug\shakki.exe'
+﻿  main.cpp
+  shakki.vcxproj -> C:\Users\danie\Desktop\Jesperi\Debug\shakki.exe

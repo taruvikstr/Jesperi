@@ -5,6 +5,8 @@ Siirto::Siirto(Ruutu _alkuRuutu, Ruutu _loppuRuutu)
 {
     this->_alkuRuutu = _alkuRuutu;
     this->_loppuRuutu = _loppuRuutu;
+
+
 }
 
 

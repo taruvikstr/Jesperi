@@ -32,7 +32,11 @@ int main()
 		asema.annaLaillisetSiirrot(lista);
 		if (lista.size() == 0) {
 			lopetus = 0;
-			std::wcout << "Peli loppui";
+			string a = "1";
+			int b = stoi(a);
+
+			std::wcout << b << endl;
+			std::wcout << a[0];
 			continue;
 		}
 		Siirto siirto;

@@ -12,7 +12,7 @@ class Siirto
 {
 public:
 	Siirto(Ruutu, Ruutu);
-	Siirto(){}
+	Siirto() { _lyhytLinna = false; _pitkaLinna = false; }
 	Siirto(bool, bool); // Linnoitus lyhyesti (K-siipi) tai pitkästi (D-siipi?
 	Ruutu getAlkuruutu();
 	Ruutu getLoppuruutu();
