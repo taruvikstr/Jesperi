@@ -49,9 +49,9 @@ void Kayttoliittyma::piirraLauta()
 
 
 
-			if (_asema->_lauta[7-i][7-j] != NULL) {
+			if (_asema->_lauta[7-i][j] != NULL) {
 
-				wcout << " " << _asema->_lauta[7-i][7-j]->getUnicode() << " ";
+				wcout << " " << _asema->_lauta[7-i][j]->getUnicode() << " ";
 			}
 			else {
 				wcout << "   ";
@@ -74,35 +74,48 @@ void Kayttoliittyma::piirraLauta()
 */
 Siirto Kayttoliittyma::annaVastustajanSiirto()
 {
+	int alkuX;
+	int alkuY;
+	int loppuX;
+	int loppuY;
 
 	// give opnents move
-	string input;
-	cout << "Give your move: ";
-	cin >> input;
-	cout << endl;
+	string inputString;
+	do {
+		wcout << "Give your move: ";
+		cin >> inputString;
+		//cout << endl;
 
-	string alku = input.substr(0, 2);
-	string loppu = input.substr(2, 2);
+		if (inputString == "L0-0" || inputString == "L0-0-0") {
+			if (inputString == "L0-0") {
+				return Siirto(true, false);
+			}
+			else {
+				return Siirto(false, true);
+			}
+		}
+		else if (inputString.length() == 6) {
 
-	// convert strings to int
+			//nappulastring=siirtostring[0];
+			inputString.erase(0, 1);
+		}
+		else {
+			//
+		}
+		alkuX = inputString[0] - 'a';
+		alkuY = inputString[1] - '1';
+		loppuX = inputString[3] - 'a';
+		loppuY = inputString[4] - '1';
 
-	int alkuX = alku[0] - 'A';
-	int alkuY = 8 - (alku[1] - '0');
-	int loppuX = loppu[0] - 'A';
-	int loppuY = 8 - (loppu[1] - '0');
+		
+		if (((alkuX < 0) || (alkuX > 7) || (alkuY < 0) || (alkuY > 7) || (loppuX < 0) || (loppuX > 7) || (loppuY < 0) || (loppuY > 7)))
+			wcout << "Siirron täytyy olla muotoa esim. Tf0-f4, \n aakkoset väliltä a-h \n numerot väliltä 1-8. \n Nappula on (K,k),(D,d),(T,t),(L,l),(R,r),(S,s)";
+	} while (((alkuX < 0) || (alkuX > 7) || (alkuY < 0) || (alkuY > 7) || (loppuX < 0) || (loppuX > 7) || (loppuY < 0) || (loppuY > 7)));
 
-	// create move
+	Ruutu alkuRuutu(alkuX, alkuY);
+	Ruutu loppuRuutu(loppuX, loppuY);
+	Siirto siirto(alkuRuutu,loppuRuutu);
 
-	Siirto siirto(Ruutu(alkuX, alkuY), Ruutu(loppuX, loppuY));
-
-	// check if move is valid
-	/*if (input.length() != 4) {
-		cout << "Invalid move!" << endl;
-		return annaVastustajanSiirto();
-	}*/
-
-
-    //Siirto siirto;
 	return siirto;
 
 }
