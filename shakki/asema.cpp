@@ -64,51 +64,70 @@ Asema::Asema()
 void Asema::paivitaAsema(Siirto *siirto)
 {
 
-	// Kaksoisaskel-lippu on oletusarvoisesti pois p‰‰lt‰.
-	// Asetetaan myˆhemmin, jos tarvii.
-
-
 	//Tarkastetaan on siirto lyhyt linna
 	if (siirto->onkoLyhytLinna())
 	{
-
+		// Asetetaan kuningas ja torni oikeisiin ruutuihin
+		_lauta[0][6] = vk;
+		_lauta[0][5] = vt;
+		// Tyhjennet‰‰n vanhat ruudut
+		_lauta[0][4] = NULL;
+		_lauta[0][7] = NULL;
 	}
 	
 	// onko pitk‰ linna
 	if (siirto->onkoPitkalinna())
 	{
-
+		// Asetetaan kuningas ja torni oikeisiin ruutuihin
+		_lauta[0][2] = vk;
+		_lauta[0][3] = vt;
+		// Tyhjennet‰‰n vanhat ruudut
+		_lauta[0][4] = NULL;
+		_lauta[0][0] = NULL;
 	}
-	
-
-
 
 	// Kaikki muut siirrot
 
+	//Ottaa siirron alkuruudussa olleen nappulan talteen
 
-		//Ottaa siirron alkuruudussa olleen nappulan talteen
-	 
-		//ota siirron int arvo esim. lauta00 ja kato mik‰ nappula 
-		//on siin‰ kohtaa, siirr‰ lauta00 nulliksi ja siirr‰ kohdassa 
-		//ollut nappula loppuruutuun esim lauta55 ja aseta nappula laudalle
+	//ota siirron int arvo esim. lauta00 ja kato mik‰ nappula 
+	//on siin‰ kohtaa, siirr‰ lauta00 nulliksi ja siirr‰ kohdassa 
+	//ollut nappula loppuruutuun esim lauta55 ja aseta nappula laudalle
+	int rivi_alku = siirto->getAlkuruutu().getRivi();
+	int sarake_alku = siirto->getAlkuruutu().getSarake();
 
-		//Laittaa talteen otetun nappulan uuteen ruutuun
+	int rivi_loppu = siirto->getLoppuruutu().getRivi();
+	int sarake_loppu = siirto->getLoppuruutu().getSarake();
 
+	//Laittaa talteen otetun nappulan uuteen ruutuun
+	_lauta[rivi_loppu][sarake_loppu] = _lauta[rivi_alku][sarake_alku];
+	_lauta[rivi_alku][sarake_alku] = NULL;
 
-		// Tarkistetaan oliko sotilaan kaksoisaskel
-		// (asetetaan kaksoisaskel-lippu)
+	// Tarkistetaan oliko sotilaan kaksoisaskel
+	// (asetetaan kaksoisaskel-lippu)
+	// Kaksoisaskel-lippu on oletusarvoisesti pois p‰‰lt‰.
+	bool kaksoisaskel_lippu = false;
+	//nappula valkoinen sotilas ja vaakarivi sotilaan aloitus ja sotilasta siirretty kaksi askelta
+	if (siirto->getAlkuruutu().getRivi() == 1 && _lauta[rivi_loppu][sarake_loppu] == 
+		vs && siirto->getLoppuruutu().getRivi() == 3) {
+		kaksoisaskel_lippu = true;
+	}
+	else if (siirto->getAlkuruutu().getRivi() == 6 && _lauta[rivi_loppu][sarake_loppu] ==
+		ms && siirto->getLoppuruutu().getRivi() == 4) {
+		kaksoisaskel_lippu = true;
+	}
 
-		// Ohestalyˆnti on tyhj‰‰n ruutuun. Vieress‰ oleva (sotilas) poistetaan.
+	// Ohestalyˆnti on tyhj‰‰n ruutuun. Vieress‰ oleva (sotilas) poistetaan.
 
-		//// Katsotaan jos nappula on sotilas ja rivi on p‰‰tyrivi niin ei vaihdeta nappulaa 
-		////eli alkuruutuun laitetaan null ja loppuruudussa on jo kliittym‰n laittama nappula MIIKKA, ei taida minmaxin kanssa hehkua?
+	// Katsotaan jos nappula on sotilas ja rivi on p‰‰tyrivi niin ei vaihdeta nappulaa 
+	//eli alkuruutuun laitetaan null ja loppuruudussa on jo liittym‰n laittama nappula MIIKKA, 
+	//ei taida minmaxin kanssa hehkua?
 
-		//
-		////muissa tapauksissa alkuruutuun null ja loppuruutuun sama alkuruudusta l‰htenyt nappula
+	//muissa tapauksissa alkuruutuun null ja loppuruutuun sama alkuruudusta l‰htenyt nappula
 
-		// katsotaan jos liikkunut nappula on kuningas niin muutetaan onkoKuningasLiikkunut arvo (molemmille v‰reille)
+	// katsotaan jos liikkunut nappula on kuningas niin muutetaan onkoKuningasLiikkunut arvo (molemmille v‰reille)
 
-		// katsotaan jos liikkunut nappula on torni niin muutetaan onkoTorniLiikkunut arvo (molemmille v‰reille ja molemmille torneille)
+	// katsotaan jos liikkunut nappula on torni niin muutetaan onkoTorniLiikkunut arvo (molemmille v‰reille ja molemmille torneille)
 
 	//p‰ivitet‰‰n _siirtovuoro
 

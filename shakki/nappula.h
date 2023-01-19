@@ -25,7 +25,7 @@ private:
 
 public:
 	Nappula(std::wstring, int, int);
-	Nappula() {}
+	Nappula() { _koodi = 0; _vari = 0; }
 
 	// Siirtojen generointi. Puhdas virtuaalifunktio, eli aliluokat toteuttavat tämän
 	// omalla tavallaan.
