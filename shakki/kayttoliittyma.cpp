@@ -49,9 +49,9 @@ void Kayttoliittyma::piirraLauta()
 
 
 
-			if (_asema->_lauta[i][j] != NULL) {
+			if (_asema->_lauta[7-i][7-j] != NULL) {
 
-				wcout << " " << _asema->_lauta[i][j]->getUnicode() << " ";
+				wcout << " " << _asema->_lauta[7-i][7-j]->getUnicode() << " ";
 			}
 			else {
 				wcout << "   ";
