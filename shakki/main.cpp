@@ -24,7 +24,26 @@ int main()
 	system("cls");
 	int koneenVari = peli.getKoneenVari();
 
-	while (lopetus != 0) {
+	
+	Siirto siirto = Kayttoliittyma::getInstance()->
+			annaVastustajanSiirto();
+		asema.paivitaAsema(&siirto);
+		Kayttoliittyma::getInstance()->piirraLauta();
+
+		siirto = Kayttoliittyma::getInstance()->
+			annaVastustajanSiirto();
+		asema.paivitaAsema(&siirto);
+		Kayttoliittyma::getInstance()->piirraLauta();
+		siirto = Kayttoliittyma::getInstance()->
+			annaVastustajanSiirto();
+		asema.paivitaAsema(&siirto);
+		Kayttoliittyma::getInstance()->piirraLauta();
+		siirto = Kayttoliittyma::getInstance()->
+			annaVastustajanSiirto();
+		asema.paivitaAsema(&siirto);
+		Kayttoliittyma::getInstance()->piirraLauta();
+	
+/*	while (lopetus != 0) {
 		lista.clear();
 		Kayttoliittyma::getInstance()->piirraLauta();
 		wcout << "\n";
@@ -56,7 +75,7 @@ int main()
 		}
 		asema.paivitaAsema(&siirto);
 	}
-
+	*/
 	
 	return 0;
 }

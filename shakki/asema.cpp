@@ -207,12 +207,12 @@ void Asema::paivitaAsema(Siirto *siirto)
 	}
 
 	//p‰ivitet‰‰n _siirtovuoro
-	if (_siirtovuoro = 0) {
+	/*if (_siirtovuoro = 0) {
 		setSiirtovuoro(1);
 	}
 	else {
 		setSiirtovuoro(0);
-	}
+	}*/
 	
 
 
