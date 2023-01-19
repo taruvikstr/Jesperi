@@ -5,16 +5,16 @@ Siirto::Siirto(Ruutu _alkuRuutu, Ruutu _loppuRuutu)
 {
     this->_alkuRuutu = _alkuRuutu;
     this->_loppuRuutu = _loppuRuutu;
-
-
+    this->_lyhytLinna = onkoLyhytLinna();
+    this->_pitkaLinna = onkoPitkalinna();
 }
-
 
 Siirto::Siirto(bool _lyhytLinna, bool _pitkaLinna) 
 {
     this->_lyhytLinna = _lyhytLinna;
     this->_pitkaLinna = _pitkaLinna;
-	
+    this->_alkuRuutu = getAlkuruutu();
+    this->_loppuRuutu = getLoppuruutu();
 }
 
 

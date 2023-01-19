@@ -79,28 +79,35 @@ Siirto Kayttoliittyma::annaVastustajanSiirto()
 {
 
 	// give opnents move
-	string siirto;
+	string input;
 	cout << "Give your move: ";
-	cin >> siirto;
+	cin >> input;
 	cout << endl;
 
+	string alku = input.substr(0, 2);
+	string loppu = input.substr(2, 2);
+
+	// convert strings to int
+
+	int alkuX = alku[0] - 'A';
+	int alkuY = 8 - (alku[1] - '0');
+	int loppuX = loppu[0] - 'A';
+	int loppuY = 8 - (loppu[1] - '0');
+
+	// create move
+
+	Siirto siirto(Ruutu(alkuX, alkuY), Ruutu(loppuX, loppuY));
+
 	// check if move is valid
-	if (siirto.length() != 4) {
+	/*if (input.length() != 4) {
 		cout << "Invalid move!" << endl;
 		return annaVastustajanSiirto();
-	}
-
-
-
-
+	}*/
 
 
     //Siirto siirto;
-	//return siirto;
+	return siirto;
 
-
-
-	
 }
 
 

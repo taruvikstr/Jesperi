@@ -86,7 +86,8 @@ void Asema::paivitaAsema(Siirto *siirto)
 	// Kaikki muut siirrot
 
 
-		//Ottaa siirron alkuruudussa olleen nappulan talteen 
+		//Ottaa siirron alkuruudussa olleen nappulan talteen
+	 
 		//ota siirron int arvo esim. lauta00 ja kato mikä nappula 
 		//on siinä kohtaa, siirrä lauta00 nulliksi ja siirrä kohdassa 
 		//ollut nappula loppuruutuun esim lauta55 ja aseta nappula laudalle
