@@ -6,6 +6,8 @@
 #include "siirto.h"
 
 
+
+
 // Vakioarvot nappulatyypeille.
 enum
 {
@@ -17,19 +19,28 @@ enum
 // Yliluokka shakkinappuloille.
 class Nappula
 {
+	virtual void annaSiirrot(std::list<Siirto>& lista, Ruutu*, Asema*, int vari) = 0;
+	
+
+	
 
 private:
 	std::wstring	_unicode;	// nappulaa vastaava unicode-merkki
 	int				_vari;		// valkea = 0, musta = 1
 	int				_koodi;		// VT, VR, MT tms.
 
+	
+	
+
 public:
 	Nappula(std::wstring, int, int);
 	Nappula() { _koodi = 0; _vari = 0; }
+	~Nappula() { }
+	
 
 	// Siirtojen generointi. Puhdas virtuaalifunktio, eli aliluokat toteuttavat tämän
 	// omalla tavallaan.
-	virtual void annaSiirrot(std::list<Siirto>& lista, Ruutu*, Asema*, int vari) = 0;
+	
 
 	void setUnicode(std::wstring unicode)	{ _unicode = unicode;			}
 	std::wstring getUnicode()				{ return _unicode;				}
@@ -45,6 +56,7 @@ class Torni : public virtual Nappula {
 public:
 	Torni(std::wstring unicode, int vari, int koodi) : Nappula(unicode, vari, koodi) {}
 	void annaSiirrot(std::list<Siirto>& lista, Ruutu*, Asema*, int vari);
+	
 };
 
 // Ratsu-aliluokka.
@@ -75,6 +87,7 @@ class Kuningas : public Nappula {
 public:
 	Kuningas(std::wstring unicode, int vari, int koodi) : Nappula(unicode, vari, koodi) {}
 	void annaSiirrot(std::list<Siirto>& lista, Ruutu*, Asema*, int vari);
+	
 };
 
 // Sotilas-aliluokka.

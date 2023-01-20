@@ -75,6 +75,7 @@ void Kayttoliittyma::piirraLauta()
 Siirto Kayttoliittyma::annaVastustajanSiirto() {
 	int alkuX, alkuY, loppuX, loppuY;
 	string inputString;
+	bool isValid = false;
 
 	// give opponents move
 	do {
@@ -100,11 +101,13 @@ Siirto Kayttoliittyma::annaVastustajanSiirto() {
 		loppuY = inputString[4] - '1';
 
 		// check if coordinates are within chess board range
-		if ((alkuX < 0 || alkuX > 7 || alkuY < 0 || alkuY > 7 || loppuX < 0 || loppuX > 7 || loppuY < 0 || loppuY > 7)) {
-			wcout << "Invalid move. Move has to include numbers and letters presented on the board.";
+		if (alkuX >= 0 && alkuX <= 7 && alkuY >= 0 && alkuY <= 7 && loppuX >= 0 && loppuX <= 7 && loppuY >= 0 && loppuY <= 7) {
+			isValid = true;
 		}
-	} while (alkuX < 0 || alkuX > 7 || alkuY < 0 || alkuY > 7 || loppuX < 0 || loppuX > 7 || loppuY < 0 || loppuY > 7);
-
+		else {
+			wcout << "Invalid move. Move has to include numbers and letters presented on the board." << endl;
+		}
+	} while (!isValid);
 	// create move object and return it
 	Ruutu alkuRuutu(alkuX, alkuY);
 	Ruutu loppuRuutu(loppuX, loppuY);
