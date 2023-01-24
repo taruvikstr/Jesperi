@@ -49,9 +49,9 @@ void Kayttoliittyma::piirraLauta()
 
 
 
-			if (_asema->_lauta[i][j] != NULL) {
+			if (_asema->_lauta[7-i][j] != NULL) {
 
-				wcout << " " << _asema->_lauta[i][j]->getUnicode() << " ";
+				wcout << " " << _asema->_lauta[7-i][j]->getUnicode() << " ";
 			}
 			else {
 				wcout << "   ";
@@ -72,36 +72,55 @@ void Kayttoliittyma::piirraLauta()
 	muodollisesti korrekti (ei tarkista aseman laillisuutta)
 	Ottaa irti myos nappulan kirjaimen (K/D/L/R/T), tarkistaa etta kirjain korrekti
 */
-Siirto Kayttoliittyma::annaVastustajanSiirto()
-{
+Siirto Kayttoliittyma::annaVastustajanSiirto() {
+	int alkuX, alkuY, loppuX, loppuY;
+	string inputString;
+	bool isValid = false;
 
-	// give opnents move
-	string siirto;
-	cout << "Give your move: ";
-	cin >> siirto;
-	cout << endl;
+	// give opponents move
+	do {
+		wcout << "Give your move: ";
+		cin >> inputString;
 
-	// check if move is valid
-	if (siirto.length() != 4) {
-		cout << "Invalid move!" << endl;
-		return annaVastustajanSiirto();
-	}
+		// check input length
+		if (inputString.length() != 4 && inputString.length() != 5) {
+			wcout << "Invalid move format. Example: e2-e4 or e7e5";
+			continue;
+		}
 
+		// check if input is in correct format
+		if (!isalpha(inputString[0]) || !isdigit(inputString[1]) || inputString[2] != '-' || !isalpha(inputString[3]) || !isdigit(inputString[4])) {
+			wcout << "Invalid move format. Example: e2-e4 or e7e5";
+			continue;
+		}
 
+		// convert input to coordinates
+		alkuX = inputString[0] - 'a';
+		alkuY = inputString[1] - '1';
+		loppuX = inputString[3] - 'a';
+		loppuY = inputString[4] - '1';
 
-
-
-
-    //Siirto siirto;
-	//return siirto;
-
-
-
-	
+		// check if coordinates are within chess board range
+		if (alkuX >= 0 && alkuX <= 7 && alkuY >= 0 && alkuY <= 7 && loppuX >= 0 && loppuX <= 7 && loppuY >= 0 && loppuY <= 7) {
+			isValid = true;
+		}
+		else {
+			wcout << "Invalid move. Move has to include numbers and letters presented on the board." << endl;
+		}
+	} while (!isValid);
+	// create move object and return it
+	Ruutu alkuRuutu(alkuX, alkuY);
+	Ruutu loppuRuutu(loppuX, loppuY);
+	Siirto siirto(alkuRuutu, loppuRuutu);
+	return siirto;
 }
+
 
 
 int Kayttoliittyma::kysyVastustajanVari()
 {
-	return 0;
+	int vari;
+	cout << "Give your color (0 = white 1 = black): " << endl;
+	cin >> vari;
+	return vari;
 }

@@ -11,11 +11,17 @@ Nappula::Nappula(wstring unicode, int vari, int koodi)
 	this->_vari = vari;
 	this->_koodi = koodi;
 	
+	
 }
 
 
 void Torni::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
 {
+
+	
+	
+	
+
 	
 }
 
