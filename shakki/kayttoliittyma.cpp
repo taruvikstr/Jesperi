@@ -83,13 +83,13 @@ Siirto Kayttoliittyma::annaVastustajanSiirto() {
 		cin >> inputString;
 
 		// check input length
-		if (inputString.length() != 4 && inputString.length() != 5) {
+		if (inputString.length() != 4 && inputString.length() != 6) {
 			wcout << "Invalid move format. Example: e2-e4 or e7e5";
 			continue;
 		}
 
 		// check if input is in correct format
-		if (!isalpha(inputString[0]) || !isdigit(inputString[1]) || inputString[2] != '-' || !isalpha(inputString[3]) || !isdigit(inputString[4])) {
+		if (!isalpha(inputString[0]) || !isalpha(inputString[1]) || !isdigit(inputString[2]) || inputString[3] != '-' || !isalpha(inputString[4]) || !isdigit(inputString[5])) {
 			wcout << "Invalid move format. Example: e2-e4 or e7e5";
 			continue;
 		}
