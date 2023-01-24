@@ -65,77 +65,62 @@ void Kayttoliittyma::piirraLauta()
 
 	wcout << L"   A  B  C  D  E  F  G  H " << endl;
 }
-	
+
 
 /*
 	Aliohjelma tarkistaa ett� k�ytt�j�n antama sy�te siirroksi on 
 	muodollisesti korrekti (ei tarkista aseman laillisuutta)
 	Ottaa irti myos nappulan kirjaimen (K/D/L/R/T), tarkistaa etta kirjain korrekti
-
 */
-
-
-Siirto Kayttoliittyma::annaVastustajanSiirto()
-{
-	int alkuX;
-	int alkuY;
-	int loppuX;
-	int loppuY;
-
-	// give opnents move
+Siirto Kayttoliittyma::annaVastustajanSiirto() {
+	int alkuX, alkuY, loppuX, loppuY;
 	string inputString;
+	bool isValid = false;
+
+	// give opponents move
 	do {
 		wcout << "Give your move: ";
 		cin >> inputString;
-		//cout << endl;
 
-		if (inputString == "L0-0" || inputString == "L0-0-0") {
-			if (inputString == "L0-0") {
-				return Siirto(true, false);
-			}
-			else {
-				return Siirto(false, true);
-			}
+		// check input length
+		if (inputString.length() != 4 && inputString.length() != 5) {
+			wcout << "Invalid move format. Example: e2-e4 or e7e5";
+			continue;
 		}
-		else if (inputString.length() == 6) {
 
-			//nappulastring=siirtostring[0];
-			inputString.erase(0, 1);
+		// check if input is in correct format
+		if (!isalpha(inputString[0]) || !isdigit(inputString[1]) || inputString[2] != '-' || !isalpha(inputString[3]) || !isdigit(inputString[4])) {
+			wcout << "Invalid move format. Example: e2-e4 or e7e5";
+			continue;
 		}
-		else {
-			//
-		}
+
+		// convert input to coordinates
 		alkuX = inputString[0] - 'a';
 		alkuY = inputString[1] - '1';
 		loppuX = inputString[3] - 'a';
 		loppuY = inputString[4] - '1';
 
-		
-		if (((alkuX < 0) || (alkuX > 7) || (alkuY < 0) || (alkuY > 7) || (loppuX < 0) || (loppuX > 7) || (loppuY < 0) || (loppuY > 7)))
-			wcout << "Siirron täytyy olla muotoa esim. Tf0-f4, \n aakkoset väliltä a-h \n numerot väliltä 1-8. \n Nappula on (K,k),(D,d),(T,t),(L,l),(R,r),(S,s)";
-	} while (((alkuX < 0) || (alkuX > 7) || (alkuY < 0) || (alkuY > 7) || (loppuX < 0) || (loppuX > 7) || (loppuY < 0) || (loppuY > 7)));
-
+		// check if coordinates are within chess board range
+		if (alkuX >= 0 && alkuX <= 7 && alkuY >= 0 && alkuY <= 7 && loppuX >= 0 && loppuX <= 7 && loppuY >= 0 && loppuY <= 7) {
+			isValid = true;
+		}
+		else {
+			wcout << "Invalid move. Move has to include numbers and letters presented on the board." << endl;
+		}
+	} while (!isValid);
+	// create move object and return it
 	Ruutu alkuRuutu(alkuX, alkuY);
 	Ruutu loppuRuutu(loppuX, loppuY);
-	Siirto siirto(alkuRuutu,loppuRuutu);
-
+	Siirto siirto(alkuRuutu, loppuRuutu);
 	return siirto;
-
 }
+
 
 
 int Kayttoliittyma::kysyVastustajanVari()
 {
 	int vari;
-	
-	cout << "Anna väri 0=valk, 1 = musta" << endl;
+	cout << "Give your color (0 = white 1 = black): " << endl;
 	cin >> vari;
-	if ((vari != 0) && (vari != 1)) {
-		cout << "Väärä syöte";
-		kysyVastustajanVari();
-	}
-	else {
-		return vari;
-	}
-	
+	return vari;
 }
