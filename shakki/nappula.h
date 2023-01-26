@@ -19,7 +19,6 @@ enum
 // Yliluokka shakkinappuloille.
 class Nappula
 {
-	virtual void annaSiirrot(std::list<Siirto>& lista, Ruutu*, Asema*, int vari) = 0;
 	
 
 	
@@ -36,7 +35,8 @@ public:
 	Nappula(std::wstring, int, int);
 	Nappula() { _koodi = 0; _vari = 0; }
 	~Nappula() { }
-	
+	virtual void annaSiirrot(std::list<Siirto>& lista, Ruutu*, Asema*, int vari) = 0;
+
 
 	// Siirtojen generointi. Puhdas virtuaalifunktio, eli aliluokat toteuttavat t�m�n
 	// omalla tavallaan.

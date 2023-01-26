@@ -425,77 +425,21 @@ void Asema::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, int vari)
 
 void Asema::annaLaillisetSiirrot(std::list<Siirto>& lista) {
 	
-	Ruutu* ruutu = new Ruutu();
-	
-	if (getSiirtovuoro() == 0) {
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
-				if (_lauta[i][j] != NULL && _lauta[i][j]->getVari()==0) {
-					ruutu->setRivi(i);
-					ruutu->setSarake(j);
-					if (_lauta[i][j]->getKoodi() == VR) {
-						Ratsu* ratsu{};
-						ratsu->annaSiirrot(lista, ruutu, this, 0);
-					}
-					if (_lauta[i][j]->getKoodi() == VT) {
-						Torni* torni{};
-						torni->annaSiirrot(lista, ruutu, this, 0);
-					}
-					if (_lauta[i][j]->getKoodi() == VS) {
-						Sotilas* sotilas{};
-						sotilas->annaSiirrot(lista, ruutu, this, 0);
-					}
-					if (_lauta[i][j]->getKoodi() == VK) {
-						Kuningas* kunkku{};
-						kunkku->annaSiirrot(lista, ruutu, this, 0);
-					}
-					if (_lauta[i][j]->getKoodi() == VD) {
-						Daami* daami{};
-						daami->annaSiirrot(lista, ruutu, this, 0);
-					}
-					if (_lauta[i][j]->getKoodi() == VL) {
-						Lahetti* lahetti{};
-						lahetti->annaSiirrot(lista, ruutu, this, 0);
-					}
+	int vari = this->getSiirtovuoro();
 
-				}
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
+			if (this->_lauta[i][j] == NULL) {
+				continue;
 			}
+			if (this->_lauta[i][j]->getVari() != vari) {
+				continue;
+			}
+			this->_lauta[i][j]->annaSiirrot(lista, &Ruutu(i,j), this, vari);
 		}
-		if (getSiirtovuoro() == 1) {
-			for (int i = 0; i < 8; i++) {
-				for (int j = 0; j < 8; j++) {
-					if (_lauta[i][j] != NULL && _lauta[i][j]->getVari() == 1) {
-						ruutu->setRivi(i);
-						ruutu->setSarake(j);
-						if (_lauta[i][j]->getKoodi() == MR) {
-							Ratsu* ratsu{};
-							ratsu->annaSiirrot(lista, ruutu, this, 0);
-						}
-						if (_lauta[i][j]->getKoodi() == MT) {
-							Torni* torni{};
-							torni->annaSiirrot(lista, ruutu, this, 0);
-						}
-						if (_lauta[i][j]->getKoodi() == MS) {
-							Sotilas* sotilas{};
-							sotilas->annaSiirrot(lista, ruutu, this, 0);
-						}
-						if (_lauta[i][j]->getKoodi() == MK) {
-							Kuningas* kunkku{};
-							kunkku->annaSiirrot(lista, ruutu, this, 0);
-						}
-						if (_lauta[i][j]->getKoodi() == MD) {
-							Daami* daami{};
-							daami->annaSiirrot(lista, ruutu, this, 0);
-						}
-						if (_lauta[i][j]->getKoodi() == ML) {
-							Lahetti* lahetti{};
-							lahetti->annaSiirrot(lista, ruutu, this, 0);
-						}
-
-					}
-				}
-			}
 	}
+	this->annaLinnoitusSiirrot(lista, vari);
+	this->huolehdiKuninkaanShakeista(lista, vari);
 	
 
 }

@@ -18,10 +18,10 @@ public:
 	Ruutu getLoppuruutu();
 	bool onkoLyhytLinna();
 	bool onkoPitkalinna();
-
+	Nappula* _miksikorotetaan = 0;
 private:
 
-	Nappula* _miksikorotetaan = 0;
+	
 	Ruutu _alkuRuutu;
 	Ruutu _loppuRuutu;
 	bool _lyhytLinna;
