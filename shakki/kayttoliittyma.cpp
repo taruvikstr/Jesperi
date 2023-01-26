@@ -83,22 +83,32 @@ Siirto Kayttoliittyma::annaVastustajanSiirto() {
 		cin >> inputString;
 
 		// check input length
-		if (inputString.length() != 6) {
+		if (inputString.length() != 6 && inputString.length() != 5) {
 			wcout << "Invalid move format. Example: e2-e4 or e7e5 A" + inputString.length();
 			continue;
 		}
 
 		// check if input is in correct format
 		if (!isalpha(inputString[0]) || !isalpha(inputString[1]) || !isdigit(inputString[2]) || inputString[3] != '-' || !isalpha(inputString[4]) || !isdigit(inputString[5])) {
+			if(!isalpha(inputString[0]) || !isdigit(inputString[1]) || inputString[2] != '-' || !isalpha(inputString[3]) || !isdigit(inputString[4]))
 			wcout << "Invalid move format. Example: e2-e4 or e7e5 B";
 			continue;
 		}
 
-		// convert input to coordinates
-		alkuX = inputString[1] - 'a';
-		alkuY = inputString[2] - '1';
-		loppuX = inputString[4] - 'a';
-		loppuY = inputString[5] - '1';
+		if (inputString.length() == 6) {
+			// convert input to coordinates
+			alkuX = inputString[1] - 'a';
+			alkuY = inputString[2] - '1';
+			loppuX = inputString[4] - 'a';
+			loppuY = inputString[5] - '1';
+		}
+		if (inputString.length() == 5) {
+			// convert input to coordinates
+			alkuX = inputString[0] - 'a';
+			alkuY = inputString[1] - '1';
+			loppuX = inputString[3] - 'a';
+			loppuY = inputString[4] - '1';
+		}
 
 		// check if coordinates are within chess board range
 		if (alkuX >= 0 && alkuX <= 7 && alkuY >= 0 && alkuY <= 7 && loppuX >= 0 && loppuX <= 7 && loppuY >= 0 && loppuY <= 7) {
