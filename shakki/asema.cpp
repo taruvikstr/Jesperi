@@ -127,6 +127,9 @@ void Asema::paivitaAsema(Siirto *siirto)
 		ms && rivi_loppu == 4) {
 		kaksoisaskelSarakkeella=1;
 	}
+	else {
+		kaksoisaskelSarakkeella=-1;
+	}
 
 	// Ohestalyönti on tyhjään ruutuun. Vieressä oleva (sotilas) poistetaan.
 	//siirrettävä on mustasotilas
@@ -422,6 +425,15 @@ void Asema::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, int vari)
 
 void Asema::annaLaillisetSiirrot(std::list<Siirto>& lista) {
 	
+	if (getSiirtovuoro() == 0) {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if (_lauta[i][j] != NULL) {
+					
+				}
+			}
+		}
+	}
 	
 
 }

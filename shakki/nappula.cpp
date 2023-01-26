@@ -229,10 +229,6 @@ void Lahetti::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, 
 
         for(int j = ruutu->getSarake();j < 7, j++;)
         {
-
-
-
-
          if(asema->_lauta[ruutu->getRivi() + i][ruutu->getSarake() + j ]!= NULL)
 		 {
 
@@ -334,19 +330,148 @@ void Kuningas::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema,
 	oman nappulan p��lle ei voi menn� ja vastustajan nappulan voi sy�d�.
 
 	Kaikki muu kuninkaaseen liittyv� tarkistus tehd��n eri paikassa*/
+    asema->_lauta[ruutu->getRivi()][ruutu->getSarake()] = this;
+    int omaVari = this->getVari();
 
-
-	
+    //katsoo kuninkaan yläpuolella olevan rivin
+    for (int i = -1; i < 1; i++) {
+        if (asema->_lauta[ruutu->getRivi() + i][ruutu->getSarake() + 1] != NULL) {
+            if (omaVari != asema->_lauta[ruutu->getRivi() + i][ruutu->getSarake() + 1]->getVari()) {
+                lista.push_back(Siirto(ruutu, new Ruutu(ruutu->getRivi() + i, ruutu->getSarake() + 1)));
+            }
+        }
+        else {
+            lista.push_back(Siirto(ruutu, new Ruutu(ruutu->getRivi() + i, ruutu->getSarake() - 1)));
+        }
+    }
+    //alapuolella oleva rivi
+    for (int i = -1; i < 1; i++) {
+        if (asema->_lauta[ruutu->getRivi() + i][ruutu->getSarake() - 1] != NULL) {
+            if (omaVari != asema->_lauta[ruutu->getRivi() + i][ruutu->getSarake() - 1]->getVari()) {
+                lista.push_back(Siirto(ruutu, new Ruutu(ruutu->getRivi() + i, ruutu->getSarake() - 1)));
+            }
+        }
+        else {
+            lista.push_back(Siirto(ruutu, new Ruutu(ruutu->getRivi() + i, ruutu->getSarake() - 1)));
+        }
+    }
+    //onko vasemmalla 
+    if (asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake()] != NULL) {
+        if (omaVari != asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake()]->getVari()) {
+            lista.push_back(Siirto(ruutu, new Ruutu(ruutu->getRivi() - 1, ruutu->getSarake())));
+        }
+    }
+    else {
+        lista.push_back(Siirto(ruutu, new Ruutu(ruutu->getRivi() - 1, ruutu->getSarake())));
+    }
+    //ja oikealla    
+    if (asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake()] != NULL) {
+        if (omaVari != asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake()]->getVari()) {
+            lista.push_back(Siirto(ruutu, new Ruutu(ruutu->getRivi() + 1, ruutu->getSarake())));
+        }
+    }
+    else {
+            lista.push_back(Siirto(ruutu, new Ruutu(ruutu->getRivi() + 1, ruutu->getSarake())));
+         }
+        
+    
 }
 
 
 void Sotilas::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
 {
+    asema->_lauta[ruutu->getRivi()][ruutu->getSarake()] = this;
+    int omaVari = this->getVari();
+
+    if (omaVari == 0) {
+        //valkoisen kaksoisaskel
+        if (ruutu->getRivi() == 1 && asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake()] == NULL
+            && asema->_lauta[ruutu->getRivi() + 2][ruutu->getSarake()] == NULL) {
+            lista.push_back(Siirto(ruutu, new Ruutu(ruutu->getRivi() + 2, ruutu->getSarake())));
+        }
+        //yläviisto vasemmalle jos ei ole tyhjä ja vastustaja ruudussa
+            if (asema->_lauta[ruutu->getRivi()-1][ruutu->getSarake() + 1] != NULL) {
+                if (omaVari != asema->_lauta[ruutu->getRivi()-1][ruutu->getSarake() + 1]->getVari()) {
+                    lista.push_back(Siirto(ruutu, new Ruutu(ruutu->getRivi() - 1, ruutu->getSarake() + 1)));
+                }
+            }
+            //yläviisto oikealla jos ei ole tyhjä ja vastustaja ruudussa
+            if (asema->_lauta[ruutu->getRivi() +1][ruutu->getSarake() + 1] != NULL) {
+                if (omaVari != asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake() + 1]->getVari()) {
+                    lista.push_back(Siirto(ruutu, new Ruutu(ruutu->getRivi() + 1, ruutu->getSarake() + 1)));
+                }
+            }
+            //suoraan ylös oleva kohta tyhjä
+            if (asema->_lauta[ruutu->getRivi()][ruutu->getSarake() + 1] == NULL) {
+                if (omaVari != asema->_lauta[ruutu->getRivi()][ruutu->getSarake() + 1]->getVari()) {
+                    lista.push_back(Siirto(ruutu, new Ruutu(ruutu->getRivi(), ruutu->getSarake() + 1)));
+                }
+            }
+
+            // Ohestalyönti on tyhjään ruutuun.
+           //valkoinen tekee ohesta lyönnin, jos ohesta lyönti mahdollinen ja aloitusruudun jommalla kummalla puolella on sotilas      
+           //oikealla puolella oleva musta sotilas
+            if (asema->kaksoisaskelSarakkeella == 1 && asema->_lauta[ruutu->getRivi()][ruutu->getSarake() - 1] != NULL
+                && asema->_lauta[ruutu->getRivi()][ruutu->getSarake() - 1]->getVari() != omaVari)
+            {
+                asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake() - 1];
+            }
+            //vasemmalla puolella oleva musta sotilas
+            if (asema->kaksoisaskelSarakkeella == 1 && asema->_lauta[ruutu->getRivi()][ruutu->getSarake() + 1] != NULL
+                && asema->_lauta[ruutu->getRivi()][ruutu->getSarake() + 1]->getVari() != omaVari)
+            {
+                asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake() + 1];
+            }
     
-	
-}
+        }
+    if (omaVari == 1) {
+        //mustan kaksoisaskel
+        if (ruutu->getRivi() == 6 && asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake()] == NULL
+            && asema->_lauta[ruutu->getRivi() - 2][ruutu->getSarake()] == NULL) {
+            lista.push_back(Siirto(ruutu, new Ruutu(ruutu->getRivi() - 2, ruutu->getSarake())));
+        }
+        //yläviisto vasemmalle jos ei ole tyhjä ja vastustaja ruudussa
+        if (asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake() - 1] != NULL) {
+            if (omaVari != asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake() + 1]->getVari()) {
+                lista.push_back(Siirto(ruutu, new Ruutu(ruutu->getRivi() - 1, ruutu->getSarake() + 1)));
+            }
+        }
+        //yläviisto oikealla jos ei ole tyhjä ja vastustaja ruudussa
+        if (asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake() - 1] != NULL) {
+            if (omaVari != asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake() + 1]->getVari()) {
+                lista.push_back(Siirto(ruutu, new Ruutu(ruutu->getRivi() + 1, ruutu->getSarake() + 1)));
+            }
+        }
+        //suoraan ylös oleva kohta tyhjä
+        if (asema->_lauta[ruutu->getRivi()][ruutu->getSarake() - 1] == NULL) {
+            if (omaVari != asema->_lauta[ruutu->getRivi()][ruutu->getSarake() + 1]->getVari()) {
+                lista.push_back(Siirto(ruutu, new Ruutu(ruutu->getRivi(), ruutu->getSarake() + 1)));
+            }
+        }
+        // Ohestalyönti on tyhjään ruutuun.
+            //musta tekee ohesta lyönnin, jos ohesta lyönti mahdollinen ja aloitusruudun jommalla kummalla puolella on sotilas      
+            //oikealla puolella oleva valkoinen sotilas
+            if (asema->kaksoisaskelSarakkeella == 0 && asema->_lauta[ruutu->getRivi()][ruutu->getSarake()-1] != NULL 
+                && asema->_lauta[ruutu->getRivi()][ruutu->getSarake()-1]->getVari() != omaVari)
+            {
+                asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake() - 1];
+            }
+            //vasemmalla puolella oleva valkoinen sotilas
+            if (asema->kaksoisaskelSarakkeella == 0 && asema->_lauta[ruutu->getRivi()][ruutu->getSarake()+1] != NULL 
+                && asema->_lauta[ruutu->getRivi()][ruutu->getSarake()+1]->getVari() != omaVari)
+            {
+                asema->_lauta[ruutu->getRivi()-1][ruutu->getSarake() + 1];
+            }
+        }
+    }
+  
 
 
 void Sotilas::lisaaSotilaanKorotukset(Siirto* siirto, std::list<Siirto>& lista, Asema* asema) {
-	
+
+    int omaVari = this->getVari();
+    asema->vd;
+   
+    
+   // if (_lauta[rivi_alku][sarake_alku] == vs && rivi_loppu == 7 || _lauta[rivi_alku][sarake_alku] == ms && rivi_loppu == 0) {
 }
