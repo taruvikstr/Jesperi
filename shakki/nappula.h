@@ -93,7 +93,7 @@ public:
 // Sotilas-aliluokka.
 class Sotilas : public Nappula {
 public:
-    virtual void annaSiirrot(std::list<Siirto>& lista, Ruutu*, Asema*, int vari) = 0;
+  
     Sotilas(std::wstring unicode, int vari, int koodi) : Nappula(unicode, vari, koodi) {}
 	void annaSiirrot(std::list<Siirto>& lista, Ruutu*, Asema*, int vari);
 private:
