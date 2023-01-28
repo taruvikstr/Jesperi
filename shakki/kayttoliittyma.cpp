@@ -20,12 +20,52 @@ Kayttoliittyma* Kayttoliittyma::getInstance()
 	
 }
 
-void Kayttoliittyma::piirraLauta(std::list<Siirto> siirrot) {
-	
-	for (Siirto s : siirrot) {
-		std::cout << std::to_string(s.getAlkuruutu().getRivi()) << std::endl;
+void Kayttoliittyma::piirraLautaF() {
+	for (Siirto kohta : _asema->listatorni) {
+		wcout << kohta.getLoppuruutu().getRivi() << " Rivi " << kohta.getLoppuruutu().getSarake() << " Sarake" << endl;
 	}
-	cout << "haloo2";
+	_setmode(_fileno(stdout), _O_U16TEXT);
+	for (int i = 0; i < 8; i++)
+	{
+		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_INTENSITY | BACKGROUND_RED |
+			BACKGROUND_GREEN | BACKGROUND_BLUE);
+
+		wcout << 8 - i << " ";
+		int index = 0;
+		for (int j = 0; j < 8; j++)
+		{
+			bool move = false;
+			for (Siirto kohta : _asema->listatorni) { //MUUTA TÄTÄ RIVIÄ TESTAAMISEEN
+				if (7 - i == kohta.getLoppuruutu().getRivi() && j == kohta.getLoppuruutu().getSarake()) {
+					move = true;
+					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_INTENSITY |
+						BACKGROUND_RED);
+					break;
+				}
+			}
+			if (i % 2 == 0 && !move) {
+				if (index % 2 != 0) SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_INTENSITY |
+					BACKGROUND_GREEN);
+				else SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_INTENSITY |
+					BACKGROUND_BLUE);
+			}
+			else if (!move) {
+				if (index % 2 == 0) SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_INTENSITY |
+					BACKGROUND_GREEN);
+				else SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_INTENSITY |
+					BACKGROUND_BLUE);
+			}
+			if (_asema->_lauta[7 - i][j] != NULL) {
+				wcout << " " << _asema->_lauta[7 - i][j]->getUnicode() << " ";
+			}
+			else {
+				wcout << "   ";
+			}
+			index++;
+		}
+		wcout << endl;
+	}
+	wcout << L"   A  B  C  D  E  F  G  H " << endl;
 }
 void Kayttoliittyma::piirraLauta()
 {

@@ -24,24 +24,38 @@ int main()
 	system("cls");
 	int koneenVari = peli.getKoneenVari();
 
-	Kuningas* kuningas = new Kuningas(L"\u2654", 0, VK);
-	Daami* daami = new Daami(L"\u2655", 0, VD);
-	Torni* torni = new Torni(L"\u2656", 0, VT);  //TOIMII
-	Lahetti* lahetti = new Lahetti(L"\u2657", 0, VL);
-	Ratsu* ratsu = new Ratsu(L"\u2658", 0, VR); //TOIMII
-	Sotilas* sotilas = new Sotilas(L"\u2659", 0, VS);
+	Kuningas* vkuningas = new Kuningas(L"\u2654", 0, VK);
+	Daami* vdaami = new Daami(L"\u2655", 0, VD);
+	Torni* vtorni = new Torni(L"\u2656", 0, VT);  //TOIMII
+	Lahetti* vlahetti = new Lahetti(L"\u2657", 0, VL);
+	Ratsu* vratsu = new Ratsu(L"\u2658", 0, VR); //TOIMII
+	Sotilas* vsotilas = new Sotilas(L"\u2659", 0, VS);
 
-	Ruutu* ruutu = new Ruutu(4, 7);
+	Kuningas* mkuningas = new Kuningas(L"\u265A", 1, MK);
+	Daami* mdaami = new Daami(L"\u265B", 1, MD);
+	Torni* mtorni = new Torni(L"\u265C", 1, MT);
+	Lahetti* mlahetti = new Lahetti(L"\u265D", 1, ML);
+	Ratsu* mratsu = new Ratsu(L"\u265E", 1, MR);
+	Sotilas* msotilas = new Sotilas(L"\u265F", 1, MS);
+
+
+	Ruutu* ruutu = new Ruutu(4, 4);
 	
-	asema.vs->annaSiirrot(lista, ruutu, &asema, asema.vs->getVari());
-	//    cout << asema.listasotilas.size();
-	for (Siirto kohta : asema.listasotilas) {
+	asema.vk->annaSiirrot(lista, ruutu, &asema, asema.vk->getVari()); //VALKOISEN TESTAUKSEEN
+	asema.vd->annaSiirrot(lista, ruutu, &asema, asema.vd->getVari()); 
+	asema.vt->annaSiirrot(lista, ruutu, &asema, asema.vt->getVari()); 
+	asema.vl->annaSiirrot(lista, ruutu, &asema, asema.vl->getVari()); 
+	asema.vr->annaSiirrot(lista, ruutu, &asema, asema.vr->getVari()); 
+	asema.vs->annaSiirrot(lista, ruutu, &asema, asema.vs->getVari()); 
 
-		wcout << kohta.getLoppuruutu().getRivi() << " Rivi " << kohta.getLoppuruutu().getSarake() << " Sarake" << endl;
+	/*asema.mk->annaSiirrot(lista, ruutu, &asema, asema.mk->getVari()); //MUSTAN TESTAUKSEEN
+	asema.md->annaSiirrot(lista, ruutu, &asema, asema.md->getVari());
+	asema.mt->annaSiirrot(lista, ruutu, &asema, asema.mt->getVari());
+	asema.ml->annaSiirrot(lista, ruutu, &asema, asema.ml->getVari());
+	asema.mr->annaSiirrot(lista, ruutu, &asema, asema.mr->getVari());
+	asema.ms->annaSiirrot(lista, ruutu, &asema, asema.ms->getVari());*/
 
-
-	}
-	//Kayttoliittyma::getInstance()->piirraLauta(lista);
+	Kayttoliittyma::getInstance()->piirraLautaF();
 	
 	
 	Kayttoliittyma::getInstance()->piirraLauta();
