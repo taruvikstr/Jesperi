@@ -33,10 +33,14 @@ int main()
 
 	Ruutu* ruutu = new Ruutu(4, 7);
 	
-	kuningas->annaSiirrot(lista, ruutu, &asema, asema.vk->getVari());
-	
-	cout << asema.listakunkku.size() << endl;
-	
+	asema.vs->annaSiirrot(lista, ruutu, &asema, asema.vs->getVari());
+	//    cout << asema.listasotilas.size();
+	for (Siirto kohta : asema.listasotilas) {
+
+		wcout << kohta.getLoppuruutu().getRivi() << " Rivi " << kohta.getLoppuruutu().getSarake() << " Sarake" << endl;
+
+
+	}
 	//Kayttoliittyma::getInstance()->piirraLauta(lista);
 	
 	
