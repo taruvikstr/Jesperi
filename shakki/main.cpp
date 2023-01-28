@@ -31,9 +31,9 @@ int main()
 //	asema.vk->annaSiirrot(lista, ruutu, &asema, asema.vk->getVari()); //VALKOISEN TESTAUKSEEN
 //	asema.vd->annaSiirrot(lista, ruutu, &asema, asema.vd->getVari()); 
 //	asema.vt->annaSiirrot(lista, ruutu, &asema, asema.vt->getVari()); 
-	asema.vl->annaSiirrot(lista, ruutu, &asema, asema.vl->getVari()); 
+//	asema.vl->annaSiirrot(lista, ruutu, &asema, asema.vl->getVari()); 
 //	asema.vr->annaSiirrot(lista, ruutu, &asema, asema.vr->getVari()); 
-//	asema.vs->annaSiirrot(lista, ruutu, &asema, asema.vs->getVari()); 
+	asema.vs->annaSiirrot(lista, ruutu, &asema, asema.vs->getVari()); 
 
 	/*asema.mk->annaSiirrot(lista, ruutu, &asema, asema.mk->getVari()); //MUSTAN TESTAUKSEEN
 	asema.md->annaSiirrot(lista, ruutu, &asema, asema.md->getVari());
@@ -42,7 +42,7 @@ int main()
 	asema.mr->annaSiirrot(lista, ruutu, &asema, asema.mr->getVari());
 	asema.ms->annaSiirrot(lista, ruutu, &asema, asema.ms->getVari());*/
 
-	Kayttoliittyma::getInstance()->piirraLautaF();
+	Kayttoliittyma::getInstance()->piirraLautaF(asema.listasotilas); //MUUTA TÄTÄ TESTAUKSEEN
 	
 	
 	Kayttoliittyma::getInstance()->piirraLauta();

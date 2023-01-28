@@ -20,8 +20,8 @@ Kayttoliittyma* Kayttoliittyma::getInstance()
 	
 }
 
-void Kayttoliittyma::piirraLautaF() {
-	for (Siirto kohta : _asema->listalahetti) {
+void Kayttoliittyma::piirraLautaF(std::list<Siirto> lista) {
+	for (Siirto kohta : lista) {
 		wcout << kohta.getLoppuruutu().getRivi() << " Rivi " << kohta.getLoppuruutu().getSarake() << " Sarake" << endl;
 	}
 	_setmode(_fileno(stdout), _O_U16TEXT);
@@ -35,7 +35,7 @@ void Kayttoliittyma::piirraLautaF() {
 		for (int j = 0; j < 8; j++)
 		{
 			bool move = false;
-			for (Siirto kohta : _asema->listalahetti) { //MUUTA TÄTÄ RIVIÄ TESTAAMISEEN
+			for (Siirto kohta : lista) { 
 				if (7 - i == kohta.getLoppuruutu().getRivi() && j == kohta.getLoppuruutu().getSarake()) {
 					move = true;
 					SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_INTENSITY |
