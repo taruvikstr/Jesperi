@@ -197,114 +197,106 @@ void Lahetti::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, 
 
     asema->_lauta[ruutu->getRivi()][ruutu->getSarake()] = this;
     int omaVari = this->getVari();
-    int rivi = ruutu->getRivi();
+    int rivi = ruutu->getRivi() ;
     int sarake = ruutu->getSarake();
 
-    for (int i = rivi; i <= 7; i++)
+    for (int i = rivi; i + 1 <= 7; i++)
     {
+        sarake++;
+        if (sarake > 7) break;
 
-        for (int j = sarake; j <= 7; j++)
+        else if (asema->_lauta[i+ 1][sarake] != NULL)
         {
-            if (asema->_lauta[rivi + i][sarake + j] != NULL)
+
+            if (omaVari == asema->_lauta[i + 1][sarake]->getVari())
             {
-
-                if (omaVari == asema->_lauta[rivi + i][sarake + j]->getVari())
-                {
-                    break;
-                }
-                else
-                {
-                    lista.push_back(Siirto(ruutu, new Ruutu(rivi + i, sarake + j)));
-                    break;
-                }
-
+                break;
             }
             else
             {
-                lista.push_back(Siirto(ruutu, new Ruutu(rivi + i, sarake + j)));
+                lista.push_back(Siirto(ruutu, new Ruutu(i + 1, sarake)));
+                break;
             }
 
         }
-    }
-
-    for (int i = rivi; i <= 7; i++)
-    {
-
-        for (int j = sarake; j >= 0; j--)
+        else
         {
-            /** if (asema->_lauta[rivi + i][sarake - j] != NULL)
-            {
-                if (omaVari == asema->_lauta[rivi + i][sarake - j]->getVari())
-                {
-                    break;
-                }
-                else
-                {
-                    lista.push_back(Siirto(ruutu, new Ruutu(rivi + i, sarake - j)));
-                    break;
-                }
-
-            }
-            else
-            {
-                lista.push_back(Siirto(ruutu, new Ruutu(rivi + i, sarake - j)));
-            } 
-            */
+            lista.push_back(Siirto(ruutu, new Ruutu(i + 1, sarake)));
         }
+
+        
     }
-    for (int i = rivi; i >= 0; i--)
+
+    for (int i = rivi; i - 1 >= 0; i--)
     {
-
-        for (int j = sarake; j <= 7; j++)
+        sarake++;
+        if (sarake > 7) break;
+        else if (asema->_lauta[i - 1][sarake] != NULL)
         {
-
-            if (asema->_lauta[rivi - i][sarake + j] != NULL)
+            if (omaVari == asema->_lauta[i - 1][sarake]->getVari())
             {
-
-                if (omaVari == asema->_lauta[rivi - i][sarake + j]->getVari())
-                {
-                    break;
-                }
-                else
-                {
-                    lista.push_back(Siirto(ruutu, new Ruutu(rivi - i, sarake + j)));
-                    break;
-                }
-
+                break;
             }
             else
             {
-                lista.push_back(Siirto(ruutu, new Ruutu(rivi - i, sarake + j)));
+                lista.push_back(Siirto(ruutu, new Ruutu(i - 1, sarake)));
+                break;
             }
 
         }
+        else
+        {
+            lista.push_back(Siirto(ruutu, new Ruutu(i - 1, sarake)));
+        }
+
     }
 
-    for (int i = rivi; i >= 0; i--)
+    for (int i = rivi; i + 1 <= 7; i++)
     {
-
-        for (int j = sarake; j >= 0; j--)
+        sarake--;
+        if (sarake < 0) break;
+        else if (asema->_lauta[i + 1][sarake] != NULL)
         {
 
-            if (asema->_lauta[rivi - i][sarake - j] != NULL)
+            if (omaVari == asema->_lauta[i + 1][sarake]->getVari())
             {
-
-                if (omaVari == asema->_lauta[rivi - i][sarake - j]->getVari())
-                {
-                    break;
-                }
-                else
-                {
-                    lista.push_back(Siirto(ruutu, new Ruutu(rivi - i, sarake - j)));
-                    break;
-                }
-
+                break;
             }
             else
             {
-                lista.push_back(Siirto(ruutu, new Ruutu(rivi - i, sarake - j)));
+                lista.push_back(Siirto(ruutu, new Ruutu(i + 1, sarake)));
+                break;
             }
 
+        }
+        else
+        {
+            lista.push_back(Siirto(ruutu, new Ruutu(i + 1, sarake)));
+        }
+
+    }
+
+    for (int i = rivi; i - 1 >= 0; i--)
+    {
+        sarake--;
+        if (sarake < 0) break;
+        else if (asema->_lauta[i - 1][sarake] != NULL)
+        {
+
+            if (omaVari == asema->_lauta[i - 1][sarake]->getVari())
+            {
+                break;
+            }
+            else
+            {
+                lista.push_back(Siirto(ruutu, new Ruutu(i - 1, sarake)));
+                break;
+            }
+
+        }
+        else
+        {
+            lista.push_back(Siirto(ruutu, new Ruutu(i - 1, sarake)));
         }
 
     }
