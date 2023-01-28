@@ -438,8 +438,9 @@ void Asema::annaLaillisetSiirrot(std::list<Siirto>& lista) {
 			this->_lauta[i][j]->annaSiirrot(lista, &Ruutu(i,j), this, vari);
 		}
 	}
-	this->annaLinnoitusSiirrot(lista, vari);
-	this->huolehdiKuninkaanShakeista(lista, vari);
+	
+//	this->annaLinnoitusSiirrot(lista, vari);
+	//this->huolehdiKuninkaanShakeista(lista, vari);
 	
 
 }

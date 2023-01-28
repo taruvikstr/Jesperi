@@ -20,7 +20,13 @@ Kayttoliittyma* Kayttoliittyma::getInstance()
 	
 }
 
-
+void Kayttoliittyma::piirraLauta(std::list<Siirto> siirrot) {
+	
+	for (Siirto s : siirrot) {
+		std::cout << std::to_string(s.getAlkuruutu().getRivi()) << std::endl;
+	}
+	cout << "haloo2";
+}
 void Kayttoliittyma::piirraLauta()
 {
 	_setmode(_fileno(stdout), _O_U16TEXT);

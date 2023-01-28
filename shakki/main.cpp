@@ -24,11 +24,24 @@ int main()
 	system("cls");
 	int koneenVari = peli.getKoneenVari();
 
+
+	Ruutu* ruutu = new Ruutu(1, 5);
+	
+	asema.vs->annaSiirrot(lista, ruutu, &asema, asema.vs->getVari());
+	cout << asema.listasotilas.size();
+	
+	//Kayttoliittyma::getInstance()->piirraLauta(lista);
+	for (Siirto x : asema.listasotilas) {
+		std::cout << x.getAlkuruutu().getRivi() << " ";
+		std::cout << x.getAlkuruutu().getSarake() << std::endl;
+	}
+
 	Kayttoliittyma::getInstance()->piirraLauta();
 
 	Siirto siirto = Kayttoliittyma::getInstance()->
 			annaVastustajanSiirto();
 		asema.paivitaAsema(&siirto);
+
 		Kayttoliittyma::getInstance()->piirraLauta();
 
 		siirto = Kayttoliittyma::getInstance()->
