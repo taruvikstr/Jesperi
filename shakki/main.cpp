@@ -2,7 +2,7 @@
 #include <Windows.h>
 #include <io.h>
 #include <fcntl.h>
-#include <iostream>
+#include <ostream>
 #include <string>
 #include "kayttoliittyma.h"
 #include "Siirto.h"
@@ -24,18 +24,22 @@ int main()
 	system("cls");
 	int koneenVari = peli.getKoneenVari();
 
+	Kuningas* kuningas = new Kuningas(L"\u2654", 0, VK);
+	Daami* daami = new Daami(L"\u2655", 0, VD);
+	Torni* torni = new Torni(L"\u2656", 0, VT);  //TOIMII
+	Lahetti* lahetti = new Lahetti(L"\u2657", 0, VL);
+	Ratsu* ratsu = new Ratsu(L"\u2658", 0, VR); //TOIMII
+	Sotilas* sotilas = new Sotilas(L"\u2659", 0, VS);
 
-	Ruutu* ruutu = new Ruutu(1, 5);
+	Ruutu* ruutu = new Ruutu(4, 7);
 	
-	asema.vs->annaSiirrot(lista, ruutu, &asema, asema.vs->getVari());
-	cout << asema.listasotilas.size();
+	kuningas->annaSiirrot(lista, ruutu, &asema, asema.vk->getVari());
+	
+	cout << asema.listakunkku.size() << endl;
 	
 	//Kayttoliittyma::getInstance()->piirraLauta(lista);
-	for (Siirto x : asema.listasotilas) {
-		std::cout << x.getAlkuruutu().getRivi() << " ";
-		std::cout << x.getAlkuruutu().getSarake() << std::endl;
-	}
-
+	
+	
 	Kayttoliittyma::getInstance()->piirraLauta();
 
 	Siirto siirto = Kayttoliittyma::getInstance()->

@@ -48,6 +48,7 @@ public:
 	int getVari()							{ return _vari;					}
 	int getKoodi()							{ return _koodi;				}
 	void setKoodi(int koodi)				{ _koodi = koodi;				}
+
 };
 
 // Torni-aliluokka. Virtuaalinen perint� tarkoittaa, ett� kantaluokka perit��n moniperinn�ss� vain kerran
@@ -55,10 +56,8 @@ public:
 class Torni : public virtual Nappula {
 public:
 	Torni(std::wstring unicode, int vari, int koodi) : Nappula(unicode, vari, koodi) {}
-	void annaSiirrot(std::list<Siirto>& lista, Ruutu*, Asema*, int vari);
-	
-};
-
+		void annaSiirrot(std::list<Siirto>&lista, Ruutu*, Asema*, int vari);
+	};
 // Ratsu-aliluokka.
 class Ratsu : public Nappula {
 public:
