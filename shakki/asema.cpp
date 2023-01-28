@@ -47,15 +47,15 @@ Asema::Asema()
 	_lauta[7][2] = ml;
 	_lauta[7][3] = md;
 	_lauta[7][4] = mk;
-	_lauta[7][5] = ml;
-	_lauta[7][6] = mr;
+	_lauta[4][5] = ml;
+	_lauta[4][4] = mr;
 	_lauta[7][7] = mt;
 
 	for (int i = 0; i < 8; i++) {
 		_lauta[1][i] = vs;
-		_lauta[6][i] = ms;
+		_lauta[5][i] = ms;
 	}
-
+	
 	_siirtovuoro = 0;
 	_onkoValkeaKuningasLiikkunut = false;
 	_onkoMustaKuningasLiikkunut = false;
