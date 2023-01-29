@@ -26,21 +26,23 @@ int main()
 
 
 
-	Ruutu* ruutu = new Ruutu(4, 4);
-	
-//	asema.vk->annaSiirrot(lista, ruutu, &asema, asema.vk->getVari()); //VALKOISEN TESTAUKSEEN
-//	asema.vd->annaSiirrot(lista, ruutu, &asema, asema.vd->getVari()); 
-//	asema.vt->annaSiirrot(lista, ruutu, &asema, asema.vt->getVari()); 
-//	asema.vl->annaSiirrot(lista, ruutu, &asema, asema.vl->getVari()); 
-//	asema.vr->annaSiirrot(lista, ruutu, &asema, asema.vr->getVari()); 
-	asema.vs->annaSiirrot(lista, ruutu, &asema, asema.vs->getVari()); 
+	Ruutu* ruutu = new Ruutu(1, 6); //VAIHDA TESTI NAPPULAN SIJAINTIA LAUDALLA
 
-	/*asema.mk->annaSiirrot(lista, ruutu, &asema, asema.mk->getVari()); //MUSTAN TESTAUKSEEN
-	asema.md->annaSiirrot(lista, ruutu, &asema, asema.md->getVari());
-	asema.mt->annaSiirrot(lista, ruutu, &asema, asema.mt->getVari());
-	asema.ml->annaSiirrot(lista, ruutu, &asema, asema.ml->getVari());
-	asema.mr->annaSiirrot(lista, ruutu, &asema, asema.mr->getVari());
-	asema.ms->annaSiirrot(lista, ruutu, &asema, asema.ms->getVari());*/
+	//VALKOISEN TESTAUKSEEN	
+	//asema.vk->annaSiirrot(lista, ruutu, &asema, asema.vk->getVari()); //testattu
+//	asema.vd->annaSiirrot(lista, ruutu, &asema, asema.vd->getVari());  
+//	asema.vt->annaSiirrot(lista, ruutu, &asema, asema.vt->getVari());  //testattu
+//	asema.vl->annaSiirrot(lista, ruutu, &asema, asema.vl->getVari()); 
+//	asema.vr->annaSiirrot(lista, ruutu, &asema, asema.vr->getVari());  //testattu
+//	asema.vs->annaSiirrot(lista, ruutu, &asema, asema.vs->getVari()); 
+	
+//MUSTAN TESTAUKSEEN
+//	asema.mk->annaSiirrot(lista, ruutu, &asema, asema.mk->getVari());  //testattu
+//	asema.md->annaSiirrot(lista, ruutu, &asema, asema.md->getVari());
+//	asema.mt->annaSiirrot(lista, ruutu, &asema, asema.mt->getVari()); //testattu
+//	asema.ml->annaSiirrot(lista, ruutu, &asema, asema.ml->getVari());
+//	asema.mr->annaSiirrot(lista, ruutu, &asema, asema.mr->getVari()); //testattu
+	asema.ms->annaSiirrot(lista, ruutu, &asema, asema.ms->getVari());
 
 	Kayttoliittyma::getInstance()->piirraLautaF(asema.listasotilas); //MUUTA TÄTÄ TESTAUKSEEN
 	

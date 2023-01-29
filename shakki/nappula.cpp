@@ -326,31 +326,84 @@ void Kuningas::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema,
     asema->_lauta[ruutu->getRivi()][ruutu->getSarake()] = this;
     int omaVari = this->getVari();
 
-    //katsoo kuninkaan yläpuolella olevan rivin
-    for (int i = -1; i < 1; i++) {
-        if (ruutu->getRivi() + 1 <= 7) {
-            if (asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake() + i] != NULL) {
-                if (omaVari != asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake() + i]->getVari()) {
-                    lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 1, ruutu->getSarake() + i)));
-                }
+    //yläpuolella oleva rivi
+    //ylävasen
+    if (ruutu->getRivi() + 1 <= 7 && ruutu->getSarake() - 1 >= 0) {
+        //toinen nappula ruudussa
+        if (asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake() - 1] != NULL) {
+            //toinen nappula eri väriä
+            if (omaVari != asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake() - 1]->getVari()) {
+                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 1, ruutu->getSarake() - 1)));
             }
-            else {
-                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 1, ruutu->getSarake() + i)));
-            }
+        }//tyhjä ruutu
+        else {
+            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 1, ruutu->getSarake() - 1)));
         }
-        
+    }
+    //suoraan yläpuolella
+    if (ruutu->getRivi() + 1 <= 7) {
+        //toinen nappula ruudussa
+        if (asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake()] != NULL) {
+            //toinen nappula eri väriä
+            if (omaVari != asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake()]->getVari()) {
+                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 1, ruutu->getSarake())));
+            }
+        }//tyhjä ruutu
+        else {
+            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 1, ruutu->getSarake())));
+        }
+    }
+    //yläoikea
+    if (ruutu->getRivi() + 1 >= 0 && ruutu->getSarake() + 1 <= 7) {
+        //toinen nappula ruudussa
+        if (asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake() + 1] != NULL) {
+            //toinen nappula eri väriä
+            if (omaVari != asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake() + 1]->getVari()) {
+                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 1, ruutu->getSarake() + 1)));
+            }
+        }//tyhjä ruutu
+        else {
+            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 1, ruutu->getSarake() + 1)));
+        }
     }
     //alapuolella oleva rivi
-    for (int i = -1; i < 1; i++) {
-        if (ruutu->getRivi() - 1 >= 0) {
-            if (asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake() + i] != NULL) {
-                if (omaVari != asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake() + i]->getVari()) {
-                    lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 1, ruutu->getSarake() + i)));
-                }
+    //alavasen
+    if (ruutu->getRivi() - 1 >= 0 && ruutu->getSarake() - 1 >= 0) {
+        //toinen nappula ruudussa
+        if (asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake() - 1] != NULL) {
+            //toinen nappula eri väriä
+            if (omaVari != asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake() - 1]->getVari()) {
+                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 1, ruutu->getSarake() - 1)));
             }
-            else {
-                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 1, ruutu->getSarake() + i)));
+        }//tyhjä ruutu
+        else {
+            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 1, ruutu->getSarake() - 1)));
+        }
+    }
+    //suoraan alapuolella
+    if (ruutu->getRivi() - 1 >= 0) {
+        //toinen nappula ruudussa
+        if (asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake()] != NULL) {
+            //toinen nappula eri väriä
+            if (omaVari != asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake()]->getVari()) {
+                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 1, ruutu->getSarake())));
             }
+        }//tyhjä ruutu
+        else {
+            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 1, ruutu->getSarake())));
+        }
+    }
+    //alaoikea
+    if (ruutu->getRivi() - 1 >= 0 && ruutu->getSarake() +1 <= 7) {
+        //toinen nappula ruudussa
+        if (asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake() + 1] != NULL) {
+            //toinen nappula eri väriä
+            if (omaVari != asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake() + 1]->getVari()) {
+                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 1, ruutu->getSarake() + 1)));
+            }
+        }//tyhjä ruutu
+        else {
+            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 1, ruutu->getSarake() + 1)));
         }
     }
     //onko vasemmalla 
