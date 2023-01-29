@@ -226,6 +226,7 @@ void Lahetti::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, 
 
         
     }
+    sarake = ruutu->getSarake();
 
     for (int i = rivi; i - 1 >= 0; i--)
     {
@@ -250,6 +251,8 @@ void Lahetti::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, 
         }
 
     }
+
+    sarake = ruutu->getSarake();
 
     for (int i = rivi; i + 1 <= 7; i++)
     {
@@ -276,6 +279,7 @@ void Lahetti::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, 
 
     }
 
+    sarake = ruutu->getSarake();
     for (int i = rivi; i - 1 >= 0; i--)
     {
         sarake--;

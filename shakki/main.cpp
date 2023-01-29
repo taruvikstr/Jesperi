@@ -26,13 +26,13 @@ int main()
 
 
 
-	Ruutu* ruutu = new Ruutu(1, 6); //VAIHDA TESTI NAPPULAN SIJAINTIA LAUDALLA
+	Ruutu* ruutu = new Ruutu(2, 3); //VAIHDA TESTI NAPPULAN SIJAINTIA LAUDALLA
 
 	//VALKOISEN TESTAUKSEEN	
 	//asema.vk->annaSiirrot(lista, ruutu, &asema, asema.vk->getVari()); //testattu
 //	asema.vd->annaSiirrot(lista, ruutu, &asema, asema.vd->getVari());  
 //	asema.vt->annaSiirrot(lista, ruutu, &asema, asema.vt->getVari());  //testattu
-//	asema.vl->annaSiirrot(lista, ruutu, &asema, asema.vl->getVari()); 
+//	asema.vl->annaSiirrot(lista, ruutu, &asema, asema.vl->getVari()); // testattu
 //	asema.vr->annaSiirrot(lista, ruutu, &asema, asema.vr->getVari());  //testattu
 //	asema.vs->annaSiirrot(lista, ruutu, &asema, asema.vs->getVari()); 
 	
@@ -40,11 +40,11 @@ int main()
 //	asema.mk->annaSiirrot(lista, ruutu, &asema, asema.mk->getVari());  //testattu
 //	asema.md->annaSiirrot(lista, ruutu, &asema, asema.md->getVari());
 //	asema.mt->annaSiirrot(lista, ruutu, &asema, asema.mt->getVari()); //testattu
-//	asema.ml->annaSiirrot(lista, ruutu, &asema, asema.ml->getVari());
+	asema.ml->annaSiirrot(lista, ruutu, &asema, asema.ml->getVari()); //testattu
 //	asema.mr->annaSiirrot(lista, ruutu, &asema, asema.mr->getVari()); //testattu
-	asema.ms->annaSiirrot(lista, ruutu, &asema, asema.ms->getVari());
+//	asema.ms->annaSiirrot(lista, ruutu, &asema, asema.ms->getVari());
 
-	Kayttoliittyma::getInstance()->piirraLautaF(asema.listasotilas); //MUUTA TÄTÄ TESTAUKSEEN
+	Kayttoliittyma::getInstance()->piirraLautaF(asema.listalahetti); //MUUTA TÄTÄ TESTAUKSEEN
 	
 	
 	Kayttoliittyma::getInstance()->piirraLauta();
