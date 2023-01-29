@@ -99,93 +99,97 @@ void Torni::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, in
 }
 
 void Ratsu::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari) {
+
     asema->_lauta[ruutu->getRivi()][ruutu->getSarake()] = this;
     int omaVari = this->getVari();
-    if (ruutu->getRivi() + 2 <= 7 && ruutu->getSarake() + 1 <=  7)
+    int rivi = ruutu->getRivi();
+    int sarake = ruutu->getSarake();
+
+    if (rivi + 2 <= 7 && sarake + 1 <=  7) // 2 riviä ylös, 1 sarake oikealle
     {
-        if (asema->_lauta[ruutu->getRivi() + 2][ruutu->getSarake() + 1] != NULL) {
-            if (omaVari != asema->_lauta[ruutu->getRivi() + 2][ruutu->getSarake() + 1]->getVari())
-                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 2, ruutu->getSarake() + 1)));
+        if (asema->_lauta[rivi + 2][sarake + 1] != NULL) {
+            if (omaVari != asema->_lauta[rivi + 2][sarake + 1]->getVari())
+                lista.push_back(Siirto(*ruutu, Ruutu(rivi + 2, sarake + 1)));
         }else
         {
-            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 2, ruutu->getSarake() + 1)));
+            lista.push_back(Siirto(*ruutu, Ruutu(rivi + 2, sarake + 1)));
         }
     }
 
-    if (ruutu->getRivi()  + 2 <= 7 && ruutu->getSarake() - 1 >= 0)
+    if (rivi + 2 <= 7 && sarake - 1 >= 0) // kaksi riviä ylös, yksi sarake vasemmalle
     {
-        if (asema->_lauta[ruutu->getRivi() + 2][ruutu->getSarake() - 1] != NULL) {
-            if (omaVari != asema->_lauta[ruutu->getRivi() + 2][ruutu->getSarake() - 1]->getVari())
-                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 2, ruutu->getSarake() - 1)));
+        if (asema->_lauta[rivi + 2][sarake - 1] != NULL) {
+            if (omaVari != asema->_lauta[rivi + 2][sarake - 1]->getVari())
+                lista.push_back(Siirto(*ruutu, Ruutu(rivi + 2, sarake - 1)));
         }else
         {
-            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 2, ruutu->getSarake() - 1)));
+            lista.push_back(Siirto(*ruutu, Ruutu(rivi + 2, sarake - 1)));
         }
     }
 
-    if (ruutu->getRivi() - 2 >= 0 && ruutu->getSarake() + 1 <= 7)
+    if (rivi - 2 >= 0 && sarake + 1 <= 7) // kaksi riviä alas, yksi sarake oikealle
     {
-        if (asema->_lauta[ruutu->getRivi() - 2][ruutu->getSarake() + 1] != NULL) {
-            if (omaVari != asema->_lauta[ruutu->getRivi() - 2][ruutu->getSarake() + 1]->getVari())
-                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 2, ruutu->getSarake() + 1)));
+        if (asema->_lauta[rivi - 2][sarake + 1] != NULL) {
+            if (omaVari != asema->_lauta[rivi - 2][sarake + 1]->getVari())
+                lista.push_back(Siirto(*ruutu, Ruutu(rivi - 2, sarake + 1)));
         }else
         {
-            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 2, ruutu->getSarake() + 1)));
+            lista.push_back(Siirto(*ruutu, Ruutu(rivi - 2, sarake + 1)));
         }
     }
 
-    if (ruutu->getRivi() - 2 >= 0 && ruutu->getSarake() - 1 >= 0)
+    if (rivi - 2 >= 0 && sarake - 1 >= 0) // kaksi riviä alas, yksi sarake vasemmalle
     {
-        if (asema->_lauta[ruutu->getRivi() - 2][ruutu->getSarake() - 1] != NULL) {
-            if (omaVari != asema->_lauta[ruutu->getRivi() - 2][ruutu->getSarake() - 1]->getVari())
-                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 2, ruutu->getSarake() - 1)));
+        if (asema->_lauta[rivi - 2][sarake - 1] != NULL) {
+            if (omaVari != asema->_lauta[rivi - 2][sarake - 1]->getVari())
+                lista.push_back(Siirto(*ruutu, Ruutu(rivi - 2, sarake - 1)));
         }else
         {
-            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 2, ruutu->getSarake() - 1)));
+            lista.push_back(Siirto(*ruutu, Ruutu(rivi - 2, sarake - 1)));
         }
     }
 
-    if (ruutu->getRivi() + 1 <= 7 && ruutu->getSarake() + 2 <= 7)
+    if (rivi + 1 <= 7 && sarake + 2 <= 7) // yksi rivi ylös, kaksi saraketta oikealle
     {
-        if (asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake() + 2] != NULL) {
-            if (omaVari != asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake() + 2]->getVari())
-                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 1, ruutu->getSarake() + 2)));
+        if (asema->_lauta[rivi + 1][sarake + 2] != NULL) {
+            if (omaVari != asema->_lauta[rivi + 1][sarake + 2]->getVari())
+                lista.push_back(Siirto(*ruutu, Ruutu(rivi + 1, sarake + 2)));
         }else
         {
-            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 1, ruutu->getSarake() + 2)));
+            lista.push_back(Siirto(*ruutu, Ruutu(rivi + 1, sarake + 2)));
         }
     }
 
-    if (ruutu->getRivi() + 1 <= 7 && ruutu->getSarake() - 2 >= 0)
+    if (rivi + 1 <= 7 && sarake - 2 >= 0) // yksi rivi ylös, kaksi saraketta vasemmalle
     {
-        if (asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake() - 2] != NULL) {
-            if (omaVari != asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake() - 2]->getVari())
-                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 1, ruutu->getSarake() - 2)));
+        if (asema->_lauta[rivi + 1][sarake - 2] != NULL) {
+            if (omaVari != asema->_lauta[rivi + 1][sarake - 2]->getVari())
+                lista.push_back(Siirto(*ruutu, Ruutu(rivi + 1, sarake - 2)));
         }else
         {
-            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 1, ruutu->getSarake() - 2)));
+            lista.push_back(Siirto(*ruutu, Ruutu(rivi + 1, sarake - 2)));
         }
     }
 
-    if (ruutu->getRivi() - 1 >= 0 && ruutu->getSarake() + 2 <= 7)
+    if (rivi - 1 >= 0 && sarake + 2 <= 7) // yksi rivi alas, kaksi saraketta oikealle
     {
-        if (asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake() + 2] != NULL) {
-            if (omaVari != asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake() + 2]->getVari())
-                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 1, ruutu->getSarake() + 2)));
+        if (asema->_lauta[rivi - 1][sarake + 2] != NULL) {
+            if (omaVari != asema->_lauta[rivi - 1][sarake + 2]->getVari())
+                lista.push_back(Siirto(*ruutu, Ruutu(rivi - 1, sarake + 2)));
         }else
         {
-            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 1, ruutu->getSarake() + 2)));
+            lista.push_back(Siirto(*ruutu, Ruutu(rivi - 1, sarake + 2)));
         }
     }
 
-    if (ruutu->getRivi() - 1 >= 0 && ruutu->getSarake() - 2 >= 0)
+    if (rivi - 1 >= 0 && sarake - 2 >= 0) // yksi rivi alas, kaksi saraketta vasemmalle
     {
-        if (asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake() - 2] != NULL) {
-            if (omaVari != asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake() - 2]->getVari())
-                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 1, ruutu->getSarake() - 2)));
+        if (asema->_lauta[rivi - 1][sarake - 2] != NULL) {
+            if (omaVari != asema->_lauta[rivi - 1][sarake - 2]->getVari())
+                lista.push_back(Siirto(*ruutu, Ruutu(rivi - 1, sarake - 2)));
         }else
         {
-            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 1, ruutu->getSarake() - 2)));
+            lista.push_back(Siirto(*ruutu, Ruutu(rivi - 1, sarake - 2)));
         }
     }
     asema->listaratsu.assign(lista.begin(), lista.end());
