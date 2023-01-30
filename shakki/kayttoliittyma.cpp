@@ -165,8 +165,8 @@ Siirto Kayttoliittyma::annaVastustajanSiirto() {
 		}
 	} while (!isValid);
 	// create move object and return it
-	Ruutu alkuRuutu(alkuX, alkuY);
-	Ruutu loppuRuutu(loppuX, loppuY);
+	Ruutu alkuRuutu(alkuY, alkuX);
+	Ruutu loppuRuutu(loppuY, loppuX);
 	Siirto siirto(alkuRuutu, loppuRuutu);
 	return siirto;
 }
