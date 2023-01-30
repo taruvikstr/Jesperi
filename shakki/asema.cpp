@@ -52,8 +52,8 @@ Asema::Asema()
 	_lauta[7][7] = mt;
 
 	for (int i = 0; i < 8; i++) {
-		_lauta[1][i] = vs;
-		_lauta[5][i] = ms;
+		_lauta[3][i] = vs;
+		_lauta[4][i] = ms;
 	}
 	
 	_siirtovuoro = 0;

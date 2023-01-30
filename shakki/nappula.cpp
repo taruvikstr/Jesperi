@@ -485,21 +485,6 @@ void Sotilas::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, 
             }
         }
 
-        // Ohestalyönti on tyhjään ruutuun.
-       //valkoinen tekee ohesta lyönnin, jos ohesta lyönti mahdollinen ja aloitusruudun jommalla kummalla puolella on sotilas      
-       //oikealla puolella oleva musta sotilas
-        if (asema->kaksoisaskelSarakkeella == 1 && asema->_lauta[rivi][sarake - 1] != NULL
-            && asema->_lauta[rivi][sarake - 1]->getVari() != omaVari)
-        {
-            asema->_lauta[rivi + 1][sarake - 1];
-        }
-        //vasemmalla puolella oleva musta sotilas
-        if (asema->kaksoisaskelSarakkeella == 1 && asema->_lauta[rivi][sarake + 1] != NULL
-            && asema->_lauta[rivi][sarake + 1]->getVari() != omaVari)
-        {
-            asema->_lauta[rivi + 1][sarake + 1];
-        }
-
     }
     if (omaVari == 1) {
         //mustan kaksoisaskel
@@ -536,21 +521,17 @@ void Sotilas::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, 
                 lisaaSotilaanKorotukset(&Siirto(*ruutu, Ruutu(rivi - 1, sarake)), lista, asema);
             }
         }
-
-        // Ohestalyönti on tyhjään ruutuun.
-            //musta tekee ohesta lyönnin, jos ohesta lyönti mahdollinen ja aloitusruudun jommalla kummalla puolella on sotilas      
-            //oikealla puolella oleva valkoinen sotilas
-        if (asema->kaksoisaskelSarakkeella == 0 && asema->_lauta[rivi][sarake - 1] != NULL
-            && asema->_lauta[rivi][sarake - 1]->getVari() != omaVari)
-        {
-            asema->_lauta[rivi - 1][sarake - 1];
+    }
+    // Ohestalyönti on tyhjään ruutuun.
+    if (asema->kaksoisaskelSarakkeella != -1 && abs(sarake - asema->kaksoisaskelSarakkeella) == 1)
+    {
+        if (omaVari == 0 && rivi == 4) {
+            lista.push_back(Siirto(*ruutu, Ruutu(5, asema->kaksoisaskelSarakkeella)));
         }
-        //vasemmalla puolella oleva valkoinen sotilas
-        if (asema->kaksoisaskelSarakkeella == 0 && asema->_lauta[rivi][sarake + 1] != NULL
-            && asema->_lauta[rivi][sarake + 1]->getVari() != omaVari)
-        {
-            asema->_lauta[rivi - 1][sarake + 1];
+        if (omaVari == 1 && rivi == 3) {
+            lista.push_back(Siirto(*ruutu, Ruutu(2, asema->kaksoisaskelSarakkeella)));
         }
+   
     }
     asema->listasotilas.assign(lista.begin(), lista.end());
 }
