@@ -26,8 +26,8 @@ int main()
 
 
 
-	Ruutu* ruutu = new Ruutu(1, 2); //VAIHDA TESTI NAPPULAN SIJAINTIA LAUDALLA
-	asema.kaksoisaskelSarakkeella = 3;
+	Ruutu* ruutu = new Ruutu(2, 1); //VAIHDA TESTI NAPPULAN SIJAINTIA LAUDALLA
+	asema.kaksoisaskelSarakkeella = 2;
 	//VALKOISEN TESTAUKSEEN	
 	//asema.vk->annaSiirrot(lista, ruutu, &asema, asema.vk->getVari()); //testattu
 //	asema.vd->annaSiirrot(lista, ruutu, &asema, asema.vd->getVari());  //testattu
