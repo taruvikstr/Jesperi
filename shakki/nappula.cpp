@@ -478,10 +478,10 @@ void Sotilas::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, 
         //suoraan ylös oleva kohta tyhjä
         if (asema->_lauta[rivi + 1][sarake] == NULL) {
             if (rivi < 6) {
-                lista.push_back(Siirto(*ruutu, Ruutu(rivi, sarake + 1)));
+                lista.push_back(Siirto(*ruutu, Ruutu(rivi + 1, sarake)));
             }
             else {
-                lisaaSotilaanKorotukset(&Siirto(*ruutu, Ruutu(rivi, sarake + 1)), lista, asema);
+                lisaaSotilaanKorotukset(&Siirto(*ruutu, Ruutu(rivi + 1, sarake)), lista, asema);
             }
         }
 
