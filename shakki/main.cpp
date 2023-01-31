@@ -53,6 +53,10 @@ int main()
 			annaVastustajanSiirto();
 		asema.paivitaAsema(&siirto);
 
+		wcout << "pitkä linna: " << siirto.onkoPitkalinna();
+		wcout << "lyhyt linna: " << siirto.onkoLyhytLinna();
+
+
 		Kayttoliittyma::getInstance()->piirraLauta();
 
 		siirto = Kayttoliittyma::getInstance()->

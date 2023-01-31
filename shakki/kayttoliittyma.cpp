@@ -123,13 +123,23 @@ Siirto Kayttoliittyma::annaVastustajanSiirto() {
 	string inputString;
 	bool isValid = false;
 
+
 	// give opponents move
 	do {
 		wcout << "Give your move: ";
 		cin >> inputString;
-
+		if (inputString == "O-O")
+		{
+			Siirto siirto(true, false);
+			return siirto;
+		}
+		else if (inputString == "O-O-O")
+		{
+			Siirto siirto(false, true);
+			return siirto;
+		}
 		// check input length
-		if (inputString.length() != 6 && inputString.length() != 5) {
+		else if (inputString.length() != 6 && inputString.length() != 5) {
 			wcout << "Invalid move format. Example: e2-e4 or e7e5 A" + inputString.length();
 			continue;
 		}
