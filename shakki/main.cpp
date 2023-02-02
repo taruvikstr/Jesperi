@@ -45,46 +45,47 @@ int main()
 //	asema.ms->annaSiirrot(lista, ruutu, &asema, asema.ms->getVari());
 
 //	Kayttoliittyma::getInstance()->piirraLautaF(asema.listasotilas); //MUUTA TÄTÄ TESTAUKSEEN
+	//
+	//Kayttoliittyma::getInstance()->piirraLauta();
+	//
+	//Siirto siirto = Kayttoliittyma::getInstance()->
+	//		annaVastustajanSiirto();
+	//asema.annaLaillisetSiirrot(lista);
+	//	asema.paivitaAsema(&siirto);
+	//	
+
+	//	wcout << "pitkä linna: " << siirto.onkoPitkalinna();
+	//	wcout << "lyhyt linna: " << siirto.onkoLyhytLinna();
+
+
+	//	Kayttoliittyma::getInstance()->piirraLauta();
+
+	//	siirto = Kayttoliittyma::getInstance()->
+	//		annaVastustajanSiirto();
+	//	asema.paivitaAsema(&siirto);
+	//	Kayttoliittyma::getInstance()->piirraLauta();
+	//	siirto = Kayttoliittyma::getInstance()->
+	//		annaVastustajanSiirto();
+	//	asema.paivitaAsema(&siirto);
+	//	Kayttoliittyma::getInstance()->piirraLauta();
+	//	siirto = Kayttoliittyma::getInstance()->
+	//		annaVastustajanSiirto();
+	//	asema.paivitaAsema(&siirto);
+	//	Kayttoliittyma::getInstance()->piirraLauta();
 	
-	Kayttoliittyma::getInstance()->piirraLauta();
-	
-	Siirto siirto = Kayttoliittyma::getInstance()->
-			annaVastustajanSiirto();
-	asema.annaLaillisetSiirrot(lista);
-		asema.paivitaAsema(&siirto);
-		
-
-		wcout << "pitkä linna: " << siirto.onkoPitkalinna();
-		wcout << "lyhyt linna: " << siirto.onkoLyhytLinna();
-
-
-		Kayttoliittyma::getInstance()->piirraLauta();
-
-		siirto = Kayttoliittyma::getInstance()->
-			annaVastustajanSiirto();
-		asema.paivitaAsema(&siirto);
-		Kayttoliittyma::getInstance()->piirraLauta();
-		siirto = Kayttoliittyma::getInstance()->
-			annaVastustajanSiirto();
-		asema.paivitaAsema(&siirto);
-		Kayttoliittyma::getInstance()->piirraLauta();
-		siirto = Kayttoliittyma::getInstance()->
-			annaVastustajanSiirto();
-		asema.paivitaAsema(&siirto);
-		Kayttoliittyma::getInstance()->piirraLauta();
-	
-	/*while (lopetus != 0) {
+	while (lopetus != 0) {
 		lista.clear();
 		Kayttoliittyma::getInstance()->piirraLauta();
 		wcout << "\n";
 		// Tarkasta onko peli loppu?
 		asema.annaLaillisetSiirrot(lista);
+		Kayttoliittyma::getInstance()->piirraLautaF(lista);
 		if (lista.size() == 0) {
 			lopetus = 0;
 			std::wcout << "Peli loppui";
 			continue;
-		}*/
-		/*Siirto siirto;
+		}
+		Siirto siirto;
 		if (asema.getSiirtovuoro() == koneenVari) {
 			MinMaxPaluu paluu;
 			if (koneenVari == 0) {
@@ -99,9 +100,10 @@ int main()
 			siirto = Kayttoliittyma::getInstance()->
 				annaVastustajanSiirto();
 		}
-		asema.paivitaAsema(&siirto);*/
-	
-	return 0;
-	
+		asema.paivitaAsema(&siirto);
 
+		
+	}
+
+	return 0;
 }

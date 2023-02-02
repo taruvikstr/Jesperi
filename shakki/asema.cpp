@@ -48,7 +48,7 @@ Asema::Asema()
 	_lauta[7][3] = md;
 	_lauta[7][4] = mk;
 	_lauta[7][5] = ml;
-	_lauta[7][4] = mr;
+	_lauta[7][6] = mr;
 	_lauta[7][7] = mt;
 
 	for (int i = 0; i < 8; i++) {
@@ -488,7 +488,7 @@ void Asema::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, int vari)
 		}
 		else {
 			Nappula* siirtyva = this->_lauta[s.getAlkuruutu().getSarake()][s.getAlkuruutu().getRivi()];
-			if (siirtyva->getKoodi() == VK || siirtyva->getKoodi() == MK) {
+			if (siirtyva->getKoodi() == VK && siirtyva->getKoodi() != NULL  || siirtyva->getKoodi() == MK && siirtyva->getKoodi() != NULL ) {
 				x = s.getLoppuruutu().getSarake();
 				y = s.getLoppuruutu().getRivi();
 			}
@@ -497,7 +497,7 @@ void Asema::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, int vari)
 				y = Y;
 			}
 		}
-		if (testiAsema.onkoRuutuUhattu(&Ruutu(x, y), !vari) == true){
+		if (testiAsema.onkoRuutuUhattu(&Ruutu(x, y), vari) == true){
 			siivottuSiirtolista.push_back(s);
 		}
 	}
@@ -509,16 +509,16 @@ void Asema::annaLinnoitusSiirrot(std::list<Siirto>& lista, int vari) {
 	if (vari == 0) {
 		//Valkean lyhyt linna
 		if (!this->getOnkoMustaKuningasLiikkunut() && !this->getOnkoValkeaKTliikkunut()
-			&& this->onkoRuutuUhattu(&Ruutu(4, 0), !vari)
-			&& this->onkoRuutuUhattu(&Ruutu(5, 0), !vari) && this->onkoRuutuUhattu(&Ruutu(6, 0), !vari)
+			&& this->onkoRuutuUhattu(&Ruutu(4, 0), 1)
+			&& this->onkoRuutuUhattu(&Ruutu(5, 0), 1) && this->onkoRuutuUhattu(&Ruutu(6, 0), 1)
 			&& this->_lauta[5, 0] == NULL && this->_lauta[6][0] == NULL) {
 			//p‰ivitet‰‰n listaan lyhyt linna
 			lista.push_back(Siirto(true, false));
 		}
 		//Valkean pitk‰ linna
 		if (!this->getOnkoMustaKuningasLiikkunut() && !this->getOnkoValkeaDTliikkunut()
-			&& this->onkoRuutuUhattu(&Ruutu(4, 0), !vari)
-			&& this->onkoRuutuUhattu(&Ruutu(3, 0), !vari) && this->onkoRuutuUhattu(&Ruutu(6, 0), !vari)
+			&& this->onkoRuutuUhattu(&Ruutu(4, 0), 1)
+			&& this->onkoRuutuUhattu(&Ruutu(3, 0), 1) && this->onkoRuutuUhattu(&Ruutu(6, 0), 1)
 			&& this->_lauta[3, 0] == NULL && this->_lauta[2][0] == NULL) {
 			//p‰ivitet‰‰n listaan lyhyt linna
 			lista.push_back(Siirto(false, true));
@@ -527,16 +527,16 @@ void Asema::annaLinnoitusSiirrot(std::list<Siirto>& lista, int vari) {
 	if (vari == 1) {
 		//Musta lyhyt linna
 		if (!this->getOnkoValkeaKuningasLiikkunut() && !this->getOnkoValkeaKTliikkunut()
-			&& this->onkoRuutuUhattu(&Ruutu(4, 7), !vari)
-			&& this->onkoRuutuUhattu(&Ruutu(5, 7), !vari) && this->onkoRuutuUhattu(&Ruutu(6, 7), !vari)
+			&& this->onkoRuutuUhattu(&Ruutu(4, 7), 0)
+			&& this->onkoRuutuUhattu(&Ruutu(5, 7), 0) && this->onkoRuutuUhattu(&Ruutu(6, 7), 0)
 			&& this->_lauta[5, 7] == NULL && this->_lauta[6][7] == NULL) {
 			//p‰ivitet‰‰n listaan lyhyt linna
 			lista.push_back(Siirto(false, true));
 		}
 		//Mustan pitk‰ linna
 		if (!this->getOnkoValkeaKuningasLiikkunut() && !this->getOnkoValkeaDTliikkunut()
-			&& this->onkoRuutuUhattu(&Ruutu(4, 7), !vari)
-			&& this->onkoRuutuUhattu(&Ruutu(3, 7), !vari) && this->onkoRuutuUhattu(&Ruutu(3, 7), !vari)
+			&& this->onkoRuutuUhattu(&Ruutu(4, 7), 0)
+			&& this->onkoRuutuUhattu(&Ruutu(3, 7), 0) && this->onkoRuutuUhattu(&Ruutu(3, 7), 0)
 			&& this->_lauta[3, 7] == NULL && this->_lauta[2][7] == NULL) {
 			//p‰ivitet‰‰n listaan lyhyt linna
 			lista.push_back(Siirto(false, true));
@@ -545,7 +545,7 @@ void Asema::annaLinnoitusSiirrot(std::list<Siirto>& lista, int vari) {
 		}
 	}
 
-	}
+}
 
 
 void Asema::annaLaillisetSiirrot(std::list<Siirto>& lista) {
@@ -577,7 +577,7 @@ void Asema::annaLaillisetSiirrot(std::list<Siirto>& lista) {
 	}
 	
 	this->annaLinnoitusSiirrot(lista, vari);
-	this->huolehdiKuninkaanShakeista(lista, vari);
+	//this->huolehdiKuninkaanShakeista(lista, vari);
 	
 
 }
