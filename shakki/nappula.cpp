@@ -575,4 +575,6 @@ void Sotilas::lisaaSotilaanKorotukset(Siirto* siirto, std::list<Siirto>& lista, 
         lista.push_back(ratsuksi);
 
     }
+
+
 }
