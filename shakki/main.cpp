@@ -26,8 +26,8 @@ int main()
 
 
 
-	Ruutu* ruutu = new Ruutu(2, 1); //VAIHDA TESTI NAPPULAN SIJAINTIA LAUDALLA
-	asema.kaksoisaskelSarakkeella = 2;
+//	Ruutu* ruutu = new Ruutu(2, 1); //VAIHDA TESTI NAPPULAN SIJAINTIA LAUDALLA
+//	asema.kaksoisaskelSarakkeella = 2;
 	//VALKOISEN TESTAUKSEEN	
 	//asema.vk->annaSiirrot(lista, ruutu, &asema, asema.vk->getVari()); //testattu
 //	asema.vd->annaSiirrot(lista, ruutu, &asema, asema.vd->getVari());  //testattu
@@ -42,16 +42,17 @@ int main()
 //	asema.mt->annaSiirrot(lista, ruutu, &asema, asema.mt->getVari()); //testattu
 //	asema.ml->annaSiirrot(lista, ruutu, &asema, asema.ml->getVari()); //testattu
 //	asema.mr->annaSiirrot(lista, ruutu, &asema, asema.mr->getVari()); //testattu
-	asema.ms->annaSiirrot(lista, ruutu, &asema, asema.ms->getVari());
+//	asema.ms->annaSiirrot(lista, ruutu, &asema, asema.ms->getVari());
 
-	Kayttoliittyma::getInstance()->piirraLautaF(asema.listasotilas); //MUUTA TÄTÄ TESTAUKSEEN
-	
+//	Kayttoliittyma::getInstance()->piirraLautaF(asema.listasotilas); //MUUTA TÄTÄ TESTAUKSEEN
 	
 	Kayttoliittyma::getInstance()->piirraLauta();
-
+	
 	Siirto siirto = Kayttoliittyma::getInstance()->
 			annaVastustajanSiirto();
+	asema.annaLaillisetSiirrot(lista);
 		asema.paivitaAsema(&siirto);
+		
 
 		Kayttoliittyma::getInstance()->piirraLauta();
 
@@ -68,7 +69,7 @@ int main()
 		asema.paivitaAsema(&siirto);
 		Kayttoliittyma::getInstance()->piirraLauta();
 	
-/*	while (lopetus != 0) {
+	/*while (lopetus != 0) {
 		lista.clear();
 		Kayttoliittyma::getInstance()->piirraLauta();
 		wcout << "\n";
@@ -78,8 +79,8 @@ int main()
 			lopetus = 0;
 			std::wcout << "Peli loppui";
 			continue;
-		}
-		Siirto siirto;
+		}*/
+		/*Siirto siirto;
 		if (asema.getSiirtovuoro() == koneenVari) {
 			MinMaxPaluu paluu;
 			if (koneenVari == 0) {
@@ -94,9 +95,9 @@ int main()
 			siirto = Kayttoliittyma::getInstance()->
 				annaVastustajanSiirto();
 		}
-		asema.paivitaAsema(&siirto);
-	}
-	*/
+		asema.paivitaAsema(&siirto);*/
 	
 	return 0;
+	
+
 }
