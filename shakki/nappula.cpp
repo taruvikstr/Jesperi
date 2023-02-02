@@ -11,8 +11,6 @@ Nappula::Nappula(wstring unicode, int vari, int koodi)
 	this->_unicode = unicode;
 	this->_vari = vari;
 	this->_koodi = koodi;
-	
-	
 }
 
 
@@ -80,7 +78,6 @@ void Torni::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, in
     {
         if (asema->_lauta[rivi][i] != NULL && omaVari == asema->_lauta[rivi][i]->getVari()) {
 
-
             break;
         }
         else if (asema->_lauta[rivi][i] == NULL)
@@ -101,7 +98,7 @@ void Torni::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, in
 void Ratsu::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari) {
 
     asema->_lauta[ruutu->getRivi()][ruutu->getSarake()] = this;
-    int omaVari = this->getVari();
+    int omaVari = vari;
     int rivi = ruutu->getRivi();
     int sarake = ruutu->getSarake();
 
@@ -200,7 +197,7 @@ void Lahetti::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, 
 {
 
     asema->_lauta[ruutu->getRivi()][ruutu->getSarake()] = this;
-    int omaVari = this->getVari();
+    int omaVari = vari;
     int rivi = ruutu->getRivi() ;
     int sarake = ruutu->getSarake();
 
@@ -332,7 +329,7 @@ void Kuningas::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema,
 
 	Kaikki muu kuninkaaseen liittyv� tarkistus tehd��n eri paikassa*/
     asema->_lauta[ruutu->getRivi()][ruutu->getSarake()] = this;
-    int omaVari = this->getVari();
+    int omaVari = vari;
 
     //yläpuolella oleva rivi
     //ylävasen
@@ -446,7 +443,7 @@ void Kuningas::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema,
 void Sotilas::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
 {
     asema->_lauta[ruutu->getRivi()][ruutu->getSarake()] = this;
-    int omaVari = this->getVari();
+    int omaVari = vari;
 
     int rivi = ruutu->getRivi();
     int sarake = ruutu->getSarake(); // Y SUUNTA

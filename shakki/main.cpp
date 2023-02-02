@@ -20,12 +20,12 @@ int main()
 	
 	Peli peli(Kayttoliittyma::getInstance()->
 		kysyVastustajanVari());
+	
 	std::list<Siirto> lista;
 	system("cls");
+
 	int koneenVari = peli.getKoneenVari();
-
-
-
+	wcout << koneenVari << endl;
 //	Ruutu* ruutu = new Ruutu(2, 1); //VAIHDA TESTI NAPPULAN SIJAINTIA LAUDALLA
 //	asema.kaksoisaskelSarakkeella = 2;
 	//VALKOISEN TESTAUKSEEN	
@@ -72,14 +72,18 @@ int main()
 	//		annaVastustajanSiirto();
 	//	asema.paivitaAsema(&siirto);
 	//	Kayttoliittyma::getInstance()->piirraLauta();
+
 	
 	while (lopetus != 0) {
+		wcout << "kierros" << endl;
 		lista.clear();
-		Kayttoliittyma::getInstance()->piirraLauta();
+	//	Kayttoliittyma::getInstance()->piirraLauta();
+		
 		wcout << "\n";
 		// Tarkasta onko peli loppu?
 		asema.annaLaillisetSiirrot(lista);
 		Kayttoliittyma::getInstance()->piirraLautaF(lista);
+
 		if (lista.size() == 0) {
 			lopetus = 0;
 			std::wcout << "Peli loppui";
@@ -87,16 +91,18 @@ int main()
 		}
 		Siirto siirto;
 		if (asema.getSiirtovuoro() == koneenVari) {
+			wcout << "koneen vuoro" << endl;
 			MinMaxPaluu paluu;
 			if (koneenVari == 0) {
-				paluu = asema.maxi(3);
+				paluu = asema.maxi(3, lista);
 			}
 			else {
-				paluu = asema.mini(3);
+				paluu = asema.mini(3, lista);
 			}
 			siirto = paluu._parasSiirto;
 		}
 		else {
+			wcout << "pelaajan vuoro" << endl;
 			siirto = Kayttoliittyma::getInstance()->
 				annaVastustajanSiirto();
 		}
