@@ -46,7 +46,7 @@ Asema::Asema()
 	_lauta[7][1] = mr;
 	_lauta[7][2] = ml;
 	_lauta[7][3] = md;
-	_lauta[7][4] = mk;
+	_lauta[5][4] = mk; //RIKKOO PELIN JOS OIKEASSA KOHTAA
 	_lauta[7][5] = ml;
 	_lauta[7][6] = mr;
 	_lauta[7][7] = mt;
@@ -82,7 +82,7 @@ void Asema::paivitaAsema(Siirto *siirto)
 		}
 		if (_siirtovuoro == 1) {
 			// Asetetaan kuningas ja torni oikeisiin ruutuihin
-			_lauta[7][6] = mk;
+			_lauta[7][4] = mk;
 			_lauta[7][5] = mt;
 			// Tyhjennetään vanhat ruudut
 			_lauta[7][4] = NULL;
@@ -119,7 +119,7 @@ void Asema::paivitaAsema(Siirto *siirto)
 	// (asetetaan kaksoisaskel-lippu)
 	// Kaksoisaskel-lippu on oletusarvoisesti pois päältä.
 	//nappula valkoinen sotilas ja vaakarivi sotilaan aloitus ja sotilasta siirretty kaksi askelta
-	if (rivi_alku == 1 && _lauta[rivi_alku][sarake_alku] == 
+	/*if (rivi_alku == 1 && _lauta[rivi_alku][sarake_alku] ==
 		vs &&rivi_loppu == 3) {
 		kaksoisaskelSarakkeella=0;
 	}
@@ -175,7 +175,7 @@ void Asema::paivitaAsema(Siirto *siirto)
 				_lauta[rivi_alku][sarake_alku - 1] = NULL;
 			}
 		}
-	}
+	}*/
 	// Katsotaan jos nappula on sotilas ja rivi on päätyrivi niin korotetaan nappula kysymällä mihin korotetaan	
 	if (_lauta[rivi_alku][sarake_alku] == vs && rivi_loppu == 7 || _lauta[rivi_alku][sarake_alku] ==ms && rivi_loppu == 0) {
 		
@@ -232,6 +232,7 @@ int Asema::getSiirtovuoro()
 void Asema::setSiirtovuoro(int vuoro) 
 {
 	this->_siirtovuoro = vuoro;
+
 }
 
 
@@ -384,29 +385,85 @@ MinMaxPaluu Asema::minimax(int syvyys)
 	MinMaxPaluu paluuarvo;
 
 	// Generoidaan aseman lailliset siirrot.
-	
+
 	// Rekursion kantatapaus 1: peli on loppu
-	
+
 	// Rekursion kantatapaus 2: katkaisusyvyydessä
-	
+
 	// Rekursioaskel: kokeillaan jokaista laillista siirtoa s
 	// (alustetaan paluuarvo huonoimmaksi mahdolliseksi).
+
+	srand(time(NULL)); // seed the random number generator
+	int randomNumber = (rand() % 6) + 1;
+
+	if (randomNumber == 1) {
+		int randomNumber2 = (rand() % listadaami.size());
+		auto it = listadaami.begin();
+		std::advance(it, randomNumber2);
+		paluuarvo._parasSiirto = *it;
+	}
+	else if (randomNumber == 2) {
+		int randomNumber2 = (rand() % listakunkku.size());
+		auto it = listakunkku.begin();
+		std::advance(it, randomNumber2);
+		paluuarvo._parasSiirto = *it;
+	}
+	else if (randomNumber == 3) {
+		int randomNumber2 = (rand() % listatorni.size());
+		auto it = listatorni.begin();
+		std::advance(it, randomNumber2);
+		paluuarvo._parasSiirto = *it;
+	}
+	else if (randomNumber == 4) {
+		int randomNumber2 = (rand() % listalahetti.size());
+		auto it = listalahetti.begin();
+		std::advance(it, randomNumber2);
+		paluuarvo._parasSiirto = *it;
+	}
+	else if (randomNumber == 5) {
+		int randomNumber2 = (rand() % listasotilas.size());
+		auto it = listasotilas.begin();
+		std::advance(it, randomNumber2);
+		paluuarvo._parasSiirto = *it;
+	}
+	else if (randomNumber == 6) {
+		int randomNumber2 = (rand() % listatorni.size());
+		auto it = listatorni.begin();
+		std::advance(it, randomNumber2);
+		paluuarvo._parasSiirto = *it;
+	}
+
+	return paluuarvo;
+}
+
+
+MinMaxPaluu Asema::maxi(int syvyys, std::list<Siirto>& lista)
+{
+	MinMaxPaluu paluuarvo;
+	srand(time(NULL)); // seed the random number generator
+	int randomNumber = (rand() % lista.size());
+
+	
+	auto it = lista.begin();
+	std::advance(it, randomNumber);
+	paluuarvo._parasSiirto = *it;
 	
 	return paluuarvo;
 }
 
 
-MinMaxPaluu Asema::maxi(int syvyys) 
+MinMaxPaluu Asema::mini(int syvyys, std::list<Siirto>& lista)
 {
-	MinMaxPaluu paluu;
-	return paluu;
-}
+	MinMaxPaluu paluuarvo;
+	srand(time(NULL)); // seed the random number generator
+	int randomNumber = (rand() % lista.size());
 
 
-MinMaxPaluu Asema::mini(int syvyys)
-{
-	MinMaxPaluu paluu;
-	return paluu;
+	auto it = lista.begin();
+	std::advance(it, randomNumber);
+	paluuarvo._parasSiirto = *it;
+
+	return paluuarvo;
 }
 
 
@@ -440,8 +497,9 @@ bool Asema::onkoRuutuUhattu(Ruutu* ruutu, int vastustajanVari)
 
 void Asema::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, int vari)
 {
-	int X=0;
-	int Y=0;
+	
+	int kuninkaanRivi = 0;
+	int kuninkaanSarake = 0;
 	if (vari == 0) {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
@@ -449,8 +507,8 @@ void Asema::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, int vari)
 					continue;
 				}
 				if (this->_lauta[i][j]->getKoodi() == VK) {
-					X = i;
-					Y = j;
+					kuninkaanRivi = i;
+					kuninkaanSarake = j;
 					break;
 				}
 			}
@@ -463,19 +521,21 @@ void Asema::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, int vari)
 					continue;
 				}
 				if (this->_lauta[i][j]->getKoodi() == MK) {
-					X = i;
-					Y = j;
+					kuninkaanRivi = i;
+					kuninkaanSarake = j;
 					break;
 				}
 			}
 		}
 	}
 	Asema testiAsema;
+
 	std::list<Siirto> siivottuSiirtolista;
 	for (auto s : lista) {
 		testiAsema = *this;
 		testiAsema.paivitaAsema(&s);
-		int x, y;
+		int x = 0;
+		int y = 0;
 
 		if (s.onkoLyhytLinna()) {
 			x = 6;
@@ -487,17 +547,18 @@ void Asema::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, int vari)
 
 		}
 		else {
-			Nappula* siirtyva = this->_lauta[s.getAlkuruutu().getSarake()][s.getAlkuruutu().getRivi()];
-			if (siirtyva->getKoodi() == VK && siirtyva->getKoodi() != NULL  || siirtyva->getKoodi() == MK && siirtyva->getKoodi() != NULL ) {
-				x = s.getLoppuruutu().getSarake();
-				y = s.getLoppuruutu().getRivi();
+			Nappula *siirtyva = this->_lauta[s.getAlkuruutu().getRivi()][s.getAlkuruutu().getSarake()];
+			if (siirtyva->getKoodi() == VK && siirtyva->getKoodi() != NULL || siirtyva->getKoodi() == MK && siirtyva->getKoodi() != NULL) {
+				x = s.getLoppuruutu().getRivi(); s.getLoppuruutu().getSarake();
+				y = s.getLoppuruutu().getSarake();
 			}
 			else {
-				x = X;
-				y = Y;
+				x = kuninkaanRivi;
+				y = kuninkaanSarake;
 			}
 		}
-		if (testiAsema.onkoRuutuUhattu(&Ruutu(x, y), vari) == true){
+
+		if (testiAsema.onkoRuutuUhattu(&Ruutu(x, y), vari) == true) {
 			siivottuSiirtolista.push_back(s);
 		}
 	}
@@ -552,7 +613,7 @@ void Asema::annaLaillisetSiirrot(std::list<Siirto>& lista) {
 	
 	int vari = this->getSiirtovuoro();
 	int vastustajanvari = vari;
-	Ruutu* kuninkaanRuutu;
+
 	if (vari == 0) {
 		vastustajanvari = 1;
 	}
@@ -568,16 +629,12 @@ void Asema::annaLaillisetSiirrot(std::list<Siirto>& lista) {
 			if (this->_lauta[i][j]->getVari() != vari) {
 				continue;
 			}
-			if (this->_lauta[i][j]->getKoodi() == VK || this->_lauta[i][j]->getKoodi() == MK) {
-				kuninkaanRuutu = &Ruutu(i, j);
-				onkoRuutuUhattu(kuninkaanRuutu,vastustajanvari);
-			}
 			this->_lauta[i][j]->annaSiirrot(lista, &Ruutu(i,j), this, vari);
 		}
 	}
 	
 	this->annaLinnoitusSiirrot(lista, vari);
-	//this->huolehdiKuninkaanShakeista(lista, vari);
+	this->huolehdiKuninkaanShakeista(lista, vari);
 	
 
 }
