@@ -136,9 +136,11 @@ Siirto Kayttoliittyma::annaVastustajanSiirto() {
 
 		// check if input is in correct format
 		if (!isalpha(inputString[0]) || !isalpha(inputString[1]) || !isdigit(inputString[2]) || inputString[3] != '-' || !isalpha(inputString[4]) || !isdigit(inputString[5])) {
-			if(!isalpha(inputString[0]) || !isdigit(inputString[1]) || inputString[2] != '-' || !isalpha(inputString[3]) || !isdigit(inputString[4]))
-			wcout << "Invalid move format. Example: e2-e4 or e7e5 B";
-			continue;
+			if (!isalpha(inputString[0]) || !isdigit(inputString[1]) || inputString[2] != '-' || !isalpha(inputString[3]) || !isdigit(inputString[4])) {
+				wcout << "Invalid move format. Example: e2-e4 or e7e5 B";
+				continue;
+			}
+			
 		}
 
 		if (inputString.length() == 6) {
