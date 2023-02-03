@@ -324,118 +324,38 @@ void Daami::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, in
 
 void Kuningas::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, int vari)
 {
-	/*perusidea on ett� kaikki viereiset ruudut ovat sallittuja. kuten tornilla ja l�hetill�,
-	oman nappulan p��lle ei voi menn� ja vastustajan nappulan voi sy�d�.
-
-	Kaikki muu kuninkaaseen liittyv� tarkistus tehd��n eri paikassa*/
-    asema->_lauta[ruutu->getRivi()][ruutu->getSarake()] = this;
+    // Store the color of the king piece
     int omaVari = vari;
 
-    //yläpuolella oleva rivi
-    //ylävasen
-    if (ruutu->getRivi() + 1 <= 7 && ruutu->getSarake() - 1 >= 0) {
-        //toinen nappula ruudussa
-        if (asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake() - 1] != NULL) {
-            //toinen nappula eri väriä
-            if (omaVari != asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake() - 1]->getVari()) {
-                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 1, ruutu->getSarake() - 1)));
-            }
-        }//tyhjä ruutu
-        else {
-            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 1, ruutu->getSarake() - 1)));
+    // Get the current row and column of the king piece
+    int rivi = ruutu->getRivi();
+    int sarake = ruutu->getSarake();
+
+    // Update the position of the king piece on the board
+    asema->_lauta[rivi][sarake] = this;
+
+    // Array for row and column offset to move in 8 different directions
+    int rivi_offset[8] = { -1, -1, -1, 0, 0, 1, 1, 1 };
+    int sarake_offset[8] = { -1, 0, 1, -1, 1, -1, 0, 1 };
+
+    // Check each of the 8 possible moves for the king
+    for (int i = 0; i < 8; i++)
+    {
+        // Calculate the new row and column after the move
+        int uusi_rivi = rivi + rivi_offset[i];
+        int uusi_sarake = sarake + sarake_offset[i];
+
+        // Check if the new position is within the chess board
+        if (uusi_rivi >= 0 && uusi_rivi <= 7 && uusi_sarake >= 0 && uusi_sarake <= 7)
+        {
+            // Get the piece at the new position
+            Nappula* nappula = asema->_lauta[uusi_rivi][uusi_sarake];
+
+            // If the square is empty or occupied by a piece of a different color, add the move to the list
+            if (nappula == NULL || nappula->getVari() != omaVari)
+                lista.push_back(Siirto(*ruutu, Ruutu(uusi_rivi, uusi_sarake)));
         }
     }
-    //suoraan yläpuolella
-    if (ruutu->getRivi() + 1 <= 7) {
-        //toinen nappula ruudussa
-        if (asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake()] != NULL) {
-            //toinen nappula eri väriä
-            if (omaVari != asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake()]->getVari()) {
-                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 1, ruutu->getSarake())));
-            }
-        }//tyhjä ruutu
-        else {
-            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 1, ruutu->getSarake())));
-        }
-    }
-    //yläoikea
-    if (ruutu->getRivi() + 1 >= 0 && ruutu->getSarake() + 1 <= 7) {
-        //toinen nappula ruudussa
-        if (asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake() + 1] != NULL) {
-            //toinen nappula eri väriä
-            if (omaVari != asema->_lauta[ruutu->getRivi() + 1][ruutu->getSarake() + 1]->getVari()) {
-                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 1, ruutu->getSarake() + 1)));
-            }
-        }//tyhjä ruutu
-        else {
-            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() + 1, ruutu->getSarake() + 1)));
-        }
-    }
-    //alapuolella oleva rivi
-    //alavasen
-    if (ruutu->getRivi() - 1 >= 0 && ruutu->getSarake() - 1 >= 0) {
-        //toinen nappula ruudussa
-        if (asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake() - 1] != NULL) {
-            //toinen nappula eri väriä
-            if (omaVari != asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake() - 1]->getVari()) {
-                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 1, ruutu->getSarake() - 1)));
-            }
-        }//tyhjä ruutu
-        else {
-            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 1, ruutu->getSarake() - 1)));
-        }
-    }
-    //suoraan alapuolella
-    if (ruutu->getRivi() - 1 >= 0) {
-        //toinen nappula ruudussa
-        if (asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake()] != NULL) {
-            //toinen nappula eri väriä
-            if (omaVari != asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake()]->getVari()) {
-                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 1, ruutu->getSarake())));
-            }
-        }//tyhjä ruutu
-        else {
-            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 1, ruutu->getSarake())));
-        }
-    }
-    //alaoikea
-    if (ruutu->getRivi() - 1 >= 0 && ruutu->getSarake() +1 <= 7) {
-        //toinen nappula ruudussa
-        if (asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake() + 1] != NULL) {
-            //toinen nappula eri väriä
-            if (omaVari != asema->_lauta[ruutu->getRivi() - 1][ruutu->getSarake() + 1]->getVari()) {
-                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 1, ruutu->getSarake() + 1)));
-            }
-        }//tyhjä ruutu
-        else {
-            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi() - 1, ruutu->getSarake() + 1)));
-        }
-    }
-    //onko vasemmalla 
-    if (ruutu->getSarake() - 1 >= 0) {
-        if (asema->_lauta[ruutu->getRivi()][ruutu->getSarake() - 1] != NULL) {
-            if (omaVari != asema->_lauta[ruutu->getRivi()][ruutu->getSarake() - 1]->getVari()) {
-                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi(), ruutu->getSarake() - 1)));
-            }
-        }
-        else {
-            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi(), ruutu->getSarake() - 1)));
-        }
-    }
-    
-    //ja oikealla    
-    if (ruutu->getSarake() + 1 <= 7) {
-        if (asema->_lauta[ruutu->getRivi()][ruutu->getSarake() + 1] != NULL) {
-            if (omaVari != asema->_lauta[ruutu->getRivi()][ruutu->getSarake() + 1]->getVari()) {
-                lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi(), ruutu->getSarake() + 1)));
-            }
-        }
-        else {
-            lista.push_back(Siirto(*ruutu, Ruutu(ruutu->getRivi(), ruutu->getSarake() + 1)));
-        }
-    }
-    
-        
     asema->listakunkku.assign(lista.begin(), lista.end());
 }
 

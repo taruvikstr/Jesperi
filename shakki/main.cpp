@@ -72,16 +72,23 @@ int main()
 	//		annaVastustajanSiirto();
 	//	asema.paivitaAsema(&siirto);
 	//	Kayttoliittyma::getInstance()->piirraLauta();
-
+	
 	
 	while (lopetus != 0) {
 		wcout << "kierros" << endl;
 		lista.clear();
+		/*asema.listadaami.clear();
+		asema.listakunkku.clear();
+		asema.listalahetti.clear();
+		asema.listaratsu.clear();
+		asema.listatorni.clear();
+		asema.listasotilas.clear();*/
 	//	Kayttoliittyma::getInstance()->piirraLauta();
 		
 		wcout << "\n";
 		// Tarkasta onko peli loppu?
 		asema.annaLaillisetSiirrot(lista);
+		wcout << "kohta" << endl;
 		Kayttoliittyma::getInstance()->piirraLautaF(lista);
 
 		if (lista.size() == 0) {

@@ -42,7 +42,7 @@ bool Siirto::onkoLyhytLinna()
     else if (_alkuRuutu.getSarake() == 7 && _alkuRuutu.getRivi() == 4
         && _loppuRuutu.getSarake() == 7 && _loppuRuutu.getRivi() == 6) return this->_lyhytLinna = true;*/
    
-    return this->_lyhytLinna = false;
+    return this->_lyhytLinna=false;
 }
 
 
@@ -56,6 +56,6 @@ bool Siirto::onkoPitkalinna()
     else if (_alkuRuutu.getSarake() == 7 && _alkuRuutu.getRivi() == 4
         && _loppuRuutu.getSarake() == 7 && _loppuRuutu.getRivi() == 2) return this->_lyhytLinna = true;*/
 
-    return this->_lyhytLinna = false;
+    return this->_pitkaLinna=false;
 
 }
