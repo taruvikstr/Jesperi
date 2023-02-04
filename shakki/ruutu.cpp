@@ -24,11 +24,11 @@ int Ruutu::getSarake()
 
 void Ruutu::setRivi(int rivi) 
 {
-	
+    this->_rivi = rivi;
 }
 
 
 void Ruutu::setSarake(int sarake) 
 {
-
+    this->_sarake = sarake;
 }
