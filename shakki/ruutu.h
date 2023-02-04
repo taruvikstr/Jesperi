@@ -5,7 +5,7 @@
 class Ruutu{
 public:
 	Ruutu(int, int);
-	Ruutu() { _rivi = 0; _sarake = 0; }
+	Ruutu() { _rivi = 4; _sarake = 4; }
 	int getRivi();
 	int getSarake();
 	void setRivi(int);

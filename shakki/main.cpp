@@ -88,7 +88,6 @@ int main()
 		wcout << "\n";
 		// Tarkasta onko peli loppu?
 		asema.annaLaillisetSiirrot(lista);
-		wcout << "kohta" << endl;
 		Kayttoliittyma::getInstance()->piirraLautaF(lista);
 
 		if (lista.size() == 0) {

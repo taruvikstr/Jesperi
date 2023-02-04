@@ -43,18 +43,19 @@ Asema::Asema()
 	_lauta[0][7] = vt;
 
 	_lauta[7][0] = mt;
-	//_lauta[7][1] = mr;
-	//_lauta[7][2] = ml;
-	//_lauta[7][3] = md;
+	_lauta[7][1] = mr;
+	_lauta[7][2] = ml;
+	_lauta[7][3] = md;
 	_lauta[7][4] = mk; 
-	//_lauta[7][5] = ml;
-	//_lauta[7][6] = mr;
+	_lauta[7][5] = ml;
+	_lauta[7][6] = mr;
 	_lauta[7][7] = mt;
 
 	for (int i = 0; i < 8; i++) {
-		//_lauta[1][i] = vs;
-		//_lauta[6][i] = ms;
+		_lauta[1][i] = vs;
+		_lauta[6][i] = ms;
 	}
+	
 
 	_siirtovuoro = 0;
 	_onkoValkeaKuningasLiikkunut = false;
@@ -415,8 +416,8 @@ MinMaxPaluu Asema::mini(int syvyys, std::list<Siirto>& lista)
 
 	for (it = lista.begin(); it != lista.end(); it++)
 	{
-		wcout << it->onkoLyhytLinna() << endl;
-		wcout << it->onkoPitkalinna() << endl;
+	/*	wcout << it->onkoLyhytLinna() << endl;
+		wcout << it->onkoPitkalinna() << endl;*/
 		if (it->onkoLyhytLinna()) {
 			paluuarvo._parasSiirto = *it;
 		}
