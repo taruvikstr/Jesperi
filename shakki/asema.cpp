@@ -35,7 +35,7 @@ Asema::Asema()
 
 	_lauta[0][0] = vt;
 	_lauta[0][1] = vr;
-	_lauta[3][1] = vl;
+	_lauta[0][2] = vl;
 	_lauta[0][3] = vd;
 	_lauta[0][4] = vk;
 	_lauta[0][5] = vl;
@@ -43,17 +43,17 @@ Asema::Asema()
 	_lauta[0][7] = vt;
 
 	_lauta[7][0] = mt;
-	_lauta[7][1] = mr;
-	_lauta[7][2] = ml;
-	_lauta[7][3] = md;
-	_lauta[5][5] = mk; //RIKKOO PELIN JOS OIKEASSA KOHTAA
-	_lauta[7][5] = ml;
-	_lauta[7][6] = mr;
+	//_lauta[7][1] = mr;
+	//_lauta[7][2] = ml;
+	//_lauta[7][3] = md;
+	_lauta[7][4] = mk; 
+	//_lauta[7][5] = ml;
+	//_lauta[7][6] = mr;
 	_lauta[7][7] = mt;
 
 	for (int i = 0; i < 8; i++) {
 		_lauta[1][i] = vs;
-		_lauta[6][i] = ms;
+		//_lauta[6][i] = ms;
 	}
 	
 	_siirtovuoro = 0;
@@ -68,10 +68,12 @@ Asema::Asema()
 
 void Asema::paivitaAsema(Siirto *siirto)
 {
-
+	wcout << "lyhyt linna: " << siirto->onkoLyhytLinna() << " \n";
+	wcout << "pitka linna: " << siirto->onkoPitkalinna() << " \n";
 	//Tarkastetaan on siirto lyhyt linna
 	if (siirto->onkoLyhytLinna())
 	{
+		wcout << "lyhyt linna";
 		if (_siirtovuoro == 0) {
 			// Asetetaan kuningas ja torni oikeisiin ruutuihin
 			_lauta[0][6] = vk;
@@ -82,7 +84,7 @@ void Asema::paivitaAsema(Siirto *siirto)
 		}
 		if (_siirtovuoro == 1) {
 			// Asetetaan kuningas ja torni oikeisiin ruutuihin
-			_lauta[7][4] = mk;
+			_lauta[7][6] = mk;
 			_lauta[7][5] = mt;
 			// Tyhjennet‰‰n vanhat ruudut
 			_lauta[7][4] = NULL;
@@ -93,12 +95,22 @@ void Asema::paivitaAsema(Siirto *siirto)
 	// onko pitk‰ linna //pitk‰lle linnalle sama  ku lyhyelle
 	if (siirto->onkoPitkalinna())
 	{
-		// Asetetaan kuningas ja torni oikeisiin ruutuihin
-		_lauta[0][2] = vk;
-		_lauta[0][3] = vt;
-		// Tyhjennet‰‰n vanhat ruudut
-		_lauta[0][4] = NULL;
-		_lauta[0][0] = NULL;
+		if (_siirtovuoro == 0) {
+			// Asetetaan kuningas ja torni oikeisiin ruutuihin
+			_lauta[0][2] = vk;
+			_lauta[0][3] = vt;
+			// Tyhjennet‰‰n vanhat ruudut
+			_lauta[0][0] = NULL;
+			_lauta[0][4] = NULL;
+		}
+		if (_siirtovuoro == 1) {
+			// Asetetaan kuningas ja torni oikeisiin ruutuihin
+			_lauta[7][2] = mk;
+			_lauta[7][3] = mt;
+			// Tyhjennet‰‰n vanhat ruudut
+			_lauta[7][0] = NULL;
+			_lauta[7][4] = NULL;
+		}
 	}
 
 	// Kaikki muut siirrot
@@ -238,37 +250,56 @@ void Asema::setSiirtovuoro(int vuoro)
 
 bool Asema::getOnkoValkeaKuningasLiikkunut() 
 {
-	return false;
+	if (_lauta[0][4] == NULL)
+	{
+		wcout << "valk k liikkunut";
+		return true;
+	}
 }
 
 
 bool Asema::getOnkoMustaKuningasLiikkunut() 
 {
-	return false;
+	if (_lauta[7][4] == NULL) {
+		wcout << "must k liikkunut";
+		return true;
+	}
 }
 
 
 bool Asema::getOnkoValkeaDTliikkunut() 
 {
-	return false;
+	if (_lauta[0][0] == NULL) {
+		wcout << "valk dt liikkunut";
+		return true;
+	}
 }
 
 
 bool Asema::getOnkoValkeaKTliikkunut() 
 {
-	return false;
+	if (_lauta[0][7] == NULL) {
+		wcout << "valk kt liikkunut";
+		return true;
+	}
 }
 
 
 bool Asema::getOnkoMustaDTliikkunut() 
 {
-	return false;
+	if (_lauta[7][0] == NULL) {
+		wcout << "must dt liikkunut";
+		return true;
+	}
 }
 
 
 bool Asema::getOnkoMustaKTliikkunut() 
 {
-	return false;
+	if (_lauta[7][7] == NULL) {
+		wcout << "msut kt liikkunut";
+		return true;
+	}
 }
 
 
@@ -463,6 +494,12 @@ MinMaxPaluu Asema::mini(int syvyys, std::list<Siirto>& lista)
 	std::advance(it, randomNumber);
 	paluuarvo._parasSiirto = *it;
 
+	for (Siirto lista : lista)
+	{
+		if (lista.onkoLyhytLinna()) {
+			paluuarvo._parasSiirto = lista;
+		}
+	}
 	return paluuarvo;
 }
 
@@ -577,37 +614,37 @@ void Asema::annaLinnoitusSiirrot(std::list<Siirto>& lista, int vari) {
 	// Valkoisen kuninkaan lyhyen linnan siirto
 	if (vari == 0) {
 		//Valkean lyhyt linna
-		if (!this->getOnkoMustaKuningasLiikkunut() && !this->getOnkoValkeaKTliikkunut()
-			&& this->onkoRuutuUhattu(&Ruutu(4, 0), 1)
-			&& this->onkoRuutuUhattu(&Ruutu(5, 0), 1) && this->onkoRuutuUhattu(&Ruutu(6, 0), 1)
-			&& this->_lauta[5][0] == NULL && this->_lauta[6][0] == NULL) {
+		if (!this->getOnkoValkeaKuningasLiikkunut() && !this->getOnkoValkeaKTliikkunut()
+			&& this->onkoRuutuUhattu(&Ruutu(0, 4), 1)
+			&& this->onkoRuutuUhattu(&Ruutu(0, 5), 1) && this->onkoRuutuUhattu(&Ruutu(0, 6), 1)
+			&& this->_lauta[0][5] == NULL && this->_lauta[0][6] == NULL) {
 			//p‰ivitet‰‰n listaan lyhyt linna
 			lista.push_back(Siirto(true, false));
 		}
 		//Valkean pitk‰ linna
-		if (!this->getOnkoMustaKuningasLiikkunut() && !this->getOnkoValkeaDTliikkunut()
-			&& this->onkoRuutuUhattu(&Ruutu(4, 0), 1)
-			&& this->onkoRuutuUhattu(&Ruutu(3, 0), 1) && this->onkoRuutuUhattu(&Ruutu(2, 0), 1)
-			&& this->_lauta[3][0] == NULL && this->_lauta[2][0] == NULL) {
+		if (!this->getOnkoValkeaKuningasLiikkunut() && !this->getOnkoValkeaDTliikkunut()
+			&& this->onkoRuutuUhattu(&Ruutu(0, 4), 1)
+			&& this->onkoRuutuUhattu(&Ruutu(0, 5), 1) && this->onkoRuutuUhattu(&Ruutu(0, 2), 1)
+			&& this->_lauta[0][3] == NULL && this->_lauta[0][2] == NULL) {
 			//p‰ivitet‰‰n listaan lyhyt linna
 			lista.push_back(Siirto(false, true));
 		}
 	}
 	if (vari == 1) {
 		//Musta lyhyt linna
-		if (!this->getOnkoValkeaKuningasLiikkunut() && !this->getOnkoValkeaKTliikkunut()
-			&& this->onkoRuutuUhattu(&Ruutu(4, 7), 0)
-			&& this->onkoRuutuUhattu(&Ruutu(5, 7), 0) && this->onkoRuutuUhattu(&Ruutu(6, 7), 0)
-			&& this->_lauta[5][7] == NULL && this->_lauta[6][7] == NULL) {
+		if (!this->getOnkoMustaKuningasLiikkunut() && !this->getOnkoMustaKTliikkunut()
+			&& this->onkoRuutuUhattu(&Ruutu(7, 4), 0)
+			&& this->onkoRuutuUhattu(&Ruutu(7, 5), 0) && this->onkoRuutuUhattu(&Ruutu(7, 6), 0)
+			&& this->_lauta[7][5] == NULL && this->_lauta[7][6] == NULL) {
 			//p‰ivitet‰‰n listaan lyhyt linna
 			
 			lista.push_back(Siirto(true,false));
 		}
 		//Mustan pitk‰ linna
-		if (!this->getOnkoValkeaKuningasLiikkunut() && !this->getOnkoValkeaDTliikkunut()
-			&& this->onkoRuutuUhattu(&Ruutu(4, 7), 0)
-			&& this->onkoRuutuUhattu(&Ruutu(3, 7), 0) && this->onkoRuutuUhattu(&Ruutu(3, 7), 0)
-			&& this->_lauta[3][7] == NULL && this->_lauta[2][7] == NULL) {
+		if (!this->getOnkoMustaKuningasLiikkunut() && !this->getOnkoMustaDTliikkunut()
+			&& this->onkoRuutuUhattu(&Ruutu(7, 4), 0)
+			&& this->onkoRuutuUhattu(&Ruutu(7, 3), 0) && this->onkoRuutuUhattu(&Ruutu(7, 3), 0)
+			&& this->_lauta[7][3] == NULL && this->_lauta[7][2] == NULL) {
 			//p‰ivitet‰‰n listaan lyhyt linna
 			lista.push_back(Siirto(false,true));
 

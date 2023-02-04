@@ -22,7 +22,7 @@ Kayttoliittyma* Kayttoliittyma::getInstance()
 
 void Kayttoliittyma::piirraLautaF(std::list<Siirto> lista) {
 	for (Siirto kohta : lista) {
-		wcout << kohta.getLoppuruutu().getRivi() << " Rivi " << kohta.getLoppuruutu().getSarake() << " Sarake" << endl;
+		//wcout << kohta.getLoppuruutu().getRivi() << " Rivi " << kohta.getLoppuruutu().getSarake() << " Sarake" << endl;
 	}
 	_setmode(_fileno(stdout), _O_U16TEXT);
 	for (int i = 0; i < 8; i++)
