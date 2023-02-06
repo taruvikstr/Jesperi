@@ -16,7 +16,7 @@ public:
 	void piirraLauta();
 	Siirto annaVastustajanSiirto();
 	int kysyVastustajanVari();
-
+	int _vari = 0;
 	static Kayttoliittyma* getInstance();
 
 private:

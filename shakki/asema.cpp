@@ -3,6 +3,7 @@
 #include "minMaxPaluu.h"
 #include "nappula.h"
 #include "ruutu.h"
+#include "kayttoliittyma.h"
 using namespace std;
 
 Nappula* Asema::vk = new Kuningas(L"\u2654", 0, VK);
@@ -126,8 +127,150 @@ void Asema::paivitaAsema(Siirto *siirto)
 	int sarake_loppu = siirto->getLoppuruutu().getSarake();
 
 	// Katsotaan jos nappula on sotilas ja rivi on p‰‰tyrivi niin korotetaan nappula kysym‰ll‰ mihin korotetaan	
-	if (_lauta[rivi_alku][sarake_alku] == vs && rivi_loppu == 7 || _lauta[rivi_alku][sarake_alku] == ms && rivi_loppu == 0) {
-		wcout << "miksik‰ korotetaan?\n";
+	 
+		if (_lauta[rivi_alku][sarake_alku] == vs && rivi_loppu == 7 && rivi_alku == 6 && _siirtovuoro == 0 || _siirtovuoro == 1 && _lauta[rivi_alku][sarake_alku] == ms && rivi_loppu == 0 && rivi_alku == 1) {
+			if (Kayttoliittyma::getInstance()->_vari == _siirtovuoro){
+
+			int korotus;
+			wcout << "alku: " << rivi_alku << "loppu: " << rivi_loppu << endl;
+			wcout << "Choose piece to promote to (1 = queen, 2 = rook, 3 = bishop, 4 = knight): ";
+			cin >> korotus;
+			Nappula* korotettuNappula;
+			switch (korotus) {
+			case 1:
+				korotettuNappula = _siirtovuoro == 0 ? vd : md;
+				break;
+			case 2:
+				korotettuNappula = _siirtovuoro == 0 ? vt : mt;
+				break;
+			case 3:
+				korotettuNappula = _siirtovuoro == 0 ? vl : ml;
+				break;
+			case 4:
+				korotettuNappula = _siirtovuoro == 0 ? vr : mr;
+				break;
+			default:
+				korotettuNappula = _siirtovuoro == 0 ? vd : md;
+				break;
+
+
+			}
+			_lauta[rivi_loppu][sarake_loppu] = korotettuNappula;
+			_lauta[rivi_alku][sarake_alku] = NULL;
+			rivi_alku = NULL;
+			sarake_alku = NULL;
+			}
+			else {
+				Nappula* korotettuNappula = siirto->_miksikorotetaan;
+				_lauta[rivi_loppu][sarake_loppu] = korotettuNappula;
+				_lauta[rivi_alku][sarake_alku] = NULL;
+				rivi_alku = NULL;
+				sarake_alku = NULL;
+			}
+	}
+	//muissa tapauksissa alkuruutuun null ja loppuruutuun sama alkuruudusta l‰htenyt nappula
+	else {
+		//Laittaa talteen otetun nappulan uuteen ruutuun
+		_lauta[rivi_loppu][sarake_loppu] = _lauta[rivi_alku][sarake_alku];
+		_lauta[rivi_alku][sarake_alku] = NULL;
+
+	}
+
+	// katsotaan jos liikkunut nappula on kuningas niin muutetaan onkoKuningasLiikkunut arvo (molemmille v‰reille)
+	if (_lauta[0][4] == NULL) {
+		_onkoValkeaKuningasLiikkunut = true;
+	}
+	if (_lauta[7][7] == NULL) {
+		_onkoMustaKuningasLiikkunut = true;
+	}
+
+	// katsotaan jos liikkunut nappula on torni niin muutetaan onkoTorniLiikkunut arvo (molemmille v‰reille ja molemmille torneille)
+	if (_lauta[0][0] == NULL) {
+		_onkoValkeaDTliikkunut = true;
+	}
+	if (_lauta[0][7] == NULL) {
+		_onkoValkeaKTliikkunut = true;
+	}
+	if (_lauta[7][0] == NULL) {
+		_onkoMustaDTliikkunut = true;
+	}
+	if (_lauta[7][7] == NULL) {
+		_onkoMustaKTliikkunut = true;
+	}
+	//p‰ivitet‰‰n _siirtovuoro
+	if (_siirtovuoro == 0) {
+		setSiirtovuoro(1);
+	}
+	else {
+		setSiirtovuoro(0);
+	}
+
+}
+
+void Asema::paivitaTestiAsema(Siirto* siirto)
+{
+	//Tarkastetaan on siirto lyhyt linna
+	if (siirto->onkoLyhytLinna())
+	{
+		if (_siirtovuoro == 0) {
+			// Asetetaan kuningas ja torni oikeisiin ruutuihin
+			_lauta[0][6] = vk;
+			_lauta[0][5] = vt;
+			// Tyhjennet‰‰n vanhat ruudut
+			_lauta[0][4] = NULL;
+			_lauta[0][7] = NULL;
+		}
+		if (_siirtovuoro == 1) {
+			// Asetetaan kuningas ja torni oikeisiin ruutuihin
+			_lauta[7][6] = mk;
+			_lauta[7][5] = mt;
+			// Tyhjennet‰‰n vanhat ruudut
+			_lauta[7][4] = NULL;
+			_lauta[7][7] = NULL;
+		}
+	}
+
+	// onko pitk‰ linna //pitk‰lle linnalle sama  ku lyhyelle
+	if (siirto->onkoPitkalinna())
+	{
+		if (_siirtovuoro == 0) {
+			// Asetetaan kuningas ja torni oikeisiin ruutuihin
+			_lauta[0][2] = vk;
+			_lauta[0][3] = vt;
+			// Tyhjennet‰‰n vanhat ruudut
+			_lauta[0][0] = NULL;
+			_lauta[0][4] = NULL;
+		}
+		if (_siirtovuoro == 1) {
+			// Asetetaan kuningas ja torni oikeisiin ruutuihin
+			_lauta[7][2] = mk;
+			_lauta[7][3] = mt;
+			// Tyhjennet‰‰n vanhat ruudut
+			_lauta[7][0] = NULL;
+			_lauta[7][4] = NULL;
+		}
+	}
+
+	// Kaikki muut siirrot
+
+	//Ottaa siirron alkuruudussa olleen nappulan talteen
+
+	//ota siirron int arvo esim. lauta00 ja kato mik‰ nappula 
+	//on siin‰ kohtaa, siirr‰ lauta00 nulliksi ja siirr‰ kohdassa 
+	//ollut nappula loppuruutuun esim lauta55 ja aseta nappula laudalle
+	int rivi_alku = siirto->getAlkuruutu().getRivi();
+	int sarake_alku = siirto->getAlkuruutu().getSarake();
+	int rivi_loppu = siirto->getLoppuruutu().getRivi();
+	int sarake_loppu = siirto->getLoppuruutu().getSarake();
+
+	// Katsotaan jos nappula on sotilas ja rivi on p‰‰tyrivi niin korotetaan nappula kysym‰ll‰ mihin korotetaan	
+	if (_lauta[rivi_alku][sarake_alku] == vs && rivi_loppu == 7 && rivi_alku == 6 && _siirtovuoro == 0 || _siirtovuoro == 1 && _lauta[rivi_alku][sarake_alku] == ms && rivi_loppu == 0 && rivi_alku == 1) {
+	Nappula* korotettuNappula;
+	korotettuNappula = siirto->_miksikorotetaan;
+	_lauta[rivi_loppu][sarake_loppu] = korotettuNappula;
+	_lauta[rivi_alku][sarake_alku] = NULL;
+	rivi_alku = NULL;
+	sarake_alku = NULL;
 	}
 	//muissa tapauksissa alkuruutuun null ja loppuruutuun sama alkuruudusta l‰htenyt nappula
 	else {
@@ -238,18 +381,21 @@ vai olla est‰m‰ss‰ vastustajan korotusta siksi ei oteta kantaa
 */
 double Asema::evaluoi() 
 {
-	return 0;
-
 	//kertoimet asetettu sen takia ett‰ niiden avulla asioiden painoarvoa voidaan s‰‰t‰‰ helposti yhdest‰ paikasta
 	
 	//1. Nappuloiden arvo
-	
+	float daamiArvo = 9;
+	float torniArvo = 5;
+	float lahettiArvo = 3.25;
+	float ratsuArvo = 3;
+	float sotilasArvo = 1;
 	//2. Kuningas turvassa
 	
 	//3. Arvosta keskustaa
 	
 	// 4. Arvosta linjoja
-	
+	return 0;
+
 }
 
 
@@ -342,47 +488,6 @@ MinMaxPaluu Asema::minimax(int syvyys)
 
 	// Rekursioaskel: kokeillaan jokaista laillista siirtoa s
 	// (alustetaan paluuarvo huonoimmaksi mahdolliseksi).
-
-	srand(time(NULL)); // seed the random number generator
-	int randomNumber = (rand() % 6) + 1;
-
-	if (randomNumber == 1) {
-		int randomNumber2 = (rand() % listadaami.size());
-		auto it = listadaami.begin();
-		std::advance(it, randomNumber2);
-		paluuarvo._parasSiirto = *it;
-	}
-	else if (randomNumber == 2) {
-		int randomNumber2 = (rand() % listakunkku.size());
-		auto it = listakunkku.begin();
-		std::advance(it, randomNumber2);
-		paluuarvo._parasSiirto = *it;
-	}
-	else if (randomNumber == 3) {
-		int randomNumber2 = (rand() % listatorni.size());
-		auto it = listatorni.begin();
-		std::advance(it, randomNumber2);
-		paluuarvo._parasSiirto = *it;
-	}
-	else if (randomNumber == 4) {
-		int randomNumber2 = (rand() % listalahetti.size());
-		auto it = listalahetti.begin();
-		std::advance(it, randomNumber2);
-		paluuarvo._parasSiirto = *it;
-	}
-	else if (randomNumber == 5) {
-		int randomNumber2 = (rand() % listasotilas.size());
-		auto it = listasotilas.begin();
-		std::advance(it, randomNumber2);
-		paluuarvo._parasSiirto = *it;
-	}
-	else if (randomNumber == 6) {
-		int randomNumber2 = (rand() % listatorni.size());
-		auto it = listatorni.begin();
-		std::advance(it, randomNumber2);
-		paluuarvo._parasSiirto = *it;
-	}
-
 	return paluuarvo;
 }
 
@@ -390,15 +495,28 @@ MinMaxPaluu Asema::minimax(int syvyys)
 MinMaxPaluu Asema::maxi(int syvyys, std::list<Siirto>& lista)
 {
 	MinMaxPaluu paluuarvo;
-//	srand(time(NULL)); // seed the random number generator
-//	int randomNumber = (rand() % lista.size());
-//
-//	
-//	auto it = lista.begin();
-//	std::advance(it, randomNumber);
-//paluuarvo._parasSiirto = *it;
+	srand(time(NULL)); // seed the random number generator
+	int randomNumber = (rand() % lista.size());
 
-return paluuarvo;
+
+	auto it = lista.begin();
+	std::advance(it, randomNumber);
+
+	paluuarvo._parasSiirto = *it;
+
+	for (it = lista.begin(); it != lista.end(); it++)
+	{
+		/*	wcout << it->onkoLyhytLinna() << endl;
+			wcout << it->onkoPitkalinna() << endl;*/
+		if (it->onkoLyhytLinna()) {
+			paluuarvo._parasSiirto = *it;
+		}
+		if (it->onkoPitkalinna()) {
+			paluuarvo._parasSiirto = *it;
+		}
+
+	}
+	return paluuarvo;
 }
 
 
@@ -496,7 +614,7 @@ void Asema::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, int vari)
 	std::list<Siirto> siivottuSiirtolista;
 	for (auto s : lista) {
 		testiAsema = *this;
-		testiAsema.paivitaAsema(&s);
+		testiAsema.paivitaTestiAsema(&s);
 		int rivi = 0;
 		int sarake = 0;
 
@@ -506,8 +624,6 @@ void Asema::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, int vari)
 				rivi = 0;
 			else
 				rivi = 7;
-
-
 		}
 		else if (s.onkoPitkalinna()){
 			sarake = 2;
@@ -528,7 +644,7 @@ void Asema::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, int vari)
 			}
 		}
 
-		if (testiAsema.onkoRuutuUhattu(&Ruutu(rivi, sarake), vari) == true) {
+		if (testiAsema.onkoRuutuUhattu(&Ruutu(rivi, sarake), !vari) == true) {
 			siivottuSiirtolista.push_back(s);
 		}
 	}

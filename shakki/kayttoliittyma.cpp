@@ -193,7 +193,9 @@ Siirto Kayttoliittyma::annaVastustajanSiirto() {
 int Kayttoliittyma::kysyVastustajanVari()
 {
 	int vari;
-	cout << "Give your color (0 = white 1 = black): " << endl;
+	wcout << "Give your color (0 = white 1 = black): " << endl;
 	cin >> vari;
+	_vari = vari;
 	return vari;
 }
+
