@@ -111,7 +111,7 @@ void Asema::paivitaAsema(Siirto *siirto)
 			_lauta[7][4] = NULL;
 		}
 	}
-
+	
 	// Kaikki muut siirrot
 
 	//Ottaa siirron alkuruudussa olleen nappulan talteen
@@ -126,6 +126,15 @@ void Asema::paivitaAsema(Siirto *siirto)
 	int rivi_loppu = siirto->getLoppuruutu().getRivi();
 	int sarake_loppu = siirto->getLoppuruutu().getSarake();
 
+
+	if ((_lauta[rivi_alku][sarake_alku]->getKoodi() == VS || _lauta[rivi_alku][sarake_alku]->getKoodi() == MS) &&
+		(rivi_alku - rivi_loppu == 2 || rivi_alku - rivi_loppu == -2))
+		kaksoisaskelSarakkeella = sarake_alku;
+	if ((_lauta[rivi_alku][sarake_alku]->getKoodi() == VS || _lauta[rivi_alku][sarake_alku]->getKoodi() == MS) &&
+		(sarake_alku != sarake_loppu) &&
+		(_lauta[rivi_loppu][sarake_loppu] == NULL))
+		_lauta[rivi_alku][sarake_loppu] = NULL;
+	//
 	// Katsotaan jos nappula on sotilas ja rivi on p‰‰tyrivi niin korotetaan nappula kysym‰ll‰ mihin korotetaan	
 	 
 		if (_lauta[rivi_alku][sarake_alku] == vs && rivi_loppu == 7 && rivi_alku == 6 && _siirtovuoro == 0 || _siirtovuoro == 1 && _lauta[rivi_alku][sarake_alku] == ms && rivi_loppu == 0 && rivi_alku == 1) {
@@ -263,6 +272,15 @@ void Asema::paivitaTestiAsema(Siirto* siirto)
 	int rivi_loppu = siirto->getLoppuruutu().getRivi();
 	int sarake_loppu = siirto->getLoppuruutu().getSarake();
 
+
+	//Sotilaan ohestalyˆnti
+	if ((_lauta[rivi_alku][sarake_alku]->getKoodi() == VS || _lauta[rivi_alku][sarake_alku]->getKoodi() == MS) &&
+		(rivi_alku - rivi_loppu == 2 || rivi_alku - rivi_loppu == -2))
+		kaksoisaskelSarakkeella = sarake_alku;
+	if ((_lauta[rivi_alku][sarake_alku]->getKoodi() == VS || _lauta[rivi_alku][sarake_alku]->getKoodi() == MS) &&
+		(sarake_alku != sarake_loppu) &&
+		(_lauta[rivi_loppu][sarake_loppu] == NULL))
+		_lauta[rivi_alku][sarake_loppu] = NULL;
 	// Katsotaan jos nappula on sotilas ja rivi on p‰‰tyrivi niin korotetaan nappula kysym‰ll‰ mihin korotetaan	
 	if (_lauta[rivi_alku][sarake_alku] == vs && rivi_loppu == 7 && rivi_alku == 6 && _siirtovuoro == 0 || _siirtovuoro == 1 && _lauta[rivi_alku][sarake_alku] == ms && rivi_loppu == 0 && rivi_alku == 1) {
 	Nappula* korotettuNappula;

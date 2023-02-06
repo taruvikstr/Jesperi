@@ -503,7 +503,7 @@ void Sotilas::annaSiirrot(std::list<Siirto>& lista, Ruutu* ruutu, Asema* asema, 
         if (omaVari == 0 && rivi == 4) {
             uusiRuutu.setRivi(5);
             uusiRuutu.setSarake(asema->kaksoisaskelSarakkeella);
-            lista.push_back(Siirto(*ruutu, uusiRuutu));
+            lista.push_back(Siirto(*ruutu,Ruutu(5, asema->kaksoisaskelSarakkeella)));
         }
         if (omaVari == 1 && rivi == 3) {
             uusiRuutu.setRivi(2);
