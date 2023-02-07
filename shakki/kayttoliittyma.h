@@ -12,10 +12,11 @@ class Kayttoliittyma
 public:
 
 	void aseta_asema(Asema* asema) { this->_asema = asema;  }
+	void piirraLautaF(std::list<Siirto> lista);
 	void piirraLauta();
 	Siirto annaVastustajanSiirto();
 	int kysyVastustajanVari();
-
+	int _vari = 0;
 	static Kayttoliittyma* getInstance();
 
 private:

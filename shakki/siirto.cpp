@@ -5,8 +5,8 @@ Siirto::Siirto(Ruutu _alkuRuutu, Ruutu _loppuRuutu)
 {
     this->_alkuRuutu = _alkuRuutu;
     this->_loppuRuutu = _loppuRuutu;
-    this->_lyhytLinna = onkoLyhytLinna();
-    this->_pitkaLinna = onkoPitkalinna();
+    this->_lyhytLinna = false;
+    this->_pitkaLinna = false;
 }
 
 Siirto::Siirto(bool _lyhytLinna, bool _pitkaLinna) 
@@ -21,41 +21,22 @@ Siirto::Siirto(bool _lyhytLinna, bool _pitkaLinna)
 Ruutu Siirto::getAlkuruutu()
 {
     return this->_alkuRuutu;
-
 }
 
 
 Ruutu Siirto::getLoppuruutu()
 {
     return this->_loppuRuutu;
-
 }
 
 
 bool Siirto::onkoLyhytLinna() 
 {
-    // Valkoisen kuninkaan lyhyen linnan siirto
-    if (_alkuRuutu.getSarake() == 0 && _alkuRuutu.getRivi() == 4 
-        && _loppuRuutu.getSarake() == 0 && _loppuRuutu.getRivi() == 6) return this->_lyhytLinna = true;
-
-    // Mustan kuninkaan lyhyen linnan siirto
-    else if (_alkuRuutu.getSarake() == 7 && _alkuRuutu.getRivi() == 4
-        && _loppuRuutu.getSarake() == 7 && _loppuRuutu.getRivi() == 6) return this->_lyhytLinna = true;
-   
-    else  return this->_lyhytLinna = false;
+    return this->_lyhytLinna;
 }
 
 
 bool Siirto::onkoPitkalinna() 
 {
-    // Valkoisen kuninkaan pitkän linnan siirto
-    if (_alkuRuutu.getSarake() == 0 && _alkuRuutu.getRivi() == 4
-        && _loppuRuutu.getSarake() == 0 && _loppuRuutu.getRivi() == 2) return this->_lyhytLinna = true;
-
-    // Mustan kuninkaan pitkän linnan siirto
-    else if (_alkuRuutu.getSarake() == 7 && _alkuRuutu.getRivi() == 4
-        && _loppuRuutu.getSarake() == 7 && _loppuRuutu.getRivi() == 2) return this->_lyhytLinna = true;
-
-    else  return this->_lyhytLinna = false;
-
+    return this->_pitkaLinna;
 }

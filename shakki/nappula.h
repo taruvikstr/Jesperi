@@ -19,7 +19,6 @@ enum
 // Yliluokka shakkinappuloille.
 class Nappula
 {
-	virtual void annaSiirrot(std::list<Siirto>& lista, Ruutu*, Asema*, int vari) = 0;
 	
 
 	
@@ -36,9 +35,10 @@ public:
 	Nappula(std::wstring, int, int);
 	Nappula() { _koodi = 0; _vari = 0; }
 	~Nappula() { }
-	
+	virtual void annaSiirrot(std::list<Siirto>& lista, Ruutu*, Asema*, int vari) = 0;
 
-	// Siirtojen generointi. Puhdas virtuaalifunktio, eli aliluokat toteuttavat tämän
+
+	// Siirtojen generointi. Puhdas virtuaalifunktio, eli aliluokat toteuttavat tï¿½mï¿½n
 	// omalla tavallaan.
 	
 
@@ -48,17 +48,16 @@ public:
 	int getVari()							{ return _vari;					}
 	int getKoodi()							{ return _koodi;				}
 	void setKoodi(int koodi)				{ _koodi = koodi;				}
+
 };
 
-// Torni-aliluokka. Virtuaalinen perintä tarkoittaa, että kantaluokka peritään moniperinnässä vain kerran
-// (koska daami perii sekä tornin että lähetin).
+// Torni-aliluokka. Virtuaalinen perintï¿½ tarkoittaa, ettï¿½ kantaluokka peritï¿½ï¿½n moniperinnï¿½ssï¿½ vain kerran
+// (koska daami perii sekï¿½ tornin ettï¿½ lï¿½hetin).
 class Torni : public virtual Nappula {
 public:
 	Torni(std::wstring unicode, int vari, int koodi) : Nappula(unicode, vari, koodi) {}
-	void annaSiirrot(std::list<Siirto>& lista, Ruutu*, Asema*, int vari);
-	
-};
-
+		void annaSiirrot(std::list<Siirto>&lista, Ruutu*, Asema*, int vari);
+	};
 // Ratsu-aliluokka.
 class Ratsu : public Nappula {
 public:
@@ -66,15 +65,15 @@ public:
 	void annaSiirrot(std::list<Siirto>& lista, Ruutu*, Asema*, int vari);
 };
 
-// Lähetti-aliluokka. Virtuaalinen perintä tarkoittaa, että kantaluokka peritään moniperinnässä vain kerran
-// (koska daami perii sekä tornin että lähetin).
+// Lï¿½hetti-aliluokka. Virtuaalinen perintï¿½ tarkoittaa, ettï¿½ kantaluokka peritï¿½ï¿½n moniperinnï¿½ssï¿½ vain kerran
+// (koska daami perii sekï¿½ tornin ettï¿½ lï¿½hetin).
 class Lahetti : public virtual Nappula {
 public:
 	Lahetti(std::wstring unicode, int vari, int koodi) : Nappula(unicode, vari, koodi) {}
 	void annaSiirrot(std::list<Siirto>& lista, Ruutu*, Asema*, int vari);
 };
 
-// Daami-aliluokka. Perii sekä lähetin että tornin.
+// Daami-aliluokka. Perii sekï¿½ lï¿½hetin ettï¿½ tornin.
 class Daami : public Lahetti, public Torni {
 public:
 	Daami(std::wstring unicode, int vari, int koodi) : 
@@ -93,7 +92,8 @@ public:
 // Sotilas-aliluokka.
 class Sotilas : public Nappula {
 public:
-	Sotilas(std::wstring unicode, int vari, int koodi) : Nappula(unicode, vari, koodi) {}
+  
+    Sotilas(std::wstring unicode, int vari, int koodi) : Nappula(unicode, vari, koodi) {}
 	void annaSiirrot(std::list<Siirto>& lista, Ruutu*, Asema*, int vari);
 private:
 	void lisaaSotilaanKorotukset(Siirto*, std::list<Siirto>& lista, Asema*);
