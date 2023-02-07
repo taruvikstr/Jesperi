@@ -399,76 +399,209 @@ vai olla estämässä vastustajan korotusta siksi ei oteta kantaa
 */
 double Asema::evaluoi() 
 {
+	double valkoinenArvo = 0;
+	double mustaArvo = 0;
 	//kertoimet asetettu sen takia että niiden avulla asioiden painoarvoa voidaan säätää helposti yhdestä paikasta
-	
-	//1. Nappuloiden arvo
-	float daamiArvo = 9;
-	float torniArvo = 5;
-	float lahettiArvo = 3.25;
-	float ratsuArvo = 3;
-	float sotilasArvo = 1;
-	//2. Kuningas turvassa
-	
-	//3. Arvosta keskustaa
-	
-	// 4. Arvosta linjoja
-	return 0;
+	double kuningasKerroin = 1;
+	double keskustaKerroin = 1;
+	double linjaKerroin = 0.05;
 
+	//1. Nappuloiden arvo
+	valkoinenArvo += laskeNappuloidenArvo(0);
+	mustaArvo += laskeNappuloidenArvo(1);
+	//2. Kuningas turvassa
+		//if (onkoAvausTaiKeskipeli(asema, 0)) {
+	//	// Jos lyhellä puolella saa lisäarvoa 2 edellyttää että f ja g sotilas  paikallaan 
+	//	if (asema->lauta[6][0] != NULL && asema->lauta[5][1] != NULL && asema->lauta[6][1] != NULL) {
+	//		if (asema->lauta[6][0]->getNimi() == L"vk" && (asema->lauta[5][1]->getNimi() == L"vs" && (asema->lauta[6][1]->getNimi() == L"vs")))
+	//			valkeaArvo += 2 * kuningasKerroin;
+	//	}
+	//	// Jos pitkällä puolella saa lisäarvooa 1 edelyttää että  c ja b sotilas paikallaan
+	//	if (asema->lauta[1][0] != NULL && asema->lauta[2][0] != NULL && asema->lauta[1][1] != NULL && asema->lauta[2][1] != NULL) {
+	//		if (asema->lauta[1][0]->getNimi() == L"vk" || asema->lauta[2][0]->getNimi() == L"vk" && (asema->lauta[1][1]->getNimi() == L"vs" && (asema->lauta[2][1]->getNimi() == L"vs")))
+	//			valkeaArvo += 1 * kuningasKerroin;
+	//	}
+	//}
+	//if (onkoAvausTaiKeskipeli(asema, 1)) {
+	//	// Jos lyhellä puolella saa lisäarvoa 2 edellyttää että f ja g sotilas  paikallaan 
+	//	if (asema->lauta[6][7] != NULL && asema->lauta[5][6] != NULL && asema->lauta[6][6] != NULL) {
+	//		if (asema->lauta[6][7]->getNimi() == L"mk" && (asema->lauta[5][6]->getNimi() == L"ms" && (asema->lauta[6][6]->getNimi() == L"ms")))
+	//			valkeaArvo += 2 * kuningasKerroin;
+	//	}
+	//	// Jos pitkällä puolella saa lisäarvooa 1 edelyttää että  c ja b sotilas paikallaan
+	//	if (asema->lauta[1][7] != NULL && asema->lauta[2][7] != NULL && asema->lauta[1][7] != NULL && asema->lauta[2][7] != NULL) {
+	//		if (asema->lauta[1][7]->getNimi() == L"mk" || asema->lauta[2][7]->getNimi() == L"mk" && (asema->lauta[1][7]->getNimi() == L"ms" && (asema->lauta[2][7]->getNimi() == L"ms")))
+	//			valkeaArvo += 1 * kuningasKerroin;
+	//	}
+	//}
+	//3. Arvosta keskustaa
+	valkoinenArvo = nappuloitaKeskella(0) * keskustaKerroin;
+	mustaArvo = nappuloitaKeskella(1) * keskustaKerroin;
+
+	// 4. Arvosta linjoja
+	valkoinenArvo = linjaKerroin * linjat(0);
+	mustaArvo = linjaKerroin * linjat(1);
+
+	return valkoinenArvo + mustaArvo;
 }
 
 
 double Asema::laskeNappuloidenArvo(int vari) 
 {
-	return 0;
-	
+	double nappuloidenArvo = 0;
+
+	for (int x = 0; x < 8; x++) {
+		for (int y = 0; y < 8; y++) {
+			if (_lauta[x][y] != NULL)
+			{
+				if (vari == 0)
+				{
+					//Valkoisen arvotus
+					if (_lauta[x][y] == vd) nappuloidenArvo += 9;
+					if (_lauta[x][y] == vt) nappuloidenArvo += 5;
+					if (_lauta[x][y] == vl) nappuloidenArvo += 3.25f;
+					if (_lauta[x][y] == vr) nappuloidenArvo += 3;
+					if (_lauta[x][y] == vs) nappuloidenArvo += 1;
+				}
+				else 
+				{
+					//Mustan arvotus
+					if (_lauta[x][y] == md) nappuloidenArvo -= 9;
+					if (_lauta[x][y] == mt) nappuloidenArvo -= 5;
+					if (_lauta[x][y] == ml) nappuloidenArvo -= 3.25f;
+					if (_lauta[x][y] == mr) nappuloidenArvo -= 3;
+					if (_lauta[x][y] == ms) nappuloidenArvo -= 1;
+				}
+			}
+		}
+	}
+
+	return nappuloidenArvo;
 }
 
 
 bool Asema::onkoAvausTaiKeskipeli(int vari) 
 {
-	return 0;
-	// Jos upseereita 3 tai vähemmän on loppupeli
-	// mutta jos daami laudalla on loppueli vasta kun kuin vain daami jäljellä
-	
-	//Jos vari on 0 eli valkoiset
-	//niin on keskipeli jos mustalla upseereita yli 2 tai jos daami+1
-	
+	int upseerit = 0;
+	bool daami = false;
 
+	for (int x = 0; x < 8; x++) {
+		for (int y = 0; y < 8; y++) {
+			if (_lauta[x][y] == NULL) {
+				continue;
+			}
+
+			if (vari == 1) //Valkoiset
+			{
+				if (_lauta[x][y] == vd) {
+					upseerit += 1;
+					daami = true;
+				}
+				if (_lauta[x][y] == vt) upseerit += 1;
+				if (_lauta[x][y] == vr) upseerit += 1;
+				if (_lauta[x][y] == vl) upseerit += 1;
+			}
+			else //Mustat
+			{
+				if (_lauta[x][y] == md) {
+					upseerit += 1;
+					daami = true;
+				}
+				if (_lauta[x][y] == vt) upseerit += 1;
+				if (_lauta[x][y] == vr) upseerit += 1;
+				if (_lauta[x][y] == vl) upseerit += 1;
+			}
+			
+		}
+	}
+	//keskipeli jos upseereita yli 2 tai jos daami +1
+	if (upseerit > 2 || (daami == true && upseerit > 1)) return true;
+	else return false;
 }
 
 
 double Asema::nappuloitaKeskella(int vari) 
 {
-	return 0;
-
 	//sotilaat ydinkeskustassa + 0.25/napa
 	//ratsut ydinkeskustassa + 0.25/napa
 	//sotilaat laitakeskustassa + 0.11/napa
 	//ratsut laitakeskustassa + 0.11/napa
-	
+	double arvoKeskella = 0;
 	//valkeille ydinkeskusta
-
-	
-	
-	//valkeille laitakeskusta
-	
-
-
-	//mustille ydinkeskusta
-	
-	//mustille laitakeskusta
-	
+	if (vari == 0)
+	{
+		if (_lauta[3][3] != NULL && _lauta[3][3] == vs || _lauta[3][3] == vr) arvoKeskella += 0.25;
+		if (_lauta[3][4] && _lauta[3][4] == vs || _lauta[3][4] == vr ) arvoKeskella += 0.25;
+		if (_lauta[4][3] != NULL && _lauta[4][3] == vs|| _lauta[4][3] == vr) arvoKeskella += 0.25;
+		if (_lauta[4][4] != NULL && _lauta[4][4] == vs || _lauta[4][4] == vr) arvoKeskella += 0.25;
+		//valkeille laitakeskusta
+		for (int sarake = 2; sarake < 6; sarake++) {
+			if (_lauta[2][sarake] != NULL && _lauta[2][sarake] == vs || _lauta[2][sarake] == vr) arvoKeskella += 0.11;
+			if (_lauta[5][sarake] != NULL && _lauta[5][sarake] == vs || _lauta[5][sarake] == vr) arvoKeskella += 0.11;
+		}
+		for (int rivi = 3; rivi < 5; rivi++) {
+			if (_lauta[rivi][2] != NULL && _lauta[rivi][2] == vs || _lauta[rivi][2] == vr) arvoKeskella += 0.11;
+			if (_lauta[rivi][5] != NULL && _lauta[rivi][5] == vs || _lauta[rivi][5] == vr) arvoKeskella += 0.11;
+		}
+	}
+	else 
+	{
+		//mustille ydinkeskusta
+		if (_lauta[3][3] != NULL && _lauta[3][3] == ms || _lauta[3][3] == mr) arvoKeskella += 0.25;
+		if (_lauta[3][4] && _lauta[3][4] == ms || _lauta[3][4] == mr) arvoKeskella += 0.25;
+		if (_lauta[4][3] != NULL && _lauta[4][3] == ms || _lauta[4][3] == mr) arvoKeskella += 0.25;
+		if (_lauta[4][4] != NULL && _lauta[4][4] == ms || _lauta[4][4] == mr) arvoKeskella += 0.25;
+		//mustille laitakeskusta
+		for (int sarake = 2; sarake < 6; sarake++) {
+			if (_lauta[2][sarake] != NULL && _lauta[2][sarake] == ms || _lauta[2][sarake] == mr) arvoKeskella += 0.11;
+			if (_lauta[5][sarake] != NULL && _lauta[5][sarake] == ms || _lauta[5][sarake] == mr) arvoKeskella += 0.11;
+		}
+		for (int rivi = 3; rivi < 5; rivi++) {
+			if (_lauta[rivi][2] != NULL && _lauta[rivi][2] == ms || _lauta[rivi][2] == mr) arvoKeskella += 0.11;
+			if (_lauta[rivi][5] != NULL && _lauta[rivi][5] == ms || _lauta[rivi][5] == mr) arvoKeskella += 0.11;
+		}
+	}
+	return arvoKeskella;
 }
 
 
 double Asema::linjat(int vari) 
 {
-	return 0;
-	
+	int laillisiaSiirtoja = 0
+	std::list<Siirto> lista;
+
 	//valkoiset
+	if (vari == 0)
+	{
+		for (int x = 0; x < 8; x++) {
+			for (int y = 0; y < 8; y++) {
+				if (_lauta[x][y] == NULL) {
+					continue;
+				}
+				if (_lauta[x][y] == vl) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
+				if (_lauta[x][y] == vt) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
+				if (_lauta[x][y] == vd) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
+			}
+		}
+	}
+	else 
+	{
+		//mustat
+		for (int x = 0; x < 8; x++) {
+			for (int y = 0; y < 8; y++) {
+				if (asema->lauta[x][y] == NULL) {
+					continue;
+				}
+				if (_lauta[x][y] == ml) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
+				if (_lauta[x][y] == mt) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
+				if (_lauta[x][y] == md) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
+			}
+		}
+	}
 	
-	//mustat
-	
+	laillisiaSiirtoja = lista.size();
+
+	return laillisiaSiirtoja;
 }
 
 
