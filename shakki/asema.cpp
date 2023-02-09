@@ -54,7 +54,7 @@ Asema::Asema()
 
 	for (int i = 0; i < 8; i++) {
 		_lauta[1][i] = vs;
-	//	_lauta[6][i] = ms;
+		_lauta[6][i] = ms;
 	}
 	
 
@@ -434,9 +434,9 @@ double Asema::evaluoi()
 	//			valkoinenArvo += 1 * kuningasKerroin;
 	//	}
 	//}
-	//3. Arvosta keskustaa
-//	valkoinenArvo = nappuloitaKeskella(0) * keskustaKerroin;
-//	mustaArvo = nappuloitaKeskella(1) * keskustaKerroin;
+	////3. Arvosta keskustaa
+	//valkoinenArvo = nappuloitaKeskella(0) * keskustaKerroin;
+	//mustaArvo = nappuloitaKeskella(1) * keskustaKerroin;
 
 	// 4. Arvosta linjoja
 	//valkoinenArvo = linjaKerroin * linjat(0);
@@ -606,134 +606,127 @@ double Asema::linjat(int vari)
 }
 
 
-// https://chessprogramming.wikispaces.com/Minimax MinMax-algoritmin pseudokoodi (lisäsin parametrina aseman)
-//int maxi(int depth, asema a) 
-//	if (depth == 0) return evaluate();
-//	int max = -oo;
-//	for (all moves ) {
-//		score = mini(depth - 1, seuraaja);
-//		if (score > max)
-//			max = score;
-//	}
-//	return max;
-//}
-
-//int mini(int depth, asema a) {
-//	if (depth == 0) return -evaluate();
-//	int min = +oo;
-//	for (all moves) {
-//		score = maxi(depth - 1);
-//		if (score < min)
-//			min = score;
-//	}
-//	return min;
-//}
-
-
-//With this call from the Root:
-
-  // score = alphaBetaMax(-oo, +oo, depth);*/
-MinMaxPaluu Asema::minimax(int syvyys, std::list<Siirto>& lista)
-{
-	MinMaxPaluu paluuarvo;
-
-	
-	return paluuarvo;
-}
-
-/*MinMaxPaluu Asema::alphaBetaMin(int alpha, int beta, int depthleft, std::list<Siirto>& lista)
-{
-	MinMaxPaluu arvo;
-	if (depthleft == 0)  return evaluoi();
-	for (std::list<Siirto>::iterator it = lista.begin(); it != lista.end(); it++) {
-		arvo = alphaBetaMax(alpha, beta, depthleft - 1, lista);
-		if (score <= alpha)
-			return alpha;   // fail hard alpha-cutoff
-		if (score < beta)
-			beta = score; // beta acts like min in MiniMax
-	}
-	return beta;
-}
-
-MinMaxPaluu Asema::alphaBetaMax(int alpha, int beta, int depthleft, std::list<Siirto>& lista)
-{
-	double score;
-	if (depthleft == 0) return evaluoi();
-	for (std::list<Siirto>::iterator it = lista.begin(); it != lista.end(); it++) {
-		score = alphaBetaMin(alpha, beta, depthleft - 1, lista);
-		if (score >= beta)
-			return beta;   // fail hard beta-cutoff
-		if (score > alpha)
-			alpha = score; // alpha acts like max in MiniMax
-	}
-	return alpha;
-}
-*/
-
 MinMaxPaluu Asema::maxi(int syvyys)
-{	// Check for checkmate or stalemate, if yes, exit asap, checkmate -100000, stalemate 0
-	MinMaxPaluu paluuArvo;
-	Asema testiAsema;
-	testiAsema = *this;
+{	
 	std::list<Siirto> lista;
-	if (syvyys == 0) {
-		paluuArvo._evaluointiArvo = evaluoi();
-		return paluuArvo;
-	}
-	int max = -std::numeric_limits<double>::infinity();
-	for (int i = 0; i < 8; i++) {
-		for (int j = 0; j < 8; j++) {
-			if (_lauta[i][j] != NULL) {
-				this->_lauta[i][j]->annaSiirrot(lista, &Ruutu(i, j), this, 0);
-			}
-			for (auto siirto : lista) {
-				testiAsema.paivitaTestiAsema(&siirto);
-				paluuArvo = mini(syvyys - 1);
-				if (paluuArvo._evaluointiArvo > max) {
-					max = paluuArvo._evaluointiArvo;
-					paluuArvo._parasSiirto = siirto;
+	Ruutu kuninkaanRuutu;
+	this->annaLaillisetSiirrot(lista);
+	double arvo;
+	Asema uusiAsema;
+	Siirto _parasSiirto;
+	MinMaxPaluu paluu;
+	
+	// Check for checkmate or stalemate, if yes, exit asap, checkmate -100000, stalemate 0
+	if (lista.size() == 0)
+	{
+		//kuninkaan ruutu
+		for (int x = 0; x < 8; x++)
+		{
+			for (int y = 0; y < 8; y++)
+			{
+				if (_lauta[x][y]->getKoodi() == VK)
+				{
+					kuninkaanRuutu.setSarake(y);
+					kuninkaanRuutu.setRivi(x);
 				}
-
 			}
-
+		}
+		//matti
+		if (onkoRuutuUhattu(&kuninkaanRuutu, 1))
+		{
+			paluu._evaluointiArvo = -std::numeric_limits<double>::infinity();
+			return paluu;
+		}
+		//patti
+		if (!onkoRuutuUhattu(&kuninkaanRuutu, 1))
+		{
+			paluu._evaluointiArvo = 0;
+			return paluu;
 		}
 	}
-	std::wcout << "Return value: " << paluuArvo._evaluointiArvo << std::endl;
-	return paluuArvo;
+	//käy läpi pelipuuta läpi
+	if (syvyys == 0)
+	{
+		paluu._evaluointiArvo = evaluoi();
+		return paluu;
+	}
+	double maksimi = -1000000;
+	for (auto s : lista)
+	{
+		uusiAsema = *this;
+		uusiAsema.paivitaAsema(&s);
+		arvo = uusiAsema.mini(syvyys - 1)._evaluointiArvo;
+		if (arvo > maksimi)
+		{
+			maksimi = arvo;
+			_parasSiirto = s;
+		}
+	}
+	paluu._evaluointiArvo = maksimi;
+	paluu._parasSiirto = _parasSiirto;
+	return paluu;
 }
 
 
 MinMaxPaluu Asema::mini(int syvyys)
 {
-	MinMaxPaluu paluuArvo;
 	std::list<Siirto> lista;
-	Asema testiAsema;
-	testiAsema = *this;
+	Ruutu kuninkaanRuutu;
+	this->annaLaillisetSiirrot(lista);
+	double arvo;
+	Asema uusiAsema;
+	Siirto _parasSiirto;
+	MinMaxPaluu paluu;
+
 	// Check for checkmate or stalemate, if yes, exit asap, checkmate -100000, stalemate 0
-	if (syvyys == 0) {
-		paluuArvo._evaluointiArvo = evaluoi();
-		return paluuArvo;
-	}
-	int min = std::numeric_limits<double>::infinity();
-	for (int i = 0; i < 8; i++) {
-		for (int j = 0; j < 8; j++) {
-			if (_lauta[i][j] != NULL) {
-				this->_lauta[i][j]->annaSiirrot(lista, &Ruutu(i, j), this, 1);
-			}
-			for (auto siirto : lista) {
-				testiAsema.paivitaTestiAsema(&siirto);
-				paluuArvo = maxi(syvyys - 1);
-				if (paluuArvo._evaluointiArvo < min) {
-					min = paluuArvo._evaluointiArvo;
-					paluuArvo._parasSiirto = siirto;
+	if (lista.size() == 0)
+	{
+		//kuninkaan ruutu
+		for (int x = 0; x < 8; x++)
+		{
+			for (int y = 0; y < 8; y++)
+			{
+				if (_lauta[x][y]->getKoodi() == MK)
+				{
+					kuninkaanRuutu.setSarake(y);
+					kuninkaanRuutu.setRivi(x);
 				}
-
 			}
-
+		}
+		//matti
+		if (onkoRuutuUhattu(&kuninkaanRuutu, 1))
+		{
+			paluu._evaluointiArvo = std::numeric_limits<double>::infinity();
+			return paluu;
+		}
+		//patti
+		if (!onkoRuutuUhattu(&kuninkaanRuutu, 1))
+		{
+			paluu._evaluointiArvo = 0;
+			return paluu;
 		}
 	}
-	std::wcout << "Return value: " << paluuArvo._evaluointiArvo << std::endl;
-	return paluuArvo;
+	//käy läpi pelipuuta läpi
+	if (syvyys == 0)
+	{
+		paluu._evaluointiArvo = evaluoi();
+		return paluu;
+	}
+	double minimi = 1000000;
+	for (auto s : lista)
+	{
+		uusiAsema = *this;
+		uusiAsema.paivitaAsema(&s);
+		arvo = uusiAsema.maxi(syvyys - 1)._evaluointiArvo;
+		if (arvo < minimi)
+		{
+			minimi = arvo;
+			_parasSiirto = s;
+		}
+	}
+	paluu._evaluointiArvo = minimi;
+	paluu._parasSiirto = _parasSiirto;
+	return paluu;
 }	
 
 

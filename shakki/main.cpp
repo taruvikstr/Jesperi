@@ -105,10 +105,10 @@ int main()
 			MinMaxPaluu paluu;
 			int score;
 			if (koneenVari == 0) {
-				paluu = asema.maxi(1);
+				paluu = asema.maxi(3);
 			}
 			else {
-				paluu = asema.mini(1);
+				paluu = asema.mini(3);
 			}
 			siirto = paluu._parasSiirto;
 		}
