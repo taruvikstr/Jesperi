@@ -137,45 +137,46 @@ void Asema::paivitaAsema(Siirto *siirto)
 	//
 	// Katsotaan jos nappula on sotilas ja rivi on p‰‰tyrivi niin korotetaan nappula kysym‰ll‰ mihin korotetaan	
 	 
-		if (_lauta[rivi_alku][sarake_alku] == vs && rivi_loppu == 7 && rivi_alku == 6 && _siirtovuoro == 0 || _siirtovuoro == 1 && _lauta[rivi_alku][sarake_alku] == ms && rivi_loppu == 0 && rivi_alku == 1) {
-			if (Kayttoliittyma::getInstance()->_vari == _siirtovuoro){
-
+	if (_lauta[rivi_alku][sarake_alku] == vs && rivi_loppu == 7 && rivi_alku == 6 && _siirtovuoro == 0 || _siirtovuoro == 1 && _lauta[rivi_alku][sarake_alku] == ms && rivi_loppu == 0 && rivi_alku == 1) {
+		if (Kayttoliittyma::getInstance()->_vari == _siirtovuoro)
+		{
 			int korotus;
 			wcout << "alku: " << rivi_alku << "loppu: " << rivi_loppu << endl;
 			wcout << "Choose piece to promote to (1 = queen, 2 = rook, 3 = bishop, 4 = knight): ";
 			cin >> korotus;
 			Nappula* korotettuNappula;
-			switch (korotus) {
-			case 1:
-				korotettuNappula = _siirtovuoro == 0 ? vd : md;
-				break;
-			case 2:
-				korotettuNappula = _siirtovuoro == 0 ? vt : mt;
-				break;
-			case 3:
-				korotettuNappula = _siirtovuoro == 0 ? vl : ml;
-				break;
-			case 4:
-				korotettuNappula = _siirtovuoro == 0 ? vr : mr;
-				break;
-			default:
-				korotettuNappula = _siirtovuoro == 0 ? vd : md;
-				break;
 
-
+			switch (korotus) 
+			{
+				case 1:
+					korotettuNappula = _siirtovuoro == 0 ? vd : md;
+					break;
+				case 2:
+					korotettuNappula = _siirtovuoro == 0 ? vt : mt;
+					break;
+				case 3:
+					korotettuNappula = _siirtovuoro == 0 ? vl : ml;
+					break;
+				case 4:
+					korotettuNappula = _siirtovuoro == 0 ? vr : mr;
+					break;
+				default:
+					korotettuNappula = _siirtovuoro == 0 ? vd : md;
+					break;
 			}
+
 			_lauta[rivi_loppu][sarake_loppu] = korotettuNappula;
 			_lauta[rivi_alku][sarake_alku] = NULL;
 			rivi_alku = NULL;
 			sarake_alku = NULL;
-			}
-			else {
-				Nappula* korotettuNappula = siirto->_miksikorotetaan;
-				_lauta[rivi_loppu][sarake_loppu] = korotettuNappula;
-				_lauta[rivi_alku][sarake_alku] = NULL;
-				rivi_alku = NULL;
-				sarake_alku = NULL;
-			}
+		}
+		else {
+			Nappula* korotettuNappula = siirto->_miksikorotetaan;
+			_lauta[rivi_loppu][sarake_loppu] = korotettuNappula;
+			_lauta[rivi_alku][sarake_alku] = NULL;
+			rivi_alku = NULL;
+			sarake_alku = NULL;
+		}
 	}
 	//muissa tapauksissa alkuruutuun null ja loppuruutuun sama alkuruudusta l‰htenyt nappula
 	else {
@@ -187,23 +188,29 @@ void Asema::paivitaAsema(Siirto *siirto)
 
 	// katsotaan jos liikkunut nappula on kuningas niin muutetaan onkoKuningasLiikkunut arvo (molemmille v‰reille)
 	if (_lauta[0][4] == NULL) {
+		wcout << "v kunkku liikkui";
 		_onkoValkeaKuningasLiikkunut = true;
 	}
-	if (_lauta[7][7] == NULL) {
+	if (_lauta[7][4] == NULL) {
+		wcout << "m kunkku liikkui";
 		_onkoMustaKuningasLiikkunut = true;
 	}
 
 	// katsotaan jos liikkunut nappula on torni niin muutetaan onkoTorniLiikkunut arvo (molemmille v‰reille ja molemmille torneille)
 	if (_lauta[0][0] == NULL) {
+		wcout << "v dt liikkui";
 		_onkoValkeaDTliikkunut = true;
 	}
 	if (_lauta[0][7] == NULL) {
+		wcout << "v kt liikkui";
 		_onkoValkeaKTliikkunut = true;
 	}
 	if (_lauta[7][0] == NULL) {
+		wcout << "m dt liikkui";
 		_onkoMustaDTliikkunut = true;
 	}
 	if (_lauta[7][7] == NULL) {
+		wcout << "m kt liikkui";
 		_onkoMustaKTliikkunut = true;
 	}
 	//p‰ivitet‰‰n _siirtovuoro
@@ -302,7 +309,7 @@ void Asema::paivitaTestiAsema(Siirto* siirto)
 	if (_lauta[0][4] == NULL) {
 		_onkoValkeaKuningasLiikkunut = true;
 	}
-	if (_lauta[7][7] == NULL) {
+	if (_lauta[7][4] == NULL) {
 		_onkoMustaKuningasLiikkunut = true;
 	}
 
@@ -319,7 +326,6 @@ void Asema::paivitaTestiAsema(Siirto* siirto)
 	if (_lauta[7][7] == NULL) {
 		_onkoMustaKTliikkunut = true;
 	}
-
 
 
 	//p‰ivitet‰‰n _siirtovuoro
@@ -383,22 +389,24 @@ bool Asema::getOnkoMustaKTliikkunut()
 }
 
 
-/* 1. Laske nappuloiden arvo
-Daami = 9
-Torni = 5
-L‰hetti = 3,25
-Ratsu = 3
-Sotilas = 1
 
-2. Kuninkaan hyvyys
-Jos avaus tai keskipeli, niin hyv‰ ett‰ kunigas g1 tai b1/c1
-Loppupeliss‰ vaikea sanoa halutaanko olla auttamassa omaa sotilasta korottumaan
-vai olla est‰m‰ss‰ vastustajan korotusta siksi ei oteta kantaa
-3. Arvosta keskustaa sotilailla ja ratsuilla
-4. Arvosta pitki‰ linjoja daami, torni ja l‰hetti
-*/
 double Asema::evaluoi() 
 {
+	/* 1. Laske nappuloiden arvo
+	Daami = 9
+	Torni = 5
+	L‰hetti = 3,25
+	Ratsu = 3
+	Sotilas = 1
+
+	2. Kuninkaan hyvyys
+	Jos avaus tai keskipeli, niin hyv‰ ett‰ kunigas g1 tai b1/c1
+	Loppupeliss‰ vaikea sanoa halutaanko olla auttamassa omaa sotilasta korottumaan
+	vai olla est‰m‰ss‰ vastustajan korotusta siksi ei oteta kantaa
+	3. Arvosta keskustaa sotilailla ja ratsuilla
+	4. Arvosta pitki‰ linjoja daami, torni ja l‰hetti
+	*/
+
 	double valkoinenArvo = 0;
 	double mustaArvo = 0;
 	//kertoimet asetettu sen takia ett‰ niiden avulla asioiden painoarvoa voidaan s‰‰t‰‰ helposti yhdest‰ paikasta
@@ -410,33 +418,33 @@ double Asema::evaluoi()
 	valkoinenArvo += laskeNappuloidenArvo(0);
 	mustaArvo += laskeNappuloidenArvo(1);
 	////2. Kuningas turvassa
-	//	if (onkoAvausTaiKeskipeli(0)) {
-	////	// Jos lyhell‰ puolella saa lis‰arvoa 2 edellytt‰‰ ett‰ f ja g sotilas  paikallaan 
-	//	if (_lauta[0][6] != NULL && _lauta[1][5] != NULL && _lauta[1][6] != NULL) {
-	//		if (_lauta[0][6] == vk && _lauta[1][5] == vs && _lauta[1][6] == vs)
-	//			valkoinenArvo += 2 * kuningasKerroin;
-	//	}
-	//	// Jos pitk‰ll‰ puolella saa lis‰arvooa 1 edelytt‰‰ ett‰  c ja b sotilas paikallaan
-	//	if (_lauta[0][1] != NULL && _lauta[0][2] != NULL && _lauta[1][1] != NULL && _lauta[1][2] != NULL) {
-	//		if (_lauta[0][1] == vk || _lauta[0][2] == vk && _lauta[1][1] ==vs && _lauta[1][2]== vs)
-	//			valkoinenArvo += 1 * kuningasKerroin;
-	//	}
-	//}
-	//if (onkoAvausTaiKeskipeli(1)) {
-	//	// Jos lyhell‰ puolella saa lis‰arvoa 2 edellytt‰‰ ett‰ f ja g sotilas  paikallaan 
-	//	if (_lauta[7][6] != NULL && _lauta[6][5] != NULL && _lauta[6][6] != NULL) {
-	//		if (_lauta[7][6]== mk && _lauta[6][5]== ms && _lauta[6][6]==ms)
-	//			valkoinenArvo += 2 * kuningasKerroin;
-	//	}
-	//	// Jos pitk‰ll‰ puolella saa lis‰arvooa 1 edelytt‰‰ ett‰  c ja b sotilas paikallaan
-	//	if (_lauta[7][1] != NULL && _lauta[7][2] != NULL && _lauta[7][1] != NULL && _lauta[7][2] != NULL) {
-	//		if (_lauta[7][1] == mk || _lauta[7][2]== mk && _lauta[7][1] == ms && _lauta[7][2] ==ms)
-	//			valkoinenArvo += 1 * kuningasKerroin;
-	//	}
-	//}
-	////3. Arvosta keskustaa
-	//valkoinenArvo = nappuloitaKeskella(0) * keskustaKerroin;
-	//mustaArvo = nappuloitaKeskella(1) * keskustaKerroin;
+	if (onkoAvausTaiKeskipeli(0)) {
+//	// Jos lyhell‰ puolella saa lis‰arvoa 2 edellytt‰‰ ett‰ f ja g sotilas  paikallaan 
+		if (_lauta[0][6] != NULL && _lauta[1][5] != NULL && _lauta[1][6] != NULL) {
+			if (_lauta[0][6] == vk && _lauta[1][5] == vs && _lauta[1][6] == vs)
+				valkoinenArvo += 2 * kuningasKerroin;
+		}
+		// Jos pitk‰ll‰ puolella saa lis‰arvooa 1 edelytt‰‰ ett‰  c ja b sotilas paikallaan
+		if (_lauta[0][1] != NULL && _lauta[0][2] != NULL && _lauta[1][1] != NULL && _lauta[1][2] != NULL) {
+			if (_lauta[0][1] == vk || _lauta[0][2] == vk && _lauta[1][1] ==vs && _lauta[1][2]== vs)
+				valkoinenArvo += 1 * kuningasKerroin;
+		}
+	}
+	if (onkoAvausTaiKeskipeli(1)) {
+		// Jos lyhell‰ puolella saa lis‰arvoa 2 edellytt‰‰ ett‰ f ja g sotilas  paikallaan 
+		if (_lauta[7][6] != NULL && _lauta[6][5] != NULL && _lauta[6][6] != NULL) {
+			if (_lauta[7][6]== mk && _lauta[6][5]== ms && _lauta[6][6]==ms)
+				valkoinenArvo += 2 * kuningasKerroin;
+		}
+		// Jos pitk‰ll‰ puolella saa lis‰arvooa 1 edelytt‰‰ ett‰  c ja b sotilas paikallaan
+		if (_lauta[7][1] != NULL && _lauta[7][2] != NULL && _lauta[7][1] != NULL && _lauta[7][2] != NULL) {
+			if (_lauta[7][1] == mk || _lauta[7][2]== mk && _lauta[7][1] == ms && _lauta[7][2] ==ms)
+				valkoinenArvo += 1 * kuningasKerroin;
+		}
+	}
+	//3. Arvosta keskustaa
+	valkoinenArvo = nappuloitaKeskella(0) * keskustaKerroin;
+	mustaArvo = nappuloitaKeskella(1) * keskustaKerroin;
 
 	// 4. Arvosta linjoja
 	//valkoinenArvo = linjaKerroin * linjat(0);
@@ -624,17 +632,21 @@ MinMaxPaluu Asema::maxi(int syvyys)
 		{
 			for (int y = 0; y < 8; y++)
 			{
-				if (_lauta[x][y]->getKoodi() == VK)
+				if (this->_lauta[x][y] != NULL)
 				{
-					kuninkaanRuutu.setSarake(y);
-					kuninkaanRuutu.setRivi(x);
+					if (this->_lauta[x][y]->getKoodi() == VK)
+					{
+						kuninkaanRuutu.setSarake(y);
+						kuninkaanRuutu.setRivi(x);
+					}
 				}
+				
 			}
 		}
 		//matti
 		if (onkoRuutuUhattu(&kuninkaanRuutu, 1))
 		{
-			paluu._evaluointiArvo = -std::numeric_limits<double>::infinity();
+			paluu._evaluointiArvo = -1000000;
 			return paluu;
 		}
 		//patti
@@ -654,7 +666,7 @@ MinMaxPaluu Asema::maxi(int syvyys)
 	for (auto s : lista)
 	{
 		uusiAsema = *this;
-		uusiAsema.paivitaAsema(&s);
+		uusiAsema.paivitaTestiAsema(&s);
 		arvo = uusiAsema.mini(syvyys - 1)._evaluointiArvo;
 		if (arvo > maksimi)
 		{
@@ -686,21 +698,24 @@ MinMaxPaluu Asema::mini(int syvyys)
 		{
 			for (int y = 0; y < 8; y++)
 			{
-				if (_lauta[x][y]->getKoodi() == MK)
+				if (this->_lauta[x][y] != NULL)
 				{
-					kuninkaanRuutu.setSarake(y);
-					kuninkaanRuutu.setRivi(x);
+					if (this->_lauta[x][y]->getKoodi() == MK)
+					{
+						kuninkaanRuutu.setSarake(y);
+						kuninkaanRuutu.setRivi(x);
+					}
 				}
 			}
 		}
 		//matti
-		if (onkoRuutuUhattu(&kuninkaanRuutu, 1))
+		if (onkoRuutuUhattu(&kuninkaanRuutu, 0))
 		{
-			paluu._evaluointiArvo = std::numeric_limits<double>::infinity();
+			paluu._evaluointiArvo = 1000000;
 			return paluu;
 		}
 		//patti
-		if (!onkoRuutuUhattu(&kuninkaanRuutu, 1))
+		if (!onkoRuutuUhattu(&kuninkaanRuutu, 0))
 		{
 			paluu._evaluointiArvo = 0;
 			return paluu;
@@ -716,7 +731,7 @@ MinMaxPaluu Asema::mini(int syvyys)
 	for (auto s : lista)
 	{
 		uusiAsema = *this;
-		uusiAsema.paivitaAsema(&s);
+		uusiAsema.paivitaTestiAsema(&s);
 		arvo = uusiAsema.maxi(syvyys - 1)._evaluointiArvo;
 		if (arvo < minimi)
 		{
@@ -847,8 +862,8 @@ void Asema::annaLinnoitusSiirrot(std::list<Siirto>& lista, int vari) {
 		}
 		//Valkean pitk‰ linna
 		if (!this->getOnkoValkeaKuningasLiikkunut() && !this->getOnkoValkeaDTliikkunut()
-			&& this->onkoRuutuUhattu(&Ruutu(0, 4), 1)
-			&& this->onkoRuutuUhattu(&Ruutu(0, 3), 1) && this->onkoRuutuUhattu(&Ruutu(0, 2), 1)
+			&& this->onkoRuutuUhattu(&Ruutu(0, 4), 1) && this->onkoRuutuUhattu(&Ruutu(0, 3), 1) 
+			&& this->onkoRuutuUhattu(&Ruutu(0, 2), 1) && this->onkoRuutuUhattu(&Ruutu(0, 1), 1)
 			&& this->_lauta[0][3] == NULL && this->_lauta[0][2] == NULL) {
 			//p‰ivitet‰‰n listaan lyhyt linna
 			lista.push_back(Siirto(false, true));
@@ -866,8 +881,8 @@ void Asema::annaLinnoitusSiirrot(std::list<Siirto>& lista, int vari) {
 		}
 		//Mustan pitk‰ linna
 		if (!this->getOnkoMustaKuningasLiikkunut() && !this->getOnkoMustaDTliikkunut()
-			&& this->onkoRuutuUhattu(&Ruutu(7, 4), 0)
-			&& this->onkoRuutuUhattu(&Ruutu(7, 3), 0) && this->onkoRuutuUhattu(&Ruutu(7, 2), 0)
+			&& this->onkoRuutuUhattu(&Ruutu(7, 4), 0) && this->onkoRuutuUhattu(&Ruutu(7, 3), 0) 
+			&& this->onkoRuutuUhattu(&Ruutu(7, 2), 0) && this->onkoRuutuUhattu(&Ruutu(7, 1), 0)
 			&& this->_lauta[7][3] == NULL && this->_lauta[7][2] == NULL) {
 			//p‰ivitet‰‰n listaan lyhyt linna
 			lista.push_back(Siirto(false,true));
