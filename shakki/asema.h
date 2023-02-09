@@ -36,9 +36,14 @@ public:
 	void paivitaAsema(Siirto*);								// P�ivitt�� aseman annetulla siirrolla.
 	void paivitaTestiAsema(Siirto*);
 	double evaluoi();										// Aseman numeerinen arviointi.
-	MinMaxPaluu maxi(int syvyys, std::list<Siirto>& lista);							// Minimax (max:n siirtovuoro).
-	MinMaxPaluu mini(int syvyys, std::list<Siirto>& lista);							// Minimax (min:n siirtovuoro).
-	MinMaxPaluu minimax(int syvyys);						// Minimax-algoritmi.
+	MinMaxPaluu maxi(int syvyys);							// Minimax (max:n siirtovuoro).
+	MinMaxPaluu mini(int syvyys);							// Minimax (min:n siirtovuoro).
+	MinMaxPaluu minimax(int syvyys, std::list<Siirto>& lista);						// Minimax-algoritmi.
+	MinMaxPaluu alphaBetaMin(int alpha, int beta, int depthleft, std::list<Siirto>& lista);
+	MinMaxPaluu alphaBetaMax(int alpha, int beta, int depthleft, std::list<Siirto>& lista);
+	
+	bool peliLoppu =false;
+
 	void annaLaillisetSiirrot(std::list<Siirto>& lista);	// Siirtogeneraattori.
 	int getSiirtovuoro();									// Palauttaa siirtovuoron.
 	void setSiirtovuoro(int);								// Asettaa siirtovuoron.

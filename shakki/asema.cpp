@@ -54,7 +54,7 @@ Asema::Asema()
 
 	for (int i = 0; i < 8; i++) {
 		_lauta[1][i] = vs;
-		_lauta[6][i] = ms;
+	//	_lauta[6][i] = ms;
 	}
 	
 
@@ -409,39 +409,40 @@ double Asema::evaluoi()
 	//1. Nappuloiden arvo
 	valkoinenArvo += laskeNappuloidenArvo(0);
 	mustaArvo += laskeNappuloidenArvo(1);
-	//2. Kuningas turvassa
-		//if (onkoAvausTaiKeskipeli(asema, 0)) {
-	//	// Jos lyhellä puolella saa lisäarvoa 2 edellyttää että f ja g sotilas  paikallaan 
-	//	if (asema->lauta[6][0] != NULL && asema->lauta[5][1] != NULL && asema->lauta[6][1] != NULL) {
-	//		if (asema->lauta[6][0]->getNimi() == L"vk" && (asema->lauta[5][1]->getNimi() == L"vs" && (asema->lauta[6][1]->getNimi() == L"vs")))
-	//			valkeaArvo += 2 * kuningasKerroin;
+	////2. Kuningas turvassa
+	//	if (onkoAvausTaiKeskipeli(0)) {
+	////	// Jos lyhellä puolella saa lisäarvoa 2 edellyttää että f ja g sotilas  paikallaan 
+	//	if (_lauta[0][6] != NULL && _lauta[1][5] != NULL && _lauta[1][6] != NULL) {
+	//		if (_lauta[0][6] == vk && _lauta[1][5] == vs && _lauta[1][6] == vs)
+	//			valkoinenArvo += 2 * kuningasKerroin;
 	//	}
 	//	// Jos pitkällä puolella saa lisäarvooa 1 edelyttää että  c ja b sotilas paikallaan
-	//	if (asema->lauta[1][0] != NULL && asema->lauta[2][0] != NULL && asema->lauta[1][1] != NULL && asema->lauta[2][1] != NULL) {
-	//		if (asema->lauta[1][0]->getNimi() == L"vk" || asema->lauta[2][0]->getNimi() == L"vk" && (asema->lauta[1][1]->getNimi() == L"vs" && (asema->lauta[2][1]->getNimi() == L"vs")))
-	//			valkeaArvo += 1 * kuningasKerroin;
+	//	if (_lauta[0][1] != NULL && _lauta[0][2] != NULL && _lauta[1][1] != NULL && _lauta[1][2] != NULL) {
+	//		if (_lauta[0][1] == vk || _lauta[0][2] == vk && _lauta[1][1] ==vs && _lauta[1][2]== vs)
+	//			valkoinenArvo += 1 * kuningasKerroin;
 	//	}
 	//}
-	//if (onkoAvausTaiKeskipeli(asema, 1)) {
+	//if (onkoAvausTaiKeskipeli(1)) {
 	//	// Jos lyhellä puolella saa lisäarvoa 2 edellyttää että f ja g sotilas  paikallaan 
-	//	if (asema->lauta[6][7] != NULL && asema->lauta[5][6] != NULL && asema->lauta[6][6] != NULL) {
-	//		if (asema->lauta[6][7]->getNimi() == L"mk" && (asema->lauta[5][6]->getNimi() == L"ms" && (asema->lauta[6][6]->getNimi() == L"ms")))
-	//			valkeaArvo += 2 * kuningasKerroin;
+	//	if (_lauta[7][6] != NULL && _lauta[6][5] != NULL && _lauta[6][6] != NULL) {
+	//		if (_lauta[7][6]== mk && _lauta[6][5]== ms && _lauta[6][6]==ms)
+	//			valkoinenArvo += 2 * kuningasKerroin;
 	//	}
 	//	// Jos pitkällä puolella saa lisäarvooa 1 edelyttää että  c ja b sotilas paikallaan
-	//	if (asema->lauta[1][7] != NULL && asema->lauta[2][7] != NULL && asema->lauta[1][7] != NULL && asema->lauta[2][7] != NULL) {
-	//		if (asema->lauta[1][7]->getNimi() == L"mk" || asema->lauta[2][7]->getNimi() == L"mk" && (asema->lauta[1][7]->getNimi() == L"ms" && (asema->lauta[2][7]->getNimi() == L"ms")))
-	//			valkeaArvo += 1 * kuningasKerroin;
+	//	if (_lauta[7][1] != NULL && _lauta[7][2] != NULL && _lauta[7][1] != NULL && _lauta[7][2] != NULL) {
+	//		if (_lauta[7][1] == mk || _lauta[7][2]== mk && _lauta[7][1] == ms && _lauta[7][2] ==ms)
+	//			valkoinenArvo += 1 * kuningasKerroin;
 	//	}
 	//}
 	//3. Arvosta keskustaa
-	valkoinenArvo = nappuloitaKeskella(0) * keskustaKerroin;
-	mustaArvo = nappuloitaKeskella(1) * keskustaKerroin;
+//	valkoinenArvo = nappuloitaKeskella(0) * keskustaKerroin;
+//	mustaArvo = nappuloitaKeskella(1) * keskustaKerroin;
 
 	// 4. Arvosta linjoja
-	valkoinenArvo = linjaKerroin * linjat(0);
-	mustaArvo = linjaKerroin * linjat(1);
+	//valkoinenArvo = linjaKerroin * linjat(0);
+	//mustaArvo = linjaKerroin * linjat(1);
 
+	wcout << "evaluoi: " << valkoinenArvo + mustaArvo << endl;
 	return valkoinenArvo + mustaArvo;
 }
 
@@ -567,7 +568,7 @@ double Asema::nappuloitaKeskella(int vari)
 
 double Asema::linjat(int vari) 
 {
-	int laillisiaSiirtoja = 0
+	int laillisiaSiirtoja = 0;
 	std::list<Siirto> lista;
 
 	//valkoiset
@@ -578,9 +579,9 @@ double Asema::linjat(int vari)
 				if (_lauta[x][y] == NULL) {
 					continue;
 				}
-				if (_lauta[x][y] == vl) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
-				if (_lauta[x][y] == vt) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
-				if (_lauta[x][y] == vd) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
+			//	if (_lauta[x][y] == vl) lista.assign(listalahetti.begin(), listalahetti.end());;
+			//	if (_lauta[x][y] == vt) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
+			//	if (_lauta[x][y] == vd) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
 			}
 		}
 	}
@@ -589,18 +590,18 @@ double Asema::linjat(int vari)
 		//mustat
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
-				if (asema->lauta[x][y] == NULL) {
+				if (_lauta[x][y] == NULL) {
 					continue;
 				}
-				if (_lauta[x][y] == ml) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
-				if (_lauta[x][y] == mt) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
-				if (_lauta[x][y] == md) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
+			//	if (_lauta[x][y] == ml) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
+			//	if (_lauta[x][y] == mt) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
+			//	if (_lauta[x][y] == md) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
 			}
 		}
 	}
 	
 	laillisiaSiirtoja = lista.size();
-
+	wcout << "laillisiasiirtoja: " << lista.size() << endl;
 	return laillisiaSiirtoja;
 }
 
@@ -627,76 +628,113 @@ double Asema::linjat(int vari)
 //	}
 //	return min;
 //}
-MinMaxPaluu Asema::minimax(int syvyys)
+
+
+//With this call from the Root:
+
+  // score = alphaBetaMax(-oo, +oo, depth);*/
+MinMaxPaluu Asema::minimax(int syvyys, std::list<Siirto>& lista)
 {
 	MinMaxPaluu paluuarvo;
 
-	// Generoidaan aseman lailliset siirrot.
-
-	// Rekursion kantatapaus 1: peli on loppu
-
-	// Rekursion kantatapaus 2: katkaisusyvyydessä
-
-	// Rekursioaskel: kokeillaan jokaista laillista siirtoa s
-	// (alustetaan paluuarvo huonoimmaksi mahdolliseksi).
+	
 	return paluuarvo;
 }
 
-
-MinMaxPaluu Asema::maxi(int syvyys, std::list<Siirto>& lista)
+/*MinMaxPaluu Asema::alphaBetaMin(int alpha, int beta, int depthleft, std::list<Siirto>& lista)
 {
-	MinMaxPaluu paluuarvo;
-	srand(time(NULL)); // seed the random number generator
-	int randomNumber = (rand() % lista.size());
-
-
-	auto it = lista.begin();
-	std::advance(it, randomNumber);
-
-	paluuarvo._parasSiirto = *it;
-
-	for (it = lista.begin(); it != lista.end(); it++)
-	{
-		/*	wcout << it->onkoLyhytLinna() << endl;
-			wcout << it->onkoPitkalinna() << endl;*/
-		if (it->onkoLyhytLinna()) {
-			paluuarvo._parasSiirto = *it;
-		}
-		if (it->onkoPitkalinna()) {
-			paluuarvo._parasSiirto = *it;
-		}
-
+	MinMaxPaluu arvo;
+	if (depthleft == 0)  return evaluoi();
+	for (std::list<Siirto>::iterator it = lista.begin(); it != lista.end(); it++) {
+		arvo = alphaBetaMax(alpha, beta, depthleft - 1, lista);
+		if (score <= alpha)
+			return alpha;   // fail hard alpha-cutoff
+		if (score < beta)
+			beta = score; // beta acts like min in MiniMax
 	}
-	return paluuarvo;
+	return beta;
 }
 
-
-MinMaxPaluu Asema::mini(int syvyys, std::list<Siirto>& lista)
+MinMaxPaluu Asema::alphaBetaMax(int alpha, int beta, int depthleft, std::list<Siirto>& lista)
 {
-	MinMaxPaluu paluuarvo;
-	srand(time(NULL)); // seed the random number generator
-	int randomNumber = (rand() % lista.size());
-
-
-	auto it = lista.begin();
-	std::advance(it, randomNumber);
-
-	paluuarvo._parasSiirto = *it;
-
-	for (it = lista.begin(); it != lista.end(); it++)
-	{
-	/*	wcout << it->onkoLyhytLinna() << endl;
-		wcout << it->onkoPitkalinna() << endl;*/
-		if (it->onkoLyhytLinna()) {
-			paluuarvo._parasSiirto = *it;
-		}
-		if (it->onkoPitkalinna()) {
-			    paluuarvo._parasSiirto = *it;
-		}
-
+	double score;
+	if (depthleft == 0) return evaluoi();
+	for (std::list<Siirto>::iterator it = lista.begin(); it != lista.end(); it++) {
+		score = alphaBetaMin(alpha, beta, depthleft - 1, lista);
+		if (score >= beta)
+			return beta;   // fail hard beta-cutoff
+		if (score > alpha)
+			alpha = score; // alpha acts like max in MiniMax
 	}
-	return paluuarvo;
+	return alpha;
 }
+*/
+
+MinMaxPaluu Asema::maxi(int syvyys)
+{	// Check for checkmate or stalemate, if yes, exit asap, checkmate -100000, stalemate 0
+	MinMaxPaluu paluuArvo;
+	Asema testiAsema;
+	testiAsema = *this;
+	std::list<Siirto> lista;
+	if (syvyys == 0) {
+		paluuArvo._evaluointiArvo = evaluoi();
+		return paluuArvo;
+	}
+	int max = -std::numeric_limits<double>::infinity();
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
+			if (_lauta[i][j] != NULL) {
+				this->_lauta[i][j]->annaSiirrot(lista, &Ruutu(i, j), this, 0);
+			}
+			for (auto siirto : lista) {
+				testiAsema.paivitaTestiAsema(&siirto);
+				paluuArvo = mini(syvyys - 1);
+				if (paluuArvo._evaluointiArvo > max) {
+					max = paluuArvo._evaluointiArvo;
+					paluuArvo._parasSiirto = siirto;
+				}
+
+			}
+
+		}
+	}
+	std::wcout << "Return value: " << paluuArvo._evaluointiArvo << std::endl;
+	return paluuArvo;
+}
+
+
+MinMaxPaluu Asema::mini(int syvyys)
+{
+	MinMaxPaluu paluuArvo;
+	std::list<Siirto> lista;
+	Asema testiAsema;
+	testiAsema = *this;
+	// Check for checkmate or stalemate, if yes, exit asap, checkmate -100000, stalemate 0
+	if (syvyys == 0) {
+		paluuArvo._evaluointiArvo = evaluoi();
+		return paluuArvo;
+	}
+	int min = std::numeric_limits<double>::infinity();
+	for (int i = 0; i < 8; i++) {
+		for (int j = 0; j < 8; j++) {
+			if (_lauta[i][j] != NULL) {
+				this->_lauta[i][j]->annaSiirrot(lista, &Ruutu(i, j), this, 1);
+			}
+			for (auto siirto : lista) {
+				testiAsema.paivitaTestiAsema(&siirto);
+				paluuArvo = maxi(syvyys - 1);
+				if (paluuArvo._evaluointiArvo < min) {
+					min = paluuArvo._evaluointiArvo;
+					paluuArvo._parasSiirto = siirto;
+				}
+
+			}
+
+		}
+	}
+	std::wcout << "Return value: " << paluuArvo._evaluointiArvo << std::endl;
+	return paluuArvo;
+}	
 
 
 bool Asema::onkoRuutuUhattu(Ruutu* ruutu, int vastustajanVari)
@@ -875,3 +913,24 @@ void Asema::annaLaillisetSiirrot(std::list<Siirto>& lista) {
 	
 
 }
+/*srand(time(NULL)); // seed the random number generator
+int randomNumber = (rand() % lista.size());
+
+
+auto it = lista.begin();
+std::advance(it, randomNumber);
+
+paluuarvo._parasSiirto = *it;
+
+for (it = lista.begin(); it != lista.end(); it++)
+{
+/*	wcout << it->onkoLyhytLinna() << endl;
+	wcout << it->onkoPitkalinna() << endl;
+	if (it->onkoLyhytLinna()) {
+		paluuarvo._parasSiirto = *it;
+	}
+	if (it->onkoPitkalinna()) {
+			paluuarvo._parasSiirto = *it;
+	}
+
+}*/

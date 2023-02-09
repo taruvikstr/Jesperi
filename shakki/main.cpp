@@ -103,11 +103,12 @@ int main()
 		if (asema.getSiirtovuoro() == koneenVari) {
 			wcout << "koneen vuoro" << endl;
 			MinMaxPaluu paluu;
+			int score;
 			if (koneenVari == 0) {
-				paluu = asema.maxi(3, lista);
+				paluu = asema.maxi(1);
 			}
 			else {
-				paluu = asema.mini(3, lista);
+				paluu = asema.mini(1);
 			}
 			siirto = paluu._parasSiirto;
 		}
