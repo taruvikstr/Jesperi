@@ -126,13 +126,31 @@ void Asema::paivitaAsema(Siirto *siirto)
 	int sarake_loppu = siirto->getLoppuruutu().getSarake();
 
 
-	if ((_lauta[rivi_alku][sarake_alku]->getKoodi() == VS || _lauta[rivi_alku][sarake_alku]->getKoodi() == MS) &&
+
+
+	//Sotilaan ohestalyˆnti
+	//ohesta syˆd‰‰n
+	if (_lauta[rivi_alku][sarake_alku] != NULL) {
+		if (_lauta[rivi_alku][sarake_alku]->getKoodi() == VS && sarake_loppu == kaksoisaskelSarakkeella && _lauta[rivi_loppu][sarake_loppu] == NULL
+			|| _lauta[rivi_alku][sarake_alku]->getKoodi() == MS
+			&& sarake_loppu == kaksoisaskelSarakkeella
+			&& _lauta[rivi_loppu][sarake_loppu] == NULL)
+			_lauta[rivi_alku][sarake_loppu] = NULL;
+	}
+	//asetetaan kaksoisaskel valkoiselle
+	if (_lauta[rivi_alku][sarake_alku] != NULL && _lauta[rivi_alku][sarake_alku]->getKoodi() == VS && rivi_loppu == 3) kaksoisaskelSarakkeella = sarake_alku;
+	//ja mustalle
+	else if (_lauta[rivi_alku][sarake_alku] != NULL && _lauta[rivi_alku][sarake_alku]->getKoodi() == MS && rivi_loppu == 4) kaksoisaskelSarakkeella = sarake_alku;
+	else kaksoisaskelSarakkeella = -1;
+
+
+/*	if ((_lauta[rivi_alku][sarake_alku]->getKoodi() == VS || _lauta[rivi_alku][sarake_alku]->getKoodi() == MS) &&
 		(rivi_alku - rivi_loppu == 2 || rivi_alku - rivi_loppu == -2))
 		kaksoisaskelSarakkeella = sarake_alku;
 	if ((_lauta[rivi_alku][sarake_alku]->getKoodi() == VS || _lauta[rivi_alku][sarake_alku]->getKoodi() == MS) &&
 		(sarake_alku != sarake_loppu) &&
 		(_lauta[rivi_loppu][sarake_loppu] == NULL))
-		_lauta[rivi_alku][sarake_loppu] = NULL;
+		_lauta[rivi_alku][sarake_loppu] = NULL;*/
 	//
 	// Katsotaan jos nappula on sotilas ja rivi on p‰‰tyrivi niin korotetaan nappula kysym‰ll‰ mihin korotetaan	
 	 
@@ -280,13 +298,19 @@ void Asema::paivitaTestiAsema(Siirto* siirto)
 
 
 	//Sotilaan ohestalyˆnti
-	if ((_lauta[rivi_alku][sarake_alku]->getKoodi() == VS || _lauta[rivi_alku][sarake_alku]->getKoodi() == MS) &&
-		(rivi_alku - rivi_loppu == 2 || rivi_alku - rivi_loppu == -2))
-		kaksoisaskelSarakkeella = sarake_alku;
-	if ((_lauta[rivi_alku][sarake_alku]->getKoodi() == VS || _lauta[rivi_alku][sarake_alku]->getKoodi() == MS) &&
-		(sarake_alku != sarake_loppu) &&
-		(_lauta[rivi_loppu][sarake_loppu] == NULL))
-		_lauta[rivi_alku][sarake_loppu] = NULL;
+	//ohesta syˆd‰‰n
+	if (_lauta[rivi_alku][sarake_alku] != NULL) {
+		if (_lauta[rivi_alku][sarake_alku]->getKoodi() == VS && sarake_loppu == kaksoisaskelSarakkeella && _lauta[rivi_loppu][sarake_loppu] == NULL
+			|| _lauta[rivi_alku][sarake_alku]->getKoodi() == MS
+			&& sarake_loppu == kaksoisaskelSarakkeella
+			&& _lauta[rivi_loppu][sarake_loppu] == NULL)
+			_lauta[rivi_alku][sarake_loppu] = NULL;
+	}
+	//asetetaan kaksoisaskel valkoiselle
+	if (_lauta[rivi_alku][sarake_alku] != NULL && _lauta[rivi_alku][sarake_alku]->getKoodi() == VS && rivi_loppu == 3) kaksoisaskelSarakkeella = sarake_alku;
+	//ja mustalle
+	else if (_lauta[rivi_alku][sarake_alku] != NULL && _lauta[rivi_alku][sarake_alku]->getKoodi() == MS && rivi_loppu == 4) kaksoisaskelSarakkeella = sarake_alku;
+	else kaksoisaskelSarakkeella = -1;
 	// Katsotaan jos nappula on sotilas ja rivi on p‰‰tyrivi niin korotetaan nappula kysym‰ll‰ mihin korotetaan	
 	if (_lauta[rivi_alku][sarake_alku] == vs && rivi_loppu == 7 && rivi_alku == 6 && _siirtovuoro == 0 || _siirtovuoro == 1 && _lauta[rivi_alku][sarake_alku] == ms && rivi_loppu == 0 && rivi_alku == 1) {
 	Nappula* korotettuNappula;
@@ -416,6 +440,7 @@ double Asema::evaluoi()
 	//1. Nappuloiden arvo
 	valkoinenArvo += laskeNappuloidenArvo(0);
 	mustaArvo += laskeNappuloidenArvo(1);
+	
 	////2. Kuningas turvassa
 	if (onkoAvausTaiKeskipeli(0)) {
 //	// Jos lyhell‰ puolella saa lis‰arvoa 2 edellytt‰‰ ett‰ f ja g sotilas  paikallaan 
@@ -433,23 +458,24 @@ double Asema::evaluoi()
 		// Jos lyhell‰ puolella saa lis‰arvoa 2 edellytt‰‰ ett‰ f ja g sotilas  paikallaan 
 		if (_lauta[7][6] != NULL && _lauta[6][5] != NULL && _lauta[6][6] != NULL) {
 			if (_lauta[7][6]== mk && _lauta[6][5]== ms && _lauta[6][6]==ms)
-				valkoinenArvo += 2 * kuningasKerroin;
+				mustaArvo += 2 * kuningasKerroin;
 		}
 		// Jos pitk‰ll‰ puolella saa lis‰arvooa 1 edelytt‰‰ ett‰  c ja b sotilas paikallaan
 		if (_lauta[7][1] != NULL && _lauta[7][2] != NULL && _lauta[7][1] != NULL && _lauta[7][2] != NULL) {
 			if (_lauta[7][1] == mk || _lauta[7][2]== mk && _lauta[7][1] == ms && _lauta[7][2] ==ms)
-				valkoinenArvo += 1 * kuningasKerroin;
+				mustaArvo += 1 * kuningasKerroin;
 		}
+	
 	}
 	//3. Arvosta keskustaa
-	valkoinenArvo = nappuloitaKeskella(0) * keskustaKerroin;
-	mustaArvo = nappuloitaKeskella(1) * keskustaKerroin;
-
+	valkoinenArvo += nappuloitaKeskella(0) * keskustaKerroin;
+	mustaArvo -= nappuloitaKeskella(1) * keskustaKerroin;
+	
 	// 4. Arvosta linjoja
 	//valkoinenArvo = linjaKerroin * linjat(0);
 	//mustaArvo = linjaKerroin * linjat(1);
 
-	wcout << "evaluoi: " << valkoinenArvo + mustaArvo << endl;
+	//wcout << "evaluoi: " <<  valkoinenArvo+ mustaArvo << endl;
 	return valkoinenArvo + mustaArvo;
 }
 
