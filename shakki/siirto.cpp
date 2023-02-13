@@ -13,8 +13,7 @@ Siirto::Siirto(bool _lyhytLinna, bool _pitkaLinna)
 {
     this->_lyhytLinna = _lyhytLinna;
     this->_pitkaLinna = _pitkaLinna;
-    this->_alkuRuutu = getAlkuruutu();
-    this->_loppuRuutu = getLoppuruutu();
+ 
 }
 
 
@@ -23,6 +22,14 @@ Ruutu Siirto::getAlkuruutu()
     return this->_alkuRuutu;
 }
 
+void Siirto::setAlkuruutu(int rivi, int sarake)
+{
+    _alkuRuutu = Ruutu(rivi, sarake);
+}
+void Siirto::setLoppuruutu(int rivi, int sarake)
+{
+    _loppuRuutu = Ruutu(rivi, sarake);
+}
 
 Ruutu Siirto::getLoppuruutu()
 {

@@ -15,6 +15,8 @@ public:
 	Siirto() { _lyhytLinna = false; _pitkaLinna = false; };
 	Siirto(bool, bool); // Linnoitus lyhyesti (K-siipi) tai pitkästi (D-siipi?
 	Ruutu getAlkuruutu();
+	void setAlkuruutu(int rivi, int sarake);
+	void setLoppuruutu(int rivi, int sarake);
 	Ruutu getLoppuruutu();
 	bool onkoLyhytLinna();
 	bool onkoPitkalinna();

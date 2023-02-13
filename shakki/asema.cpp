@@ -93,6 +93,7 @@ void Asema::paivitaAsema(Siirto *siirto)
 	// onko pitkä linna //pitkälle linnalle sama  ku lyhyelle
 	if (siirto->onkoPitkalinna())
 	{
+		wcout << "pitka" << endl;
 		if (_siirtovuoro == 0) {
 			// Asetetaan kuningas ja torni oikeisiin ruutuihin
 			_lauta[0][2] = vk;
@@ -198,6 +199,7 @@ void Asema::paivitaAsema(Siirto *siirto)
 	//muissa tapauksissa alkuruutuun null ja loppuruutuun sama alkuruudusta lähtenyt nappula
 	else {
 		//Laittaa talteen otetun nappulan uuteen ruutuun
+		wcout << "rivi alku: " << rivi_alku << " sarake alku: " << sarake_alku <<endl;
 		_lauta[rivi_loppu][sarake_loppu] = _lauta[rivi_alku][sarake_alku];
 		_lauta[rivi_alku][sarake_alku] = NULL;
 
@@ -283,7 +285,7 @@ void Asema::paivitaTestiAsema(Siirto* siirto)
 			_lauta[7][4] = NULL;
 		}
 	}
-
+	
 	// Kaikki muut siirrot
 
 	//Ottaa siirron alkuruudussa olleen nappulan talteen
@@ -541,9 +543,9 @@ bool Asema::onkoAvausTaiKeskipeli(int vari)
 					upseerit += 1;
 					daami = true;
 				}
-				if (_lauta[x][y] == vt) upseerit += 1;
-				if (_lauta[x][y] == vr) upseerit += 1;
-				if (_lauta[x][y] == vl) upseerit += 1;
+				if (_lauta[x][y] == mt) upseerit += 1;
+				if (_lauta[x][y] == mr) upseerit += 1;
+				if (_lauta[x][y] == ml) upseerit += 1;
 			}
 			
 		}
@@ -842,17 +844,32 @@ void Asema::huolehdiKuninkaanShakeista(std::list<Siirto>& lista, int vari)
 
 		if (s.onkoLyhytLinna()) {
 			sarake = 6;
-			if (this->getSiirtovuoro() == 0)
+			if (this->getSiirtovuoro() == 0) {
 				rivi = 0;
-			else
+				s.setAlkuruutu(rivi, 4);
+				s.setLoppuruutu(rivi, sarake);
+			}
+			else {
 				rivi = 7;
+				s.setAlkuruutu(rivi, 4);
+				s.setLoppuruutu(rivi, sarake);
+			}
+				
 		}
 		else if (s.onkoPitkalinna()){
 			sarake = 2;
-			if (this->getSiirtovuoro() == 0)
+			if (this->getSiirtovuoro() == 0) {
 				rivi = 0;
-			else
+				s.setAlkuruutu(rivi, 4);
+				s.setLoppuruutu(rivi, sarake);
+			}
+				
+			else {
 				rivi = 7;
+				s.setAlkuruutu(rivi, 4);
+				s.setLoppuruutu(rivi, sarake);
+			}
+				
 		}
 		else {
 			Nappula* siirtyva = this->_lauta[s.getAlkuruutu().getRivi()][s.getAlkuruutu().getSarake()];
@@ -946,24 +963,3 @@ void Asema::annaLaillisetSiirrot(std::list<Siirto>& lista) {
 	
 
 }
-/*srand(time(NULL)); // seed the random number generator
-int randomNumber = (rand() % lista.size());
-
-
-auto it = lista.begin();
-std::advance(it, randomNumber);
-
-paluuarvo._parasSiirto = *it;
-
-for (it = lista.begin(); it != lista.end(); it++)
-{
-/*	wcout << it->onkoLyhytLinna() << endl;
-	wcout << it->onkoPitkalinna() << endl;
-	if (it->onkoLyhytLinna()) {
-		paluuarvo._parasSiirto = *it;
-	}
-	if (it->onkoPitkalinna()) {
-			paluuarvo._parasSiirto = *it;
-	}
-
-}*/

@@ -131,11 +131,23 @@ Siirto Kayttoliittyma::annaVastustajanSiirto() {
 		if (inputString == "O-O")
 		{
 			Siirto siirto(true, false);
+			int rivi = 0;
+			int sarake = 4;
+			if (_vari == 1)
+				rivi = 7;
+			siirto.setAlkuruutu(rivi, sarake);
+			siirto.setLoppuruutu(rivi, sarake);
 			return siirto;
 		}
 		else if (inputString == "O-O-O")
 		{
 			Siirto siirto(false, true);
+			int rivi = 0;
+			int sarake = 4;
+			if (_vari == 1)
+				rivi = 7;
+			siirto.setAlkuruutu(rivi, sarake);
+			siirto.setLoppuruutu(rivi, sarake);
 			return siirto;
 		}
 		// check input length
