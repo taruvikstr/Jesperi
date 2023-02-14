@@ -55,7 +55,6 @@ Asema::Asema()
 		_lauta[1][i] = vs;
 		_lauta[6][i] = ms;
 	}
-	
 
 	_siirtovuoro = 0;
 	_onkoValkeaKuningasLiikkunut = false;
@@ -132,24 +131,22 @@ void Asema::paivitaAsema(Siirto *siirto)
 	//Sotilaan ohestalyˆnti
 	//ohesta syˆd‰‰n
 	
-	if (_lauta[rivi_alku][sarake_alku] != NULL && _siirtovuoro ==0) {
+	if (_siirtovuoro == 0 && _lauta[rivi_alku][sarake_alku] != NULL) {
 		if (sarake_loppu == kaksoisaskelSarakkeella && _lauta[rivi_loppu][sarake_loppu] == NULL
-			&& _lauta[rivi_alku][sarake_alku]->getKoodi() == MS
-			&& sarake_loppu == kaksoisaskelSarakkeella
-			&& _lauta[rivi_loppu][sarake_loppu] == NULL)
+			&& _lauta[rivi_alku][sarake_loppu] != NULL && _lauta[rivi_alku][sarake_loppu]->getKoodi() == MS)
 			_lauta[rivi_alku][sarake_loppu] = NULL;
 	}
-	if (_lauta[rivi_alku][sarake_alku] != NULL && _siirtovuoro == 1) {
-		if (_lauta[rivi_alku][sarake_alku]->getKoodi() == VS && sarake_loppu == kaksoisaskelSarakkeella && _lauta[rivi_loppu][sarake_loppu] == NULL
-			
-			&& sarake_loppu == kaksoisaskelSarakkeella
-			&& _lauta[rivi_loppu][sarake_loppu] == NULL)
+	else if (_siirtovuoro == 1 && _lauta[rivi_alku][sarake_alku] != NULL) 
+	{
+		if (sarake_loppu == kaksoisaskelSarakkeella && _lauta[rivi_loppu][sarake_loppu] == NULL
+			&& _lauta[rivi_alku][sarake_loppu] && _lauta[rivi_alku][sarake_loppu]->getKoodi() == VS)
 			_lauta[rivi_alku][sarake_loppu] = NULL;
 	}
+
 	//asetetaan kaksoisaskel valkoiselle
-	if (_lauta[rivi_alku][sarake_alku] != NULL && _lauta[rivi_alku][sarake_alku]->getKoodi() == VS && rivi_loppu == 3) kaksoisaskelSarakkeella = sarake_alku;
+	if (_siirtovuoro == 0 && _lauta[rivi_alku][sarake_alku] != NULL && _lauta[rivi_alku][sarake_alku]->getKoodi() == VS && rivi_loppu == 3) kaksoisaskelSarakkeella = sarake_alku;
 	//ja mustalle
-	else if (_lauta[rivi_alku][sarake_alku] != NULL && _lauta[rivi_alku][sarake_alku]->getKoodi() == MS && rivi_loppu == 4) kaksoisaskelSarakkeella = sarake_alku;
+	else if (_siirtovuoro == 1 && _lauta[rivi_alku][sarake_alku] != NULL && _lauta[rivi_alku][sarake_alku]->getKoodi() == MS && rivi_loppu == 4) kaksoisaskelSarakkeella = sarake_alku;
 	else kaksoisaskelSarakkeella = -1;
 
 
@@ -213,33 +210,54 @@ void Asema::paivitaAsema(Siirto *siirto)
 
 	}
 
-	// katsotaan jos liikkunut nappula on kuningas niin muutetaan onkoKuningasLiikkunut arvo (molemmille v‰reille)
-	if (_lauta[0][4] == NULL) {
-		wcout << "v kunkku liikkui";
-		_onkoValkeaKuningasLiikkunut = true;
+	// katsotaan jos liikkunut nappula on kuningas niin muutetaan onkoKuningasLiikkunut arvo 
+	if (_siirtovuoro == 0 && !_onkoValkeaKuningasLiikkunut) // jos kuningas on liikkunut, on turha tarkastella torneja en‰‰, koska tornitus ei ole en‰‰ mahdollinen
+	{
+		if (_lauta[0][4] == NULL) {
+			wcout << "v kunkku liikkui";
+			_onkoValkeaKuningasLiikkunut = true;
+		}
+		else if (!_onkoValkeaKTliikkunut || !_onkoValkeaDTliikkunut)
+		{
+			// katsotaan jos liikkunut nappula on torni niin muutetaan onkoTorniLiikkunut arvo
+			if (_lauta[0][0] == NULL) {
+				wcout << "v dt liikkui";
+				_onkoValkeaDTliikkunut = true;
+			}
+			if (_lauta[0][7] == NULL) {
+				wcout << "v kt liikkui";
+				_onkoValkeaKTliikkunut = true;
+			}
+
+			//Jos molemmat tornit on liikkuneet, on turha en‰‰ tarkastella kuninkaan liikkumista, koska tornitus ei ole en‰‰ mahdollista
+			if (_onkoValkeaDTliikkunut && _onkoValkeaKTliikkunut) _onkoValkeaKuningasLiikkunut = true;
+		}
+
 	}
-	if (_lauta[7][4] == NULL) {
-		wcout << "m kunkku liikkui";
-		_onkoMustaKuningasLiikkunut = true;
+	// katsotaan jos liikkunut nappula on kuningas niin muutetaan onkoKuningasLiikkunut arvo 
+	else if (_siirtovuoro == 1 && !_onkoMustaKuningasLiikkunut) // jos kuningas on liikkunut, on turha tarkastella torneja en‰‰, koska tornitus ei ole en‰‰ mahdollinen
+	{
+		if (_lauta[7][4] == NULL) {
+			wcout << "m kunkku liikkui";
+			_onkoMustaKuningasLiikkunut = true;
+		}
+		else if (!_onkoMustaKTliikkunut || !_onkoMustaDTliikkunut)
+		{
+			// katsotaan jos liikkunut nappula on torni niin muutetaan onkoTorniLiikkunut arvo (molemmille v‰reille ja molemmille torneille)
+			if (_lauta[7][0] == NULL) {
+				wcout << "m dt liikkui";
+				_onkoMustaDTliikkunut = true;
+			}
+			if (_lauta[7][7] == NULL) {
+				wcout << "m kt liikkui";
+				_onkoMustaKTliikkunut = true;
+			}
+
+			//Jos molemmat tornit on liikkuneet, on turha en‰‰ tarkastella kuninkaan liikkumista, koska tornitus ei ole en‰‰ mahdollista
+			if (_onkoMustaDTliikkunut && _onkoMustaKTliikkunut) _onkoMustaKuningasLiikkunut = true;
+		}
 	}
 
-	// katsotaan jos liikkunut nappula on torni niin muutetaan onkoTorniLiikkunut arvo (molemmille v‰reille ja molemmille torneille)
-	if (_lauta[0][0] == NULL) {
-		wcout << "v dt liikkui";
-		_onkoValkeaDTliikkunut = true;
-	}
-	if (_lauta[0][7] == NULL) {
-		wcout << "v kt liikkui";
-		_onkoValkeaKTliikkunut = true;
-	}
-	if (_lauta[7][0] == NULL) {
-		wcout << "m dt liikkui";
-		_onkoMustaDTliikkunut = true;
-	}
-	if (_lauta[7][7] == NULL) {
-		wcout << "m kt liikkui";
-		_onkoMustaKTliikkunut = true;
-	}
 	//p‰ivitet‰‰n _siirtovuoro
 	if (_siirtovuoro == 0) {
 		setSiirtovuoro(1);
@@ -309,25 +327,25 @@ void Asema::paivitaTestiAsema(Siirto* siirto)
 
 	//Sotilaan ohestalyˆnti
 	//ohesta syˆd‰‰n
-	if (_lauta[rivi_alku][sarake_alku] != NULL && _siirtovuoro == 0) {
-		if (sarake_loppu == kaksoisaskelSarakkeella && _lauta[rivi_loppu][sarake_loppu] == NULL
-			&& _lauta[rivi_alku][sarake_alku]->getKoodi() == MS
-			&& sarake_loppu == kaksoisaskelSarakkeella
-			&& _lauta[rivi_loppu][sarake_loppu] == NULL)
-			_lauta[rivi_alku][sarake_loppu] = NULL;
-	}
-	if (_lauta[rivi_alku][sarake_alku] != NULL && _siirtovuoro == 1) {
-		if (_lauta[rivi_alku][sarake_alku]->getKoodi() == VS && sarake_loppu == kaksoisaskelSarakkeella && _lauta[rivi_loppu][sarake_loppu] == NULL
 
-			&& sarake_loppu == kaksoisaskelSarakkeella
-			&& _lauta[rivi_loppu][sarake_loppu] == NULL)
+	if (_siirtovuoro == 0 && _lauta[rivi_alku][sarake_alku] != NULL) {
+		if (sarake_loppu == kaksoisaskelSarakkeella && _lauta[rivi_loppu][sarake_loppu] == NULL
+			&& _lauta[rivi_alku][sarake_loppu] != NULL && _lauta[rivi_alku][sarake_loppu]->getKoodi() == MS)
 			_lauta[rivi_alku][sarake_loppu] = NULL;
 	}
+	else if (_siirtovuoro == 1 && _lauta[rivi_alku][sarake_alku] != NULL)
+	{
+		if (sarake_loppu == kaksoisaskelSarakkeella && _lauta[rivi_loppu][sarake_loppu] == NULL
+			&& _lauta[rivi_alku][sarake_loppu] && _lauta[rivi_alku][sarake_loppu]->getKoodi() == VS)
+			_lauta[rivi_alku][sarake_loppu] = NULL;
+	}
+
 	//asetetaan kaksoisaskel valkoiselle
-	if (_lauta[rivi_alku][sarake_alku] != NULL && _lauta[rivi_alku][sarake_alku]->getKoodi() == VS && rivi_loppu == 3) kaksoisaskelSarakkeella = sarake_alku;
+	if (_siirtovuoro == 0 && _lauta[rivi_alku][sarake_alku] != NULL && _lauta[rivi_alku][sarake_alku]->getKoodi() == VS && rivi_loppu == 3) kaksoisaskelSarakkeella = sarake_alku;
 	//ja mustalle
-	else if (_lauta[rivi_alku][sarake_alku] != NULL && _lauta[rivi_alku][sarake_alku]->getKoodi() == MS && rivi_loppu == 4) kaksoisaskelSarakkeella = sarake_alku;
+	else if (_siirtovuoro == 1 && _lauta[rivi_alku][sarake_alku] != NULL && _lauta[rivi_alku][sarake_alku]->getKoodi() == MS && rivi_loppu == 4) kaksoisaskelSarakkeella = sarake_alku;
 	else kaksoisaskelSarakkeella = -1;
+
 	// Katsotaan jos nappula on sotilas ja rivi on p‰‰tyrivi niin korotetaan nappula kysym‰ll‰ mihin korotetaan	
 	if (_lauta[rivi_alku][sarake_alku] == vs && rivi_loppu == 7 && rivi_alku == 6 && _siirtovuoro == 0 || _siirtovuoro == 1 && _lauta[rivi_alku][sarake_alku] == ms && rivi_loppu == 0 && rivi_alku == 1) {
 	Nappula* korotettuNappula;
@@ -344,29 +362,47 @@ void Asema::paivitaTestiAsema(Siirto* siirto)
 		_lauta[rivi_alku][sarake_alku] = NULL;
 
 	}
+	// katsotaan jos liikkunut nappula on kuningas niin muutetaan onkoKuningasLiikkunut arvo 
+	if (_siirtovuoro == 0 && !_onkoValkeaKuningasLiikkunut) // jos kuningas on liikkunut, on turha tarkastella torneja en‰‰, koska tornitus ei ole en‰‰ mahdollinen
+	{
+		if (_lauta[0][4] == NULL) {
+			_onkoValkeaKuningasLiikkunut = true;
+		}
+		else if (!_onkoValkeaKTliikkunut || !_onkoValkeaDTliikkunut)
+		{
+			// katsotaan jos liikkunut nappula on torni niin muutetaan onkoTorniLiikkunut arvo
+			if (_lauta[0][0] == NULL) {
+				_onkoValkeaDTliikkunut = true;
+			}
+			if (_lauta[0][7] == NULL) {
+				_onkoValkeaKTliikkunut = true;
+			}
 
-	// katsotaan jos liikkunut nappula on kuningas niin muutetaan onkoKuningasLiikkunut arvo (molemmille v‰reille)
-	if (_lauta[0][4] == NULL) {
-		_onkoValkeaKuningasLiikkunut = true;
-	}
-	if (_lauta[7][4] == NULL) {
-		_onkoMustaKuningasLiikkunut = true;
-	}
+			//Jos molemmat tornit on liikkuneet, on turha en‰‰ tarkastella kuninkaan liikkumista, koska tornitus ei ole en‰‰ mahdollista
+			if (_onkoValkeaDTliikkunut && _onkoValkeaKTliikkunut) _onkoValkeaKuningasLiikkunut = true;
+		}
 
-	// katsotaan jos liikkunut nappula on torni niin muutetaan onkoTorniLiikkunut arvo (molemmille v‰reille ja molemmille torneille)
-	if (_lauta[0][0] == NULL) {
-		_onkoValkeaDTliikkunut = true;
 	}
-	if (_lauta[0][7] == NULL) {
-		_onkoValkeaKTliikkunut = true;
-	}
-	if (_lauta[7][0] == NULL) {
-		_onkoMustaDTliikkunut = true;
-	}
-	if (_lauta[7][7] == NULL) {
-		_onkoMustaKTliikkunut = true;
-	}
+	// katsotaan jos liikkunut nappula on kuningas niin muutetaan onkoKuningasLiikkunut arvo 
+	else if (_siirtovuoro == 1 && !_onkoMustaKuningasLiikkunut) // jos kuningas on liikkunut, on turha tarkastella torneja en‰‰, koska tornitus ei ole en‰‰ mahdollinen
+	{
+		if (_lauta[7][4] == NULL) {
+			_onkoMustaKuningasLiikkunut = true;
+		}
+		else if (!_onkoMustaKTliikkunut || !_onkoMustaDTliikkunut)
+		{
+			// katsotaan jos liikkunut nappula on torni niin muutetaan onkoTorniLiikkunut arvo (molemmille v‰reille ja molemmille torneille)
+			if (_lauta[7][0] == NULL) {
+				_onkoMustaDTliikkunut = true;
+			}
+			if (_lauta[7][7] == NULL) {
+				_onkoMustaKTliikkunut = true;
+			}
 
+			//Jos molemmat tornit on liikkuneet, on turha en‰‰ tarkastella kuninkaan liikkumista, koska tornitus ei ole en‰‰ mahdollista
+			if (_onkoMustaDTliikkunut && _onkoMustaKTliikkunut) _onkoMustaKuningasLiikkunut = true;
+		}
+	}
 
 	//p‰ivitet‰‰n _siirtovuoro
 	if (_siirtovuoro == 0) {
