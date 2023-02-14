@@ -34,6 +34,7 @@ void Kayttoliittyma::piirraLautaF(std::list<Siirto> lista) {
 		int index = 0;
 		for (int j = 0; j < 8; j++)
 		{
+			
 			bool move = false;
 			for (Siirto kohta : lista) { 
 				if (7 - i == kohta.getLoppuruutu().getRivi() && j == kohta.getLoppuruutu().getSarake()) {
@@ -60,10 +61,17 @@ void Kayttoliittyma::piirraLautaF(std::list<Siirto> lista) {
 			}
 			else {
 				wcout << "   ";
+				
+				
 			}
 			index++;
+			
 		}
-		wcout << endl;
+		
+		
+			wcout  << endl;
+			
+			
 	}
 	wcout << L"   A  B  C  D  E  F  G  H " << endl;
 }

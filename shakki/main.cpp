@@ -35,7 +35,7 @@ int main()
 		wcout << "\n";
 		// Tarkasta onko peli loppu?
 		asema.annaLaillisetSiirrot(lista);
-		Kayttoliittyma::getInstance()->piirraLautaF(lista);
+		Kayttoliittyma::getInstance()->piirraLauta();
 
 		if (lista.size() == 0) {
 			lopetus = 0;
@@ -52,10 +52,10 @@ int main()
 			MinMaxPaluu paluu;
 
 			if (koneenVari == 0) {
-				paluu = asema.maxi(2);
+				paluu = asema.maxi(4);
 			}
 			else {
-				paluu = asema.mini(2);
+				paluu = asema.mini(4);
 			}
 			siirto = paluu._parasSiirto;
 		}

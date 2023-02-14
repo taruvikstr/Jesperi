@@ -131,9 +131,17 @@ void Asema::paivitaAsema(Siirto *siirto)
 
 	//Sotilaan ohestalyˆnti
 	//ohesta syˆd‰‰n
-	if (_lauta[rivi_alku][sarake_alku] != NULL) {
+	
+	if (_lauta[rivi_alku][sarake_alku] != NULL && _siirtovuoro ==0) {
+		if (sarake_loppu == kaksoisaskelSarakkeella && _lauta[rivi_loppu][sarake_loppu] == NULL
+			&& _lauta[rivi_alku][sarake_alku]->getKoodi() == MS
+			&& sarake_loppu == kaksoisaskelSarakkeella
+			&& _lauta[rivi_loppu][sarake_loppu] == NULL)
+			_lauta[rivi_alku][sarake_loppu] = NULL;
+	}
+	if (_lauta[rivi_alku][sarake_alku] != NULL && _siirtovuoro == 1) {
 		if (_lauta[rivi_alku][sarake_alku]->getKoodi() == VS && sarake_loppu == kaksoisaskelSarakkeella && _lauta[rivi_loppu][sarake_loppu] == NULL
-			|| _lauta[rivi_alku][sarake_alku]->getKoodi() == MS
+			
 			&& sarake_loppu == kaksoisaskelSarakkeella
 			&& _lauta[rivi_loppu][sarake_loppu] == NULL)
 			_lauta[rivi_alku][sarake_loppu] = NULL;
@@ -301,9 +309,16 @@ void Asema::paivitaTestiAsema(Siirto* siirto)
 
 	//Sotilaan ohestalyˆnti
 	//ohesta syˆd‰‰n
-	if (_lauta[rivi_alku][sarake_alku] != NULL) {
+	if (_lauta[rivi_alku][sarake_alku] != NULL && _siirtovuoro == 0) {
+		if (sarake_loppu == kaksoisaskelSarakkeella && _lauta[rivi_loppu][sarake_loppu] == NULL
+			&& _lauta[rivi_alku][sarake_alku]->getKoodi() == MS
+			&& sarake_loppu == kaksoisaskelSarakkeella
+			&& _lauta[rivi_loppu][sarake_loppu] == NULL)
+			_lauta[rivi_alku][sarake_loppu] = NULL;
+	}
+	if (_lauta[rivi_alku][sarake_alku] != NULL && _siirtovuoro == 1) {
 		if (_lauta[rivi_alku][sarake_alku]->getKoodi() == VS && sarake_loppu == kaksoisaskelSarakkeella && _lauta[rivi_loppu][sarake_loppu] == NULL
-			|| _lauta[rivi_alku][sarake_alku]->getKoodi() == MS
+
 			&& sarake_loppu == kaksoisaskelSarakkeella
 			&& _lauta[rivi_loppu][sarake_loppu] == NULL)
 			_lauta[rivi_alku][sarake_loppu] = NULL;
@@ -460,12 +475,12 @@ double Asema::evaluoi()
 		// Jos lyhell‰ puolella saa lis‰arvoa 2 edellytt‰‰ ett‰ f ja g sotilas  paikallaan 
 		if (_lauta[7][6] != NULL && _lauta[6][5] != NULL && _lauta[6][6] != NULL) {
 			if (_lauta[7][6]== mk && _lauta[6][5]== ms && _lauta[6][6]==ms)
-				mustaArvo += 2 * kuningasKerroin;
+				mustaArvo -= 2 * kuningasKerroin;
 		}
 		// Jos pitk‰ll‰ puolella saa lis‰arvooa 1 edelytt‰‰ ett‰  c ja b sotilas paikallaan
 		if (_lauta[7][1] != NULL && _lauta[7][2] != NULL && _lauta[7][1] != NULL && _lauta[7][2] != NULL) {
 			if (_lauta[7][1] == mk || _lauta[7][2]== mk && _lauta[7][1] == ms && _lauta[7][2] ==ms)
-				mustaArvo += 1 * kuningasKerroin;
+				mustaArvo -= 1 * kuningasKerroin;
 		}
 	
 	}
@@ -474,8 +489,8 @@ double Asema::evaluoi()
 	mustaArvo -= nappuloitaKeskella(1) * keskustaKerroin;
 	
 	// 4. Arvosta linjoja
-	//valkoinenArvo = linjaKerroin * linjat(0);
-	//mustaArvo = linjaKerroin * linjat(1);
+	//valkoinenArvo += linjaKerroin * linjat(0);
+	//mustaArvo -= linjaKerroin * linjat(1);
 
 	//wcout << "evaluoi: " <<  valkoinenArvo+ mustaArvo << endl;
 	return valkoinenArvo + mustaArvo;
