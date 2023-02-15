@@ -149,15 +149,6 @@ void Asema::paivitaAsema(Siirto *siirto)
 	else if (_siirtovuoro == 1 && _lauta[rivi_alku][sarake_alku] != NULL && _lauta[rivi_alku][sarake_alku]->getKoodi() == MS && rivi_loppu == 4) kaksoisaskelSarakkeella = sarake_alku;
 	else kaksoisaskelSarakkeella = -1;
 
-
-/*	if ((_lauta[rivi_alku][sarake_alku]->getKoodi() == VS || _lauta[rivi_alku][sarake_alku]->getKoodi() == MS) &&
-		(rivi_alku - rivi_loppu == 2 || rivi_alku - rivi_loppu == -2))
-		kaksoisaskelSarakkeella = sarake_alku;
-	if ((_lauta[rivi_alku][sarake_alku]->getKoodi() == VS || _lauta[rivi_alku][sarake_alku]->getKoodi() == MS) &&
-		(sarake_alku != sarake_loppu) &&
-		(_lauta[rivi_loppu][sarake_loppu] == NULL))
-		_lauta[rivi_alku][sarake_loppu] = NULL;*/
-	//
 	// Katsotaan jos nappula on sotilas ja rivi on p‰‰tyrivi niin korotetaan nappula kysym‰ll‰ mihin korotetaan	
 	 
 	if (_lauta[rivi_alku][sarake_alku] == vs && rivi_loppu == 7 && rivi_alku == 6 && _siirtovuoro == 0 || _siirtovuoro == 1 && _lauta[rivi_alku][sarake_alku] == ms && rivi_loppu == 0 && rivi_alku == 1) {
@@ -525,8 +516,8 @@ double Asema::evaluoi()
 	mustaArvo -= nappuloitaKeskella(1) * keskustaKerroin;
 	
 	// 4. Arvosta linjoja
-	//valkoinenArvo += linjaKerroin * linjat(0);
-	//mustaArvo -= linjaKerroin * linjat(1);
+	valkoinenArvo += linjaKerroin * linjat(0);
+	mustaArvo -= linjaKerroin * linjat(1);
 
 	//wcout << "evaluoi: " <<  valkoinenArvo+ mustaArvo << endl;
 	return valkoinenArvo + mustaArvo;
@@ -665,9 +656,9 @@ double Asema::linjat(int vari)
 				if (_lauta[x][y] == NULL) {
 					continue;
 				}
-			//	if (_lauta[x][y] == vl) lista.assign(listalahetti.begin(), listalahetti.end());;
-			//	if (_lauta[x][y] == vt) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
-			//	if (_lauta[x][y] == vd) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
+				if (_lauta[x][y] == vl) _lauta[x][y]->annaSiirrot(lista, &Ruutu(x, y), this, 0);
+				if (_lauta[x][y] == vt) _lauta[x][y]->annaSiirrot(lista, &Ruutu(x, y), this, 0);
+				if (_lauta[x][y] == vd) _lauta[x][y]->annaSiirrot(lista, &Ruutu(x, y), this, 0);
 			}
 		}
 	}
@@ -679,15 +670,14 @@ double Asema::linjat(int vari)
 				if (_lauta[x][y] == NULL) {
 					continue;
 				}
-			//	if (_lauta[x][y] == ml) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
-			//	if (_lauta[x][y] == mt) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
-			//	if (_lauta[x][y] == md) annaLaillisetSiirrot(lista, &Ruutu(x, y), this, 0);
+				if (_lauta[x][y] == ml) _lauta[x][y]->annaSiirrot(lista, &Ruutu(x, y), this, 1);
+				if (_lauta[x][y] == mt) _lauta[x][y]->annaSiirrot(lista, &Ruutu(x, y), this, 1);
+				if (_lauta[x][y] == md) _lauta[x][y]->annaSiirrot(lista, &Ruutu(x, y), this, 1);
 			}
 		}
 	}
 	
 	laillisiaSiirtoja = lista.size();
-	wcout << "laillisiasiirtoja: " << lista.size() << endl;
 	return laillisiaSiirtoja;
 }
 
