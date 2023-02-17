@@ -682,8 +682,8 @@ double Asema::linjat(int vari)
 }
 
 
-MinMaxPaluu Asema::maxi(int syvyys)
-{	
+MinMaxPaluu Asema::maxi(int syvyys, double alpha, double beta)
+{
 	std::list<Siirto> lista;
 	Ruutu kuninkaanRuutu;
 	this->annaLaillisetSiirrot(lista);
@@ -691,7 +691,7 @@ MinMaxPaluu Asema::maxi(int syvyys)
 	Asema uusiAsema;
 	Siirto _parasSiirto;
 	MinMaxPaluu paluu;
-	
+
 	// Check for checkmate or stalemate, if yes, exit asap, checkmate -100000, stalemate 0
 	if (lista.size() == 0)
 	{
@@ -708,7 +708,7 @@ MinMaxPaluu Asema::maxi(int syvyys)
 						kuninkaanRuutu.setRivi(x);
 					}
 				}
-				
+
 			}
 		}
 		//matti
@@ -735,11 +735,15 @@ MinMaxPaluu Asema::maxi(int syvyys)
 	{
 		uusiAsema = *this;
 		uusiAsema.paivitaTestiAsema(&s);
-		arvo = uusiAsema.mini(syvyys - 1)._evaluointiArvo;
+		arvo = uusiAsema.mini(syvyys - 1, alpha, beta)._evaluointiArvo;
 		if (arvo > maksimi)
 		{
 			maksimi = arvo;
 			_parasSiirto = s;
+		}
+		alpha = std::max(alpha, arvo); // update alpha value
+		if (alpha >= beta) { // prune the tree if alpha is greater than or equal to beta
+			break;
 		}
 	}
 	paluu._evaluointiArvo = maksimi;
@@ -747,8 +751,7 @@ MinMaxPaluu Asema::maxi(int syvyys)
 	return paluu;
 }
 
-
-MinMaxPaluu Asema::mini(int syvyys)
+MinMaxPaluu Asema::mini(int syvyys, double alpha, double beta)
 {
 	std::list<Siirto> lista;
 	Ruutu kuninkaanRuutu;
@@ -758,7 +761,7 @@ MinMaxPaluu Asema::mini(int syvyys)
 	Siirto _parasSiirto;
 	MinMaxPaluu paluu;
 
-	// Check for checkmate or stalemate, if yes, exit asap, checkmate -100000, stalemate 0
+	// Check for checkmate or stalemate, if yes, exit asap, checkmate 100000, stalemate 0
 	if (lista.size() == 0)
 	{
 		//kuninkaan ruutu
@@ -768,22 +771,23 @@ MinMaxPaluu Asema::mini(int syvyys)
 			{
 				if (this->_lauta[x][y] != NULL)
 				{
-					if (this->_lauta[x][y]->getKoodi() == MK)
+					if (this->_lauta[x][y]->getKoodi() == VK)
 					{
 						kuninkaanRuutu.setSarake(y);
 						kuninkaanRuutu.setRivi(x);
 					}
 				}
+
 			}
 		}
 		//matti
-		if (onkoRuutuUhattu(&kuninkaanRuutu, 0))
+		if (onkoRuutuUhattu(&kuninkaanRuutu, 2))
 		{
 			paluu._evaluointiArvo = 1000000;
 			return paluu;
 		}
 		//patti
-		if (!onkoRuutuUhattu(&kuninkaanRuutu, 0))
+		if (!onkoRuutuUhattu(&kuninkaanRuutu, 2))
 		{
 			paluu._evaluointiArvo = 0;
 			return paluu;
@@ -800,17 +804,23 @@ MinMaxPaluu Asema::mini(int syvyys)
 	{
 		uusiAsema = *this;
 		uusiAsema.paivitaTestiAsema(&s);
-		arvo = uusiAsema.maxi(syvyys - 1)._evaluointiArvo;
+		arvo = uusiAsema.maxi(syvyys - 1, alpha, beta)._evaluointiArvo;
 		if (arvo < minimi)
 		{
 			minimi = arvo;
 			_parasSiirto = s;
 		}
+		if (minimi <= alpha) {
+			paluu._evaluointiArvo = minimi;
+			paluu._parasSiirto = _parasSiirto;
+			return paluu;
+		}
+		beta = std::min(beta, minimi);
 	}
 	paluu._evaluointiArvo = minimi;
 	paluu._parasSiirto = _parasSiirto;
 	return paluu;
-}	
+}
 
 
 bool Asema::onkoRuutuUhattu(Ruutu* ruutu, int vastustajanVari)
