@@ -52,10 +52,10 @@ int main()
 			MinMaxPaluu paluu;
 
 			if (koneenVari == 0) {
-				paluu = asema.maxi(3, -10000000, 10000000);
+				paluu = asema.maxi(4, -10000000, 10000000);
 			}
 			else {
-				paluu = asema.mini(3, -10000000, 10000000);
+				paluu = asema.mini(4, -10000000, 10000000);
 			}
 
 			siirto = paluu._parasSiirto;

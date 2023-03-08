@@ -48,12 +48,7 @@ public:
 	bool getOnkoValkeaKTliikkunut();						// Linnoittuminen mahdollista?
 	bool getOnkoMustaDTliikkunut();							// Linnoittuminen mahdollista?
 	bool getOnkoMustaKTliikkunut();							// Linnoittuminen mahdollista?
-	std::list<Siirto> listakunkku;
-	std::list<Siirto> listadaami;
-	std::list<Siirto> listatorni;
-	std::list<Siirto> listalahetti;
-	std::list<Siirto> listaratsu;
-	std::list<Siirto> listasotilas;
+
 private:
 
 	// Lis�informaatio pelitilanteesta.
