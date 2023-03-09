@@ -59,6 +59,9 @@ int main()
 			}
 
 			siirto = paluu._parasSiirto;
+			
+			wcout << (char)(siirto.getAlkuruutu().getSarake()+65) << siirto.getAlkuruutu().getRivi() + 1 <<"-";
+			wcout << (char)(siirto.getLoppuruutu().getSarake() + 65) << siirto.getLoppuruutu().getRivi() + 1 <<endl;
 		}
 		else {
 			wcout << "pelaajan vuoro" << endl;
