@@ -191,7 +191,7 @@ void Asema::paivitaAsema(Siirto *siirto)
 		}
 	}
 	//muissa tapauksissa alkuruutuun null ja loppuruutuun sama alkuruudusta lähtenyt nappula
-	else if(!siirto->onkoLyhytLinna() || !siirto->onkoPitkalinna()) {
+	else if(!siirto->onkoLyhytLinna() && !siirto->onkoPitkalinna()) {
 		//Laittaa talteen otetun nappulan uuteen ruutuun
 		_lauta[rivi_loppu][sarake_loppu] = _lauta[rivi_alku][sarake_alku];
 		_lauta[rivi_alku][sarake_alku] = NULL;
