@@ -191,9 +191,8 @@ void Asema::paivitaAsema(Siirto *siirto)
 		}
 	}
 	//muissa tapauksissa alkuruutuun null ja loppuruutuun sama alkuruudusta lähtenyt nappula
-	else {
+	else if(!siirto->onkoLyhytLinna() || !siirto->onkoPitkalinna()) {
 		//Laittaa talteen otetun nappulan uuteen ruutuun
-		wcout << "rivi alku: " << rivi_alku << " sarake alku: " << sarake_alku <<endl;
 		_lauta[rivi_loppu][sarake_loppu] = _lauta[rivi_alku][sarake_alku];
 		_lauta[rivi_alku][sarake_alku] = NULL;
 
@@ -741,7 +740,7 @@ MinMaxPaluu Asema::maxi(int syvyys, double alpha, double beta)
 			maksimi = arvo;
 			_parasSiirto = s;
 			if (s.onkoLyhytLinna() || s.onkoPitkalinna()) {
-				paluu._evaluointiArvo = maksimi;
+				paluu._evaluointiArvo = 8;
 				paluu._parasSiirto = _parasSiirto;
 				return paluu;
 			}
@@ -823,7 +822,7 @@ MinMaxPaluu Asema::mini(int syvyys, double alpha, double beta)
 			}
 		}
 		if (minimi <= alpha) {
-			paluu._evaluointiArvo = minimi;
+			paluu._evaluointiArvo = -8;
 			paluu._parasSiirto = _parasSiirto;
 			return paluu;
 		}
