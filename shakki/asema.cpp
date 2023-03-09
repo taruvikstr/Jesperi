@@ -517,37 +517,7 @@ double Asema::evaluoi()
 	valkoinenArvo += linjaKerroin * linjat(0);
 	mustaArvo -= linjaKerroin * linjat(1);
 
-	//if (_lauta[0][4] == vk)
-	//{
 
-	//	std::list<Siirto> lista;
-	//	Ruutu* ruutu = new Ruutu(0, 4);
-	//	_lauta[0][4]->annaSiirrot(lista, ruutu, this, 0);
-	//	annaLinnoitusSiirrot(lista, 0);
-	//	for (auto s : lista) {
-	//	
-	//		if (s.onkoLyhytLinna() || s.onkoPitkalinna())
-	//		{
-	//			valkoinenArvo += 20;
-	//		}
-	//	}
-	//}
-	//
-	//if (_lauta[7][4] == mk)
-	//{
-
-	//	std::list<Siirto> lista;
-	//	Ruutu* ruutu = new Ruutu(7, 4);
-	//	_lauta[7][4]->annaSiirrot(lista, ruutu, this, 1);
-	//	annaLinnoitusSiirrot(lista, 1);
-	//	for (auto s : lista) {
-	//		if (s.onkoLyhytLinna() || s.onkoPitkalinna())
-	//		{
-	//			mustaArvo -= 20;
-	//		}
-	//	}
-	//}
-	
 
 	//wcout << "evaluoi: " <<  valkoinenArvo + mustaArvo << endl;
 	return valkoinenArvo + mustaArvo;
@@ -770,6 +740,11 @@ MinMaxPaluu Asema::maxi(int syvyys, double alpha, double beta)
 		{
 			maksimi = arvo;
 			_parasSiirto = s;
+			if (s.onkoLyhytLinna() || s.onkoPitkalinna()) {
+				paluu._evaluointiArvo = maksimi;
+				paluu._parasSiirto = _parasSiirto;
+				return paluu;
+			}
 		}
 		alpha = std::max(alpha, arvo); // update alpha value
 		if (alpha >= beta) { // prune the tree if alpha is greater than or equal to beta
@@ -841,6 +816,11 @@ MinMaxPaluu Asema::mini(int syvyys, double alpha, double beta)
 		{
 			minimi = arvo;
 			_parasSiirto = s;
+			if (s.onkoLyhytLinna() || s.onkoPitkalinna()) {
+				paluu._evaluointiArvo = minimi;
+				paluu._parasSiirto = _parasSiirto;
+				return paluu;
+			}
 		}
 		if (minimi <= alpha) {
 			paluu._evaluointiArvo = minimi;
